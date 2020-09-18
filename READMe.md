@@ -2,7 +2,9 @@
 
 Start the client, server, and database containers with docker compose
 
-http://localhost:8080
+Client: http://localhost:3000
+
+Server: http://localhost:8080
 
 ```docker dev```
 
