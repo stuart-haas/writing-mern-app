@@ -1,4 +1,4 @@
-# Local Development
+# Development
 
 Start the client, server, and database containers with docker compose
 
