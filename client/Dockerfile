@@ -1,0 +1,10 @@
+FROM node:12
+
+WORKDIR /usr/src/app/client
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install
+
+COPY . .

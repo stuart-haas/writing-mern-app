@@ -1,0 +1,18 @@
+{
+  "name": "node-docker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docker:build": "docker-compose build",
+    "docker:stop": "docker-compose stop",
+    "docker:down": "docker-compose down",
+    "docker:dev": "docker-compose build && docker-compose up --remove-orphans",
+    "docker:prod": "docker-compose build && docker-compose -f docker-compose.prod.yml -f docker-compose.yml up --remove-orphans"
+  },
+  "author": "Stuart Haas",
+  "license": "ISC",
+  "dependencies": {
+    "sequelize-cli": "^6.2.0"
+  }
+}
