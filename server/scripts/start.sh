@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ "$NODE_ENV" == "production" ] ; then
-  npm run start
+  yarn start
 else
-  npm run dev
+  yarn dev
 fi

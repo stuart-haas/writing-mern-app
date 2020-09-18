@@ -4,7 +4,7 @@ Start the client, server, and database containers with docker compose
 
 Client: http://localhost:3000
 
-Server: http://localhost:8080
+Server: http://localhost:5000
 
 ```docker dev```
 

@@ -3,7 +3,9 @@ version: '3'
 services:
   nginx:
     container_name: nginx
-    build: ./nginx
+    build: ./.nginx
+    depends_on:
+      - server
     volumes:
       - ./client/html:/var/www/html
     ports:

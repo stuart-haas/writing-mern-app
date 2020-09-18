@@ -6,8 +6,9 @@
   "scripts": {
     "build": "docker-compose build",
     "stop": "docker-compose stop",
-    "dev": "docker-compose build && docker-compose up --remove-orphans",
-    "prod": "docker-compose build && docker-compose -f docker-compose.prod.yml -f docker-compose.yml up --remove-orphans"
+    "kill": "docker-compose kill",
+    "dev": "docker-compose up --build --remove-orphans",
+    "prod": "docker-compose -f docker-compose.prod.yml -f docker-compose.yml up --build --remove-orphans"
   },
   "author": "Stuart Haas",
   "license": "ISC",

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const { findOne } = require('./src/controllers/user.controller')
 const app = express()
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 5000
 const HOST = process.env.HOST || '0.0.0.0'
 
 app.use(bodyParser.json())
