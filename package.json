@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "docker-compose build",
+    "restart": "docker-compose restart",
     "stop": "docker-compose stop",
     "kill": "docker-compose kill",
     "dev": "docker-compose up --build --remove-orphans",
