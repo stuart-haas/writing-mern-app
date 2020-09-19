@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:12 as prod
 
 WORKDIR /usr/src/app/server
 
@@ -9,4 +9,16 @@ RUN yarn install
 
 COPY . .
 
-CMD ./scripts/start.sh $NODE_ENV
+ENV NODE_ENV=production
+
+CMD [ "yarn", "start" ]
+
+FROM prod as dev
+
+ENV NODE_ENV=development
+
+RUN npm install -g nodemon
+
+RUN yarn install --only=dev
+
+CMD [ "yarn", "dev" ]

@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:12 as prod
 
 WORKDIR /usr/src/app/client
 
@@ -9,4 +9,14 @@ RUN yarn install
 
 COPY . .
 
-CMD ./scripts/start.sh $NODE_ENV
+ENV NODE_ENV=production
+
+CMD [ "yarn", "build" ]
+
+FROM prod as dev
+
+ENV NODE_ENV=development
+
+RUN yarn install
+
+CMD [ "yarn", "start" ]

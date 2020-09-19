@@ -1,9 +1,11 @@
-version: '3'
+version: '3.4'
 
 services:
   client:
     container_name: client
-    build: ./client
+    build: 
+      context: ./client
+      target: dev
     volumes:
       - ./client:/usr/src/app/client
     ports:
@@ -11,7 +13,9 @@ services:
 
   server:
     container_name: server
-    build: ./server
+    build: 
+      context: ./server
+      target: dev
     depends_on:
       - db
     volumes:

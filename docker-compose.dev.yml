@@ -1,11 +1,5 @@
-version: '3'
+version: '3.4'
 
 services:  
   client:
     stdin_open: true
-    environment:
-      NODE_ENV: development
-
-  server:
-    environment:
-      NODE_ENV: development

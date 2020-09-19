@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   nginx:
@@ -13,9 +13,11 @@ services:
       - '80:80'
   
   client:
-    environment:
-      NODE_ENV: production
+    build: 
+      context: ./client
+      target: prod
 
   server:
-    environment:
-      NODE_ENV: production
+    build: 
+      context: ./server
+      target: prod
