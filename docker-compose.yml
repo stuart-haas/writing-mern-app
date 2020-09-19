@@ -19,6 +19,7 @@ services:
       target: dev
     depends_on:
       - db
+      - redis
     volumes:
       - ./server:/usr/src/app/server
       - ./.config:/usr/src/app/.config
@@ -34,6 +35,12 @@ services:
     ports:
       - '5432:5432'
     env_file: ./.config/.env
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - '6379:6379'
 
 volumes:
   data:
