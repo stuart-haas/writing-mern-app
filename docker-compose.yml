@@ -4,6 +4,8 @@ services:
   client:
     container_name: client
     stdin_open: true
+    depends_on:
+      - server
     build: 
       context: ./client
       target: dev
