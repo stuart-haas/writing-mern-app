@@ -3,5 +3,5 @@
 if [ $1 == "production" ] ; then
   yarn start
 else
-  yarn dev
+  npm install -g nodemon && yarn dev
 fi

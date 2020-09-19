@@ -1,4 +1,3 @@
-ARG $NODE_ENV
 FROM node:12
 
 WORKDIR /usr/src/app/client
