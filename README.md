@@ -10,7 +10,7 @@ Server: http://localhost:5000
 
 Start nginx, client, server, and database containers with docker compose
 
-Nginx will serve up the client and also act as a proxy for requests to the server
+Nginx will route the client through a web server and proxy requests to the server
 
 Client: http://localhost
 
