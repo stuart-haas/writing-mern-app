@@ -18,7 +18,7 @@ services:
       context: ./server
       target: dev
     depends_on:
-      - db
+      - database
       - redis
     volumes:
       - ./server:/usr/src/app/server
@@ -27,7 +27,7 @@ services:
     ports:
       - '5000:5000'
   
-  db:
+  database:
     container_name: database
     image: postgres
     volumes:
