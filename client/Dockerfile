@@ -17,6 +17,4 @@ FROM prod as dev
 
 ENV NODE_ENV=development
 
-RUN yarn install
-
 CMD [ "yarn", "start" ]
