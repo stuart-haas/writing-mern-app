@@ -9,4 +9,4 @@ RUN yarn install
 
 COPY . .
 
-CMD ./scripts/start.sh
+CMD ./scripts/start.sh $NODE_ENV

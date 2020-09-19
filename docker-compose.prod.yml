@@ -5,8 +5,17 @@ services:
     container_name: nginx
     build: ./.nginx
     depends_on:
+      - client
       - server
     volumes:
-      - ./client/html:/var/www/html
+      - ./client/build:/var/www/public
     ports:
       - '80:80'
+  
+  client:
+    environment:
+      NODE_ENV: production
+
+  server:
+    environment:
+      NODE_ENV: production

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $1 == "production" ] ; then
-  yarn start
+  yarn build
 else
-  yarn dev
+  yarn start
 fi

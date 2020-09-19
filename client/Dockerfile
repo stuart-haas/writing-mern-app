@@ -1,3 +1,4 @@
+ARG $NODE_ENV
 FROM node:12
 
 WORKDIR /usr/src/app
@@ -8,3 +9,5 @@ COPY yarn.lock .
 RUN yarn install
 
 COPY . .
+
+CMD ./scripts/start.sh $NODE_ENV

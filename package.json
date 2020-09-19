@@ -8,12 +8,9 @@
     "restart": "docker-compose restart",
     "stop": "docker-compose stop",
     "kill": "docker-compose kill",
-    "dev": "docker-compose up --build --remove-orphans",
-    "prod": "docker-compose -f docker-compose.prod.yml -f docker-compose.yml up --build --remove-orphans"
+    "dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --remove-orphans",
+    "prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build --remove-orphans"
   },
   "author": "Stuart Haas",
-  "license": "ISC",
-  "dependencies": {
-    "sequelize-cli": "^6.2.0"
-  }
+  "license": "ISC"
 }

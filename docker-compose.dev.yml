@@ -1,0 +1,10 @@
+version: '3'
+
+services:  
+  client:
+    environment:
+      NODE_ENV: development
+
+  server:
+    environment:
+      NODE_ENV: development
