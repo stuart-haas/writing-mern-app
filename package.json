@@ -8,8 +8,8 @@
     "docker:restart": "docker-compose restart",
     "docker:stop": "docker-compose stop",
     "docker:kill": "docker-compose kill",
-    "docker:dev": "yarn kill && docker-compose up --build --remove-orphans",
-    "docker:prod": "yarn kill && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build --remove-orphans",
+    "docker:dev": "yarn docker:kill && docker-compose up --build --remove-orphans",
+    "docker:prod": "yarn docker:kill && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build --remove-orphans",
     "sh:server": "docker exec -it server sh",
     "sh:database": "docker exec -it database psql -H postgres -- U",
     "sh:redis": "docker exec -it redis redis-cli"
