@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "docker-compose build",
-    "restart": "docker-compose restart",
-    "stop": "docker-compose stop",
-    "kill": "docker-compose kill",
-    "dev": "yarn kill && docker-compose up --build --remove-orphans",
-    "prod": "yarn kill && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build --remove-orphans"
+    "docker:build": "docker-compose build",
+    "docker:restart": "docker-compose restart",
+    "docker:stop": "docker-compose stop",
+    "docker:kill": "docker-compose kill",
+    "docker:dev": "yarn kill && docker-compose up --build --remove-orphans",
+    "docker:prod": "yarn kill && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build --remove-orphans",
+    "sh:server": "docker exec -it server sh",
+    "sh:database": "docker exec -it database psql -H postgres -- U",
+    "sh:redis": "docker exec -it redis redis-cli"
   },
   "author": "Stuart Haas",
   "license": "ISC"
