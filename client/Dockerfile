@@ -1,7 +1,7 @@
 ARG $NODE_ENV
 FROM node:12
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/client
 
 COPY package.json .
 COPY yarn.lock .

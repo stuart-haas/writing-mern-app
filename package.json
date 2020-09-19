@@ -8,8 +8,8 @@
     "restart": "docker-compose restart",
     "stop": "docker-compose stop",
     "kill": "docker-compose kill",
-    "dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --remove-orphans",
-    "prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build --remove-orphans"
+    "dev": "yarn kill && docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build --remove-orphans",
+    "prod": "yarn kill && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build --remove-orphans"
   },
   "author": "Stuart Haas",
   "license": "ISC"

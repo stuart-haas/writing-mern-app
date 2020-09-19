@@ -11,10 +11,4 @@ module.exports = (sequelize) => {
             field: 'last_name'
         }
     })
-    User.sync({ force: true }).then(function () {
-        return User.create({
-            firstName: 'John',
-            lastName: 'Hancock'
-        });
-    })
 }

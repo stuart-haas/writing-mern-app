@@ -1,6 +1,6 @@
 FROM node:12
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/server
 
 COPY package.json .
 COPY yarn.lock .

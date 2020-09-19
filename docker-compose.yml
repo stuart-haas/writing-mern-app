@@ -4,9 +4,8 @@ services:
   client:
     container_name: client
     build: ./client
-    stdin_open: true
     volumes:
-      - ./client:/usr/src/app
+      - ./client:/usr/src/app/client
     ports:
       - '3000:3000'
 
@@ -16,9 +15,9 @@ services:
     depends_on:
       - db
     volumes:
-      - ./server:/usr/src/app
-    environment:
-      DATABASE_URL: postgres://user:pass@database:5432/db
+      - ./server:/usr/src/app/server
+      - ./.config:/usr/src/app/.config
+    env_file: ./.config/.env
     ports:
       - '5000:5000'
   
@@ -29,10 +28,7 @@ services:
       - data:/var/lib/postgres/data
     ports:
       - '5432:5432'
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: db
+    env_file: ./.config/.env
 
 volumes:
   data:
