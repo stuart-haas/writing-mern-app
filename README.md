@@ -6,7 +6,7 @@ Client: http://localhost:3000
 
 Server: http://localhost:5000
 
-```docker dev```
+```yarn docker:dev```
 
 Start nginx, client, server, and database containers with docker compose
 
@@ -16,4 +16,4 @@ Client: http://localhost
 
 Server: http://localhost/api
 
-```docker prod```
+```yarn docker:prod```
