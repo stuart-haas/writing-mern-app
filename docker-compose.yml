@@ -3,6 +3,7 @@ version: '3.4'
 services:
   client:
     container_name: client
+    stdin_open: true
     build: 
       context: ./client
       target: dev
