@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "setup": "cd .scripts && node setup.js",
     "docker:build": "docker-compose build",
     "docker:restart": "docker-compose restart",
     "docker:stop": "docker-compose stop",
@@ -15,5 +16,10 @@
     "sh:redis": "docker exec -it redis redis-cli"
   },
   "author": "Stuart Haas",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chalk": "^4.1.0",
+    "cli-select": "^1.1.2",
+    "figlet": "^1.5.0"
+  }
 }
