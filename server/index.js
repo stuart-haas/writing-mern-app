@@ -10,7 +10,7 @@ const HOST = process.env.HOST || '0.0.0.0'
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/api', findOne)
+app.get('/api', (req, res) => res.json({'hello': 'world'}))
 
 app.listen(PORT, HOST, () => {
     console.log(`Running on http://${HOST}:${PORT}`)
