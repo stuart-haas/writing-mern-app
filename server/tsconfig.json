@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "baseUrl": "./src",
+    "outDir": "./build",
+    "paths": {
+      "@controller/*": ["controller/*"], 
+      "@common/*": ["common/*"], 
+      "@entity/*": ["entity/*"],
+      "@middleware/*": ["middleware/*"],
+      "@migration/*": ["migration/*"],
+      "@model/*": ["model/*"],
+      "@repository/*": ["repository/*"], 
+      "@service/*": ["service/*"],
+      "@subscriber/*": ["subscriber/*"],
+      "@test/*": ["test/*"],
+      "@util/*": ["util/*"], 
+    }
+  },
+  "include": [
+    "**/*.ts", "index.ts"
+  ]
+}

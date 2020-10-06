@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "setup": "cd .scripts && node setup.js",
+    "dev": "yarn docker:dev",
+    "start": "yarn docker:prod",
     "docker:build": "docker-compose build",
     "docker:restart": "docker-compose restart",
     "docker:stop": "docker-compose stop",
