@@ -1,8 +1,7 @@
-require('dotenv').config({ path: '../.config/.env' })
-import * as dotenv from "dotenv"
-import * as express from "express"
+import dotenv from "dotenv"
+import express from "express"
 import { Request, Response } from "express"
-import * as bodyParser from "body-parser"
+import bodyParser from "body-parser"
 
 dotenv.config({ path: '../.config/.env' })
 
