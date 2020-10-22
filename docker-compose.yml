@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   client:
-    container_name: client
+    container_name: fs_client
     stdin_open: true
     depends_on:
       - server
@@ -16,7 +16,7 @@ services:
       - '3000:3000'
 
   server:
-    container_name: server
+    container_name: fs_server
     build: 
       context: ./server
       target: dev
@@ -32,7 +32,7 @@ services:
       - '5000:5000'
   
   database:
-    container_name: database
+    container_name: fs_database
     image: postgres
     volumes:
       - data:/var/lib/postgres/data
@@ -41,7 +41,7 @@ services:
     env_file: ./.config/.env
 
   redis:
-    container_name: redis
+    container_name: fs_redis
     build: ./.redis
     ports:
       - '6379:6379'
