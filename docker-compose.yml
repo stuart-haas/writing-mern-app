@@ -14,9 +14,12 @@ services:
       - /usr/src/app/client/node_modules/
     ports:
       - '3000:3000'
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
 
   server:
     container_name: server
+    stdin_open: true
     build: 
       context: ./server
       target: dev
@@ -30,6 +33,8 @@ services:
     env_file: ./.env
     ports:
       - '5000:5000'
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
   
   database:
     container_name: database

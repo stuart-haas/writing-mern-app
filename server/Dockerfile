@@ -19,6 +19,4 @@ ENV NODE_ENV=development
 
 RUN npm install -g nodemon
 
-RUN yarn install --only=dev
-
 CMD [ "yarn", "dev" ]
