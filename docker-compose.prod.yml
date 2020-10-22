@@ -3,7 +3,7 @@ version: '3.4'
 services:
   nginx:
     container_name: nginx
-    build: ./.nginx
+    build: ./config/nginx
     depends_on:
       - client
       - server

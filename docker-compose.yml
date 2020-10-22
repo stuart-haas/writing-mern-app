@@ -25,9 +25,9 @@ services:
       - redis
     volumes:
       - ./server:/usr/src/app/server
-      - ./.config:/usr/src/app/.config
+      - ./config:/usr/src/app/config
       - /usr/src/app/server/node_modules/
-    env_file: ./.config/.env
+    env_file: ./.env
     ports:
       - '5000:5000'
   
@@ -38,11 +38,11 @@ services:
       - data:/var/lib/postgres/data
     ports:
       - '5432:5432'
-    env_file: ./.config/.env
+    env_file: ./.env
 
   redis:
     container_name: fs_redis
-    build: ./.redis
+    build: ./config/redis
     ports:
       - '6379:6379'
 

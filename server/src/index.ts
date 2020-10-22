@@ -3,7 +3,7 @@ import express from 'express';
 import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 
-dotenv.config({ path: '../.config/.env' });
+dotenv.config({ path: '../.env' });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
