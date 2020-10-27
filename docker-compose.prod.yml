@@ -17,8 +17,13 @@ services:
     build: 
       context: ./client
       target: prod
+    environment:
+      CHOKIDAR_USEPOLLING: 'false'
 
   server:
+    stdin_open: false
     build: 
       context: ./server
       target: prod
+    environment:
+      CHOKIDAR_USEPOLLING: 'false'
