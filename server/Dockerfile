@@ -17,6 +17,6 @@ FROM prod as dev
 
 ENV NODE_ENV=development
 
-RUN npm install -g nodemon
+RUN yarn global add nodemon
 
 CMD [ "yarn", "dev" ]

@@ -38,18 +38,20 @@ services:
   
   database:
     container_name: database
-    image: postgres
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=fable
     volumes:
-      - data:/var/lib/postgres/data
+      - mongo-data:/data/db
     ports:
-      - '5432:5432'
+      - '27017:27017'
     env_file: ./.env
 
   redis:
     container_name: redis
     build: ./config/redis
     ports:
-      - '6379:6379'
+      - '6378:6378'
 
 volumes:
-  data:
+  mongo-data:

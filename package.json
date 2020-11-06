@@ -4,24 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "setup": "cd scripts && node setup.js",
-    "dev": "yarn docker:dev",
-    "start": "yarn docker:prod",
+    "dev": "make dev",
+    "start": "make build",
     "lint": "yarn run-s lint:css lint:ts -c",
     "lint:ts": "eslint client server --ext .ts,.tsx",
     "lint:css": "npx stylelint -f verbose -q client/**/*.scss",
     "fix": "yarn run-s fix:css fix:ts -c",
     "fix:ts": "eslint client server --ext .ts,.tsx --fix",
-    "fix:css": "npx stylelint -f verbose -q client/**/*.scss --fix",
-    "docker:build": "docker-compose build",
-    "docker:restart": "docker-compose restart",
-    "docker:stop": "docker-compose stop",
-    "docker:kill": "docker-compose kill",
-    "docker:dev": "yarn docker:kill && docker-compose up --build --remove-orphans",
-    "docker:prod": "yarn docker:kill && docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build --remove-orphans",
-    "sh:server": "docker exec -it fs_server sh",
-    "sh:database": "docker exec -it fs_database psql -H postgres -- U",
-    "sh:redis": "docker exec -it fs_redis redis-cli"
+    "fix:css": "npx stylelint -f verbose -q client/**/*.scss --fix"
   },
   "husky": {
     "hooks": {
