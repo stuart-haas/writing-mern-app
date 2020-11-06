@@ -1,4 +1,4 @@
-![build](https://github.com/stuart-haas/react-full-stack/workflows/build/badge.svg)
+![build](https://github.com/stuart-haas/react-full-stack/workflows/build/badge.svg?event=push)
 
 # Getting Started
 
