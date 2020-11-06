@@ -49,7 +49,7 @@ services:
     container_name: redis
     build: ./config/redis
     ports:
-      - '6378:6378'
+      - '6379:6379'
 
 volumes:
   mongo-data:
