@@ -1,3 +1,5 @@
+![build](https://github.com/stuart-haas/react-full-stack/workflows/build/badge.svg)
+
 # Getting Started
 
 Start the client, server, database, and redis containers with docker compose
