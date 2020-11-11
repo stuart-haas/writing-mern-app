@@ -22,6 +22,8 @@
       "@root/*": ["/*"],
       "@controllers/*": ["controllers/*"], 
       "@common/*": ["common/*"], 
+      "@exceptions/*": ["exceptions/*"],
+      "@interfaces/*": ["interfaces/*"],
       "@middlewares/*": ["middlewares/*"],
       "@models/*": ["models/*"],
       "@routes/*": ["routes/*"],

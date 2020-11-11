@@ -1,4 +1,9 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+export interface IStory extends Document {
+  title: string;
+  content: string;
+}
 
 const storySchema = new mongoose.Schema(
   {
@@ -14,6 +19,4 @@ const storySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Story = mongoose.model('Story', storySchema);
-
-export default Story;
+export default mongoose.model<IStory>('Story', storySchema);
