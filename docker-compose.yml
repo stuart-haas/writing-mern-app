@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   client:
-    container_name: client
+    container_name: fable_client
     stdin_open: true
     depends_on:
       - server
@@ -18,11 +18,13 @@ services:
       CHOKIDAR_USEPOLLING: 'true'
 
   server:
-    container_name: server
+    container_name: fable_server
     stdin_open: true
     build: 
       context: ./server
       target: dev
+    env_file:
+      - .env
     depends_on:
       - database
       - redis
@@ -36,17 +38,17 @@ services:
       CHOKIDAR_USEPOLLING: 'true'
   
   database:
-    container_name: database
+    container_name: fable_database
     image: mongo
-    environment:
-      - MONGO_INITDB_DATABASE=fable
+    env_file:
+      - .env
     volumes:
       - mongo-data:/data/db
     ports:
       - '27017:27017'
 
   redis:
-    container_name: redis
+    container_name: fable_redis
     build: ./config/redis
     ports:
       - '6378:6378'
