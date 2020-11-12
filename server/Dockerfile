@@ -7,6 +7,8 @@ COPY yarn.lock .
 
 RUN yarn install
 
+COPY . .
+
 EXPOSE 5000
 
 ENV NODE_ENV=production

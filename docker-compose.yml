@@ -30,7 +30,6 @@ services:
       - redis
     volumes:
       - ./server:/usr/src/app/server
-      - ./config:/usr/src/app/config
       - /usr/src/app/server/node_modules
     ports:
       - '5000:5000'
