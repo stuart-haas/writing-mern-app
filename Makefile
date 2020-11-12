@@ -4,11 +4,14 @@ dev:
 build:
 	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 
+login-client:
+	docker exec -it fable_client sh
+
 login-server:
-	docker exec -it server sh
+	docker exec -it fable_server sh
 
 login-database:
-	docker exec -it database mongo
+	docker exec -it fable_database mongo
 
 login-redis: 
-	docker exec -it redis redis-cli
+	docker exec -it fable_redis redis-cli

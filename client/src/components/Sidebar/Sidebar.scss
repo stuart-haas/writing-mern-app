@@ -1,0 +1,18 @@
+.sidebar {
+  width: 10%;
+  height: 100vh;
+  padding: 1rem 0 0 1rem;
+  box-shadow: 0 4px 8px 0 rgba(#000, 0.4);
+}
+
+.nav-item {
+  display: block;
+  padding: 0.5rem;
+  margin: 1rem 0;
+  color: #fff;
+
+  &:hover,
+  &.active {
+    color: #e94560;
+  }
+}

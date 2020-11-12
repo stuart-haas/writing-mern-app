@@ -11,7 +11,7 @@ services:
       target: dev
     volumes:
       - ./client:/usr/src/app/client
-      - /usr/src/app/client/node_modules/
+      - /usr/src/app/client/node_modules
     ports:
       - '3000:3000'
     environment:
@@ -31,7 +31,7 @@ services:
     volumes:
       - ./server:/usr/src/app/server
       - ./config:/usr/src/app/config
-      - /usr/src/app/server/node_modules/
+      - /usr/src/app/server/node_modules
     ports:
       - '5000:5000'
     environment:
