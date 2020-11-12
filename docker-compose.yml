@@ -44,14 +44,12 @@ services:
       - .env
     volumes:
       - mongo-data:/data/db
-    ports:
-      - '27017:27017'
 
   redis:
     container_name: fable_redis
     build: ./config/redis
     ports:
-      - '6378:6378'
+      - '6379:6379'
 
 volumes:
   mongo-data:
