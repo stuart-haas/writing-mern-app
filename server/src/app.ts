@@ -1,19 +1,16 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import Controller from '@interfaces/controller.interface';
 
 export default class App {
   private app: express.Application;
-  private port: string | undefined;
-  private databaseUrl: string | undefined;
   private controllers: Controller[];
 
   constructor(controllers: Controller[]) {
     this.app = express();
-    this.port = process.env.PORT;
-    this.databaseUrl = process.env.MONGO_DATABASE_URL;
     this.controllers = controllers;
 
     this.useEnv();
@@ -23,14 +20,18 @@ export default class App {
 
   public start() {
     mongoose
-      .connect(this.databaseUrl!, {
+      .connect(process.env.MONGO_DATABASE_URL!, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })
       .then(() => {
-        console.log(`Database is connected to ${this.databaseUrl}`);
-        this.app.listen(this.port, () => {
-          console.log(`Application is up and running on port ${this.port}`);
+        console.log(
+          `Database is connected to ${process.env.MONGO_DATABASE_URL}`
+        );
+        this.app.listen(process.env.PORT, () => {
+          console.log(
+            `Application is up and running on port ${process.env.PORT}`
+          );
         });
       })
       .catch((error) => {
@@ -43,6 +44,7 @@ export default class App {
   }
 
   private useMiddlewares() {
+    this.app.use(cors());
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
   }

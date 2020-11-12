@@ -1,8 +1,8 @@
 dev:
-	docker-compose up --build
+	docker-compose up
 
 build:
-	docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 
 login-server:
 	docker exec -it server sh
