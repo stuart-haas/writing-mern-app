@@ -5,14 +5,14 @@ import mongoose from 'mongoose';
 import Controller from '@interfaces/controller.interface';
 
 export default class App {
-  public app: express.Application;
-  private port: string | number;
+  private app: express.Application;
+  private port: string | undefined;
   private databaseUrl: string | undefined;
   private controllers: Controller[];
 
   constructor(controllers: Controller[]) {
     this.app = express();
-    this.port = process.env.PORT || 5000;
+    this.port = process.env.PORT;
     this.databaseUrl = process.env.MONGO_DATABASE_URL;
     this.controllers = controllers;
 
@@ -27,7 +27,7 @@ export default class App {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })
-      .then(async () => {
+      .then(() => {
         console.log(`Database is connected to ${this.databaseUrl}`);
         this.app.listen(this.port, () => {
           console.log(`Application is up and running on port ${this.port}`);

@@ -8,10 +8,10 @@ export default class StoryController implements Controller {
   public router = Router();
 
   constructor() {
-    this.initializeRoutes();
+    this.useRoutes();
   }
 
-  private initializeRoutes() {
+  private useRoutes() {
     this.router.get(this.path, this.findAll);
     this.router.get(`${this.path}/:id`, this.findOne);
     this.router.post(this.path, this.create);
