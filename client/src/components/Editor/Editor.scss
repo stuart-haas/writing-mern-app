@@ -1,0 +1,45 @@
+.editor {
+  padding: 0 1rem;
+}
+
+.editor-title {
+  display: block;
+  padding: 0;
+  border: 0;
+  margin: 1rem 0;
+  font-size: 2.5rem;
+  outline: none;
+}
+
+.editor-content {
+  margin: 1rem 0;
+}
+
+.editor-tools {
+  padding: 0.5rem 0;
+  border-bottom: solid 1px #999;
+}
+
+.editor-tool {
+  display: inline-block;
+  padding: 0.25rem 0.35rem;
+  margin: 0 0.25rem;
+  background-color: #eee;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.editor-block {
+  position: relative;
+}
+
+.editor-elements {
+  margin: 1.5rem 0;
+}
+
+.editor-element {
+  margin: 0.75rem 0;
+  outline: none;
+  white-space: pre;
+}

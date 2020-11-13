@@ -9,7 +9,7 @@ interface IStory {
   content: string;
 }
 
-const Dashboard = (props: any) => {
+const Dashboard = () => {
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
@@ -31,7 +31,6 @@ const Dashboard = (props: any) => {
           >
             <div className={styles.itemContent}>
               <h1>{story.title}</h1>
-              <p>{story.content}</p>
             </div>
           </Link>
         ))}

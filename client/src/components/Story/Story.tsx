@@ -1,3 +1,4 @@
+import Editor, { ElementData } from 'components/Editor/Editor';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getStory } from 'services/api';
@@ -7,33 +8,24 @@ interface Params {
   id: string;
 }
 
-interface IStory {
-  _id: string;
-  title: string;
-  content: string;
-}
-
 const Story = () => {
   const params = useParams<Params>();
 
-  const [story, setStory] = useState<IStory>();
+  const [content, setContent] = useState<ElementData[]>();
+  const [title, setTitle] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getStory(params.id);
-      setStory(data);
+      const response = await getStory(params.id);
+      setTitle(response.title);
+      setContent(JSON.parse(response.content));
     };
     fetchData();
   }, [params]);
 
   return (
     <div className={styles.root}>
-      {story && (
-        <div className={styles.content}>
-          <h1>{story.title}</h1>
-          <p>{story.content}</p>
-        </div>
-      )}
+      {content && <Editor id={params.id} title={title} content={content} />}
     </div>
   );
 };
