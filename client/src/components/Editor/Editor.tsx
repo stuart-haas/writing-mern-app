@@ -62,14 +62,10 @@ const Editor = (props: EditorProps) => {
 
   const handleSave = useCallback(async () => {
     try {
-      const response = await updateStory(props.id, {
+      await updateStory(props.id, {
         title,
         content: JSON.stringify(shadowContent),
       });
-      const { data } = response;
-      setTitle(data.title);
-      setContent(JSON.parse(data.content));
-      setShadowContent(JSON.parse(data.content));
       setDirty(false);
       setSaved(true);
     } catch (error) {
