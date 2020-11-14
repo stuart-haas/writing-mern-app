@@ -11,10 +11,8 @@ interface EditorProps {
 }
 
 const Editor = (props: EditorProps) => {
-  const [content, setContent] = useState<ElementData[]>(props.content);
-  const [shadowContent, setShadowContent] = useState<ElementData[]>(
-    props.content
-  );
+  const [elements, setElements] = useState<ElementData[]>(props.content);
+  const [content, setContent] = useState<string>(JSON.stringify(elements));
   const [title, setTitle] = useState<string>(props.title);
   const prevTitle = usePrevious(props.title);
 
@@ -22,8 +20,8 @@ const Editor = (props: EditorProps) => {
   const [selectedText, setSelectedText] = useState<string>();
   const [selectedRange, setSelectedRange] = useState<Range>();
 
-  const [prevContext, setPrevContext] = useState<ElementData[]>([]);
-  const [prevContent] = useState<string>(JSON.stringify(content));
+  const [prevElements, setPrevElements] = useState<ElementData[]>([]);
+  const prevContent: any = usePrevious(content);
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [dirty, setDirty] = useState<boolean>(false);
@@ -37,7 +35,7 @@ const Editor = (props: EditorProps) => {
   }, [prevTitle, title]);
 
   useEffect(() => {
-    setPrevContext(JSON.parse(prevContent));
+    prevContent && setPrevElements(JSON.parse(prevContent));
   }, [content]);
 
   useEffect(() => {
@@ -64,39 +62,41 @@ const Editor = (props: EditorProps) => {
     try {
       await updateStory(props.id, {
         title,
-        content: JSON.stringify(shadowContent),
+        content,
       });
       setDirty(false);
       setSaved(true);
     } catch (error) {
       console.log(error);
     }
-  }, [title, shadowContent]);
+  }, [title, content]);
 
   function handleChange(index: number, element: ElementData) {
-    const contentCopy = [...shadowContent];
+    const contentCopy = [...elements];
     contentCopy[index] = element;
-    setShadowContent(contentCopy);
+    setContent(JSON.stringify(contentCopy));
   }
 
   function handleAdd(index: number, element: ElementData) {
-    const contentCopy = [...content];
+    const contentCopy = [...elements];
     contentCopy.splice(index + 1, 0, element);
-    setContent(contentCopy);
+    setElements(contentCopy);
     setCurrentIndex(index + 1);
+    setContent(JSON.stringify(contentCopy));
   }
 
   function handleRemove(index: number) {
-    if (content.length > 1) {
-      const contentCopy = [...content];
+    if (elements.length > 1) {
+      const contentCopy = [...elements];
       contentCopy.splice(index, 1);
-      setContent(contentCopy);
+      setElements(contentCopy);
       setCurrentIndex((prevIndex: number) => prevIndex - 1);
+      setContent(JSON.stringify(contentCopy));
     }
   }
 
   function handleNext() {
-    if (currentIndex < content.length - 1) {
+    if (currentIndex < elements.length - 1) {
       setCurrentIndex((prevIndex: number) => prevIndex + 1);
     }
   }
@@ -126,13 +126,14 @@ const Editor = (props: EditorProps) => {
   }
 
   function setFormat(type: string, tag: string) {
-    const contentCopy = [...shadowContent];
+    const contentCopy = [...JSON.parse(content)];
     const el = contentCopy[currentIndex];
     el.type = type;
     el.tag = tag;
     contentCopy[currentIndex] = el;
-    setContent(contentCopy);
+    setElements(contentCopy);
     setCurrentIndex(currentIndex);
+    setContent(JSON.stringify(contentCopy));
   }
 
   const toolbarX = toolbarPosition && toolbarPosition?.x;
@@ -193,13 +194,13 @@ const Editor = (props: EditorProps) => {
           </div>
         )}
         <div className={styles.elements}>
-          {content.map((element: ElementData, index: number) => (
+          {elements.map((element: ElementData, index: number) => (
             <Element
               key={index}
               index={index}
               dirty={dirty}
               focused={currentIndex === index}
-              prevContext={prevContext[index]}
+              prevData={prevElements[index]}
               onDirty={handleDirty}
               onChange={handleChange}
               onAdd={handleAdd}

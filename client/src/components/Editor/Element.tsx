@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { callbackOnKey, cursorToEnd } from 'utils/functions';
+import { usePrevious } from 'utils/hooks';
 import styles from './Editor.module.scss';
 
 export interface ElementData {
@@ -12,7 +13,7 @@ export interface ElementProps {
   index: number;
   focused: boolean;
   dirty: boolean;
-  prevContext: ElementData;
+  prevData: ElementData;
   onDirty: (value: boolean) => void;
   onChange: (index: number, element: ElementData) => void;
   onAdd: (index: number, element: ElementData) => void;
@@ -43,7 +44,7 @@ const Element = (props: ElementProps & ElementData) => {
     onNext,
     onPrev,
     onSelect,
-    prevContext,
+    prevData,
   } = props;
 
   const ref = useRef<(HTMLInputElement & Node) | undefined>();
@@ -51,6 +52,12 @@ const Element = (props: ElementProps & ElementData) => {
   const [selected, setSelected] = useState(false);
   const [localText, setLocalText] = useState(text);
   const [localDirty, setLocalDirty] = useState(false);
+
+  const prevText = usePrevious(localText);
+
+  useEffect(() => {
+    console.log(prevData);
+  }, [prevData]);
 
   useEffect(() => {
     if (focused && !selected) {
@@ -69,16 +76,16 @@ const Element = (props: ElementProps & ElementData) => {
   }, [localDirty, onDirty]);
 
   useEffect(() => {
-    if (prevContext) {
-      if (localText !== prevContext.text) {
+    if (prevData) {
+      if (localText !== prevData.text) {
         return setLocalDirty(true);
       }
-      if (tag !== prevContext.tag) {
+      if (tag !== prevData.tag) {
         return setLocalDirty(true);
       }
       setLocalDirty(false);
     }
-  }, [tag, localText, prevContext]);
+  }, [tag, localText, prevData]);
 
   function handleInput() {
     const text = ref.current?.innerHTML;
