@@ -52,20 +52,24 @@ const Element = (props: ElementProps & ElementData) => {
   const [localText, setLocalText] = useState(text);
   const [localDirty, setLocalDirty] = useState(dirty);
 
+  // Focus when not selected
   useEffect(() => {
     if (focused && !selected) {
       ref.current?.focus();
     }
   }, [focused, selected]);
 
+  // Callback global dirty when local dirty changes
   useEffect(() => {
     onDirty(localDirty);
   }, [localDirty, onDirty]);
 
+  // Callback global change when local text changes
   useEffect(() => {
     onChange(index, { type, tag, text: localText });
   }, [localText]);
 
+  // Set local dirty if the local tag or local text is not equal to the tag or text props
   useEffect(() => {
     if (localTag !== tag) {
       setLocalDirty(true);
