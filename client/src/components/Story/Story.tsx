@@ -1,4 +1,5 @@
-import Editor, { ElementData } from 'components/Editor/Editor';
+import Editor from 'components/Editor/Editor';
+import { ElementData } from 'components/Editor/Element';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getStory } from 'services/api';
