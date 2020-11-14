@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { updateStory } from 'services/api';
-import Element, { ElementData } from './Element';
+import Element, { DirtyData, ElementData } from './Element';
 import { usePrevious } from 'utils/hooks';
 import styles from './Editor.module.scss';
 
@@ -21,18 +21,19 @@ const Editor = (props: EditorProps) => {
   const [selectedRange, setSelectedRange] = useState<Range>();
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [dirty, setDirty] = useState<boolean>(false);
+  const [dirty, setDirty] = useState<DirtyData[]>([]);
   const [saved, setSaved] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
 
   useEffect(() => {
     if (prevTitle && title) {
-      setDirty(prevTitle !== title);
+      //setDirty(prevTitle !== title);
     }
   }, [prevTitle, title]);
 
   useEffect(() => {
-    if (dirty) {
+    console.log(dirty);
+    if (dirty.length) {
       setMessage('You have unsaved changes');
       setSaved(false);
     }
@@ -47,31 +48,44 @@ const Editor = (props: EditorProps) => {
     }
   }, [saved]);
 
-  const handleDirty = useCallback((value: boolean) => {
-    setDirty(value);
+  const handleDirty = useCallback((element: DirtyData) => {
+    if (element.localDirty) {
+      setDirty((d: DirtyData[]) => d.concat(element));
+    } else {
+      setDirty((d: DirtyData[]) =>
+        d.filter((el: DirtyData) => el.id !== element.id)
+      );
+    }
   }, []);
 
   const handleSave = useCallback(async () => {
     try {
-      await updateStory(props.id, {
+      const response = await updateStory(props.id, {
         title,
         content,
       });
-      setDirty(false);
+      setDirty([]);
       setSaved(true);
+      setTitle(title);
+      setElements(JSON.parse(response.data.content));
+      setContent(response.data.content);
     } catch (error) {
       console.log(error);
     }
-  }, [title, content]);
+  }, [props.id, title, content]);
 
-  function handleChange(index: number, element: ElementData) {
-    const contentCopy = [...elements];
-    contentCopy[index] = element;
-    setContent(JSON.stringify(contentCopy));
-  }
+  const handleChange = useCallback(
+    (index: number, element: ElementData) => {
+      const contentCopy = [...elements];
+      contentCopy[index] = element;
+      setContent(JSON.stringify(contentCopy));
+    },
+    [elements]
+  );
 
   function handleAdd(index: number, element: ElementData) {
     const contentCopy = [...elements];
+    element.id = contentCopy.length + 1;
     contentCopy.splice(index + 1, 0, element);
     setElements(contentCopy);
     setCurrentIndex(index + 1);
@@ -141,7 +155,7 @@ const Editor = (props: EditorProps) => {
         </button>
         <span
           className={`${styles.message} ${
-            dirty || saved ? 'is-visible' : 'is-hidden'
+            dirty.length ? 'is-visible' : 'is-hidden'
           }`}
         >
           {message}
@@ -189,7 +203,7 @@ const Editor = (props: EditorProps) => {
         <div className={styles.elements}>
           {elements.map((element: ElementData, index: number) => (
             <Element
-              key={index}
+              key={element.id}
               index={index}
               dirty={dirty}
               focused={currentIndex === index}

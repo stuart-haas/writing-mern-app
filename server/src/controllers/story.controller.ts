@@ -37,7 +37,6 @@ export default class StoryController implements Controller {
   private create = async (req: Request, res: Response) => {
     const story = new Story({
       title: req.body.title,
-      content: req.body.content,
     });
     await story.save();
     res.json(story);

@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { callbackOnKey, cursorToEnd } from 'utils/functions';
+import { usePrevious } from 'utils/hooks';
 import styles from './Editor.module.scss';
 
 export interface ElementData {
+  id: number;
   type: string;
   tag: string;
   text?: string | null | undefined;
 }
 
+export interface DirtyData extends ElementData {
+  localDirty: boolean;
+}
+
 export interface ElementProps {
   index: number;
   focused: boolean;
-  dirty: boolean;
-  onDirty: (value: boolean) => void;
+  dirty: DirtyData[];
+  onDirty: (element: DirtyData) => void;
   onChange: (index: number, element: ElementData) => void;
   onAdd: (index: number, element: ElementData) => void;
   onRemove: (index: number) => void;
@@ -29,6 +35,7 @@ export interface ElementProps {
 const Element = (props: ElementProps & ElementData) => {
   const {
     index,
+    id,
     type,
     tag,
     text,
@@ -50,7 +57,9 @@ const Element = (props: ElementProps & ElementData) => {
 
   const [localTag] = useState(tag);
   const [localText, setLocalText] = useState(text);
-  const [localDirty, setLocalDirty] = useState(dirty);
+  const [localDirty, setLocalDirty] = useState(dirty.length > 0);
+
+  const prevText = usePrevious(text);
 
   // Focus when not selected
   useEffect(() => {
@@ -59,26 +68,35 @@ const Element = (props: ElementProps & ElementData) => {
     }
   }, [focused, selected]);
 
+  // Set local dirty to false if global dirty is false
+  useEffect(() => {
+    if (!dirty.length && !localDirty) {
+      setLocalDirty(false);
+    }
+  }, [dirty, localDirty]);
+
   // Callback global dirty when local dirty changes
   useEffect(() => {
-    onDirty(localDirty);
-  }, [localDirty, onDirty]);
+    onDirty({ id, localDirty, type, tag, text });
+  }, [localDirty, onDirty, index, id, type, tag, text]);
 
   // Callback global change when local text changes
   useEffect(() => {
-    onChange(index, { type, tag, text: localText });
-  }, [localText]);
+    onChange(index, { id, type, tag, text: localText });
+  }, [onChange, index, id, type, tag, localText]);
 
   // Set local dirty if the local tag or local text is not equal to the tag or text props
   useEffect(() => {
     if (localTag !== tag) {
+      setLocalDirty(true);
+    } else if (prevText && localText !== prevText) {
       setLocalDirty(true);
     } else if (localText !== text) {
       setLocalDirty(true);
     } else {
       setLocalDirty(false);
     }
-  }, [tag, localText]);
+  }, [localTag, tag, localText, prevText, text]);
 
   function handleInput() {
     const text = ref.current?.innerHTML;
@@ -89,7 +107,7 @@ const Element = (props: ElementProps & ElementData) => {
     const text = ref.current?.innerHTML;
     callbackOnKey(e, 13, () => {
       setSelected(false);
-      onAdd(index, { type: 'paragraph', tag: 'p' });
+      onAdd(index, { id, type: 'paragraph', tag: 'p' });
     });
     callbackOnKey(
       e,

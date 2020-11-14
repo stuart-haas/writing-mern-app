@@ -20,7 +20,7 @@ const Story = () => {
       try {
         const response = await getStory(params.id);
         setTitle(response.title);
-        setContent(JSON.parse(response.content));
+        setContent(response.content ? JSON.parse(response.content) : []);
       } catch (error) {
         console.log(error);
       }
