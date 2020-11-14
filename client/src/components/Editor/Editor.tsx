@@ -85,7 +85,7 @@ const Editor = (props: EditorProps) => {
 
   function handleAdd(index: number, element: ElementData) {
     const contentCopy = [...elements];
-    element.id = contentCopy.length + 1;
+    element.id = elements.length + 1;
     contentCopy.splice(index + 1, 0, element);
     setElements(contentCopy);
     setCurrentIndex(index + 1);

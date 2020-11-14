@@ -4,7 +4,7 @@ import { usePrevious } from 'utils/hooks';
 import styles from './Editor.module.scss';
 
 export interface ElementData {
-  id: number;
+  id?: number;
   type: string;
   tag: string;
   text?: string | null | undefined;
