@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { callbackOnKey, cursorToEnd } from 'services/functions';
+import { callbackOnKey, cursorToEnd } from 'utils/functions';
+import { usePrevious } from 'utils/hooks';
+import styles from './Editor.module.scss';
 
 export interface ElementData {
   type: string;
@@ -42,20 +44,37 @@ const Element = (props: ElementProps & ElementData) => {
   const ref = useRef<(HTMLInputElement & Node) | undefined>();
 
   const [selected, setSelected] = useState(false);
+  const [localText, setLocalText] = useState(text);
+  const [dirty, setDirty] = useState(false);
+  const prevText = usePrevious(text);
 
   useEffect(() => {
     if (focused && !selected) {
       ref.current?.focus();
     }
-  }, [focused, selected]);
+  }, [focused]);
 
-  function handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
-    e.preventDefault();
+  useEffect(() => {
+    console.log(dirty);
+  }, [dirty]);
+
+  useEffect(() => {
+    if (localText && prevText) {
+      if (localText !== prevText) {
+        setDirty(true);
+      } else {
+        setDirty(false);
+      }
+    }
+  }, [localText, prevText]);
+
+  function handleInput() {
     const text = ref.current?.innerHTML;
     onChange(index, { type, tag, text });
+    setLocalText(text);
   }
 
-  function handleOnKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     const text = ref.current?.innerHTML;
     callbackOnKey(e, 13, () => {
       setSelected(false);
@@ -83,19 +102,19 @@ const Element = (props: ElementProps & ElementData) => {
     });
   }
 
-  function handleOnFocus() {
+  function handleFocus() {
     setSelected(false);
     onFocus(index);
     ref.current?.focus();
     cursorToEnd();
   }
 
-  function handleOnMouseDown() {
+  function handleMouseDown() {
     setSelected(true);
     ref.current?.focus();
   }
 
-  function handleOnSelect() {
+  function handleSelect() {
     const selection = window?.getSelection();
     const value = selection?.toString();
     let rect: DOMRect | undefined = new DOMRect();
@@ -108,28 +127,28 @@ const Element = (props: ElementProps & ElementData) => {
   }
 
   return (
-    <div className='editor-block'>
+    <div className={styles.block}>
       {React.createElement(tag, {
         ref: ref,
-        className: `editor-element editor-element--${type} ${
-          focused ? 'has-focus' : ''
-        }`,
+        className: `${styles.element} ${styles[type]} ${
+          focused ? styles.focus : ''
+        } ${dirty ? styles.dirty : ''}`,
         contentEditable: true,
         suppressContentEditableWarning: true,
-        onInput: (e: React.KeyboardEvent<HTMLInputElement>) => {
-          handleInput(e);
-        },
         onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {
-          handleOnKeyDown(e);
+          handleKeyDown(e);
+        },
+        onInput: () => {
+          handleInput();
         },
         onFocus: () => {
-          handleOnFocus();
+          handleFocus();
         },
         onMouseDown: () => {
-          handleOnMouseDown();
+          handleMouseDown();
         },
         onSelect: () => {
-          handleOnSelect();
+          handleSelect();
         },
         dangerouslySetInnerHTML: { __html: text },
       })}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { updateStory } from 'services/api';
 import Element, { ElementData } from './Element';
-import './Editor.scss';
+import styles from './Editor.module.scss';
 
 interface EditorProps {
   id: string;
@@ -10,6 +10,9 @@ interface EditorProps {
 }
 
 const Editor = (props: EditorProps) => {
+  const [contentModel, setContentModel] = useState<ElementData[]>(
+    props.content
+  );
   const [content, setContent] = useState<ElementData[]>(props.content);
   const [title, setTitle] = useState(props.title);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,14 +23,15 @@ const Editor = (props: EditorProps) => {
   async function handleSave() {
     const response = await updateStory(props.id, {
       title,
-      content: JSON.stringify(content),
+      content: JSON.stringify(contentModel),
     });
     console.log(response);
   }
 
-  function handleOnChange(index: number, element: ElementData) {
-    content[index] = element;
-    setContent(content);
+  function handleChange(index: number, element: ElementData) {
+    const contentCopy = [...contentModel];
+    contentCopy[index] = element;
+    setContentModel(contentCopy);
   }
 
   function handleAdd(index: number, element: ElementData) {
@@ -58,11 +62,11 @@ const Editor = (props: EditorProps) => {
     }
   }
 
-  function handleOnFocus(index: number) {
+  function handleFocus(index: number) {
     setCurrentIndex(index);
   }
 
-  function handleOnSelect(
+  function handleSelect(
     value: string | undefined,
     range: Range | undefined,
     rect: DOMRect | undefined
@@ -91,23 +95,23 @@ const Editor = (props: EditorProps) => {
     toolbarPosition && toolbarPosition?.y + toolbarPosition.height;
 
   return (
-    <div className='editor'>
+    <div className={styles.root}>
       <button onClick={() => handleSave()}>Save</button>
       <input
-        className='editor-title'
+        className={styles.title}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
         value={title}
       />
-      <div className='editor-content'>
+      <div className={styles.editorContent}>
         {selectedText && (
           <div
-            className='editor-toolbar'
+            className={styles.tools}
             style={{ left: `${toolbarX}px`, top: `${toolbarY}px` }}
           >
             <div
-              className='editor-tool'
+              className={styles.tool}
               onClick={() => {
                 setFormat('heading', 'h1');
               }}
@@ -115,28 +119,36 @@ const Editor = (props: EditorProps) => {
               H1
             </div>
             <div
-              className='editor-tool'
+              className={styles.tool}
               onClick={() => {
                 setFormat('paragraph', 'p');
               }}
             >
               P
             </div>
+            <div
+              className={styles.tool}
+              onClick={() => {
+                document.execCommand('bold');
+              }}
+            >
+              B
+            </div>
           </div>
         )}
-        <div className='editor-elements'>
+        <div className={styles.elements}>
           {content.map((element: ElementData, index: number) => (
             <Element
               key={index}
               index={index}
               focused={currentIndex == index}
-              onChange={handleOnChange}
+              onChange={handleChange}
               onAdd={handleAdd}
               onRemove={handleRemove}
-              onFocus={handleOnFocus}
+              onFocus={handleFocus}
               onNext={handleNext}
               onPrev={handlePrev}
-              onSelect={handleOnSelect}
+              onSelect={handleSelect}
               {...element}
             />
           ))}
