@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { updateStory } from 'services/api';
 import Element, { ElementData } from './Element';
 import styles from './Editor.module.scss';
@@ -10,28 +10,34 @@ interface EditorProps {
 }
 
 const Editor = (props: EditorProps) => {
-  const [contentModel, setContentModel] = useState<ElementData[]>(
-    props.content
-  );
-  const [content, setContent] = useState<ElementData[]>(props.content);
+  const [content, setContent] = useState<ElementData[]>([...props.content]);
+  const [shadowContent, setShadowContent] = useState<ElementData[]>([
+    ...props.content,
+  ]);
   const [title, setTitle] = useState(props.title);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [toolbarPosition, setToolbarPosition] = useState<DOMRect>();
   const [selectedText, setSelectedText] = useState<string>();
   const [selectedRange, setSelectedRange] = useState<Range>();
+  const [prevContext, setPrevContext] = useState<ElementData[]>([]);
+  const [prevContent] = useState(JSON.stringify(content));
+
+  useEffect(() => {
+    setPrevContext(JSON.parse(prevContent));
+  }, [content]);
 
   async function handleSave() {
     const response = await updateStory(props.id, {
       title,
-      content: JSON.stringify(contentModel),
+      content: JSON.stringify(shadowContent),
     });
     console.log(response);
   }
 
   function handleChange(index: number, element: ElementData) {
-    const contentCopy = [...contentModel];
+    const contentCopy = [...shadowContent];
     contentCopy[index] = element;
-    setContentModel(contentCopy);
+    setShadowContent(contentCopy);
   }
 
   function handleAdd(index: number, element: ElementData) {
@@ -81,7 +87,7 @@ const Editor = (props: EditorProps) => {
   }
 
   function setFormat(type: string, tag: string) {
-    const contentCopy = [...content];
+    const contentCopy = [...shadowContent];
     const el = contentCopy[currentIndex];
     el.type = type;
     el.tag = tag;
@@ -141,7 +147,7 @@ const Editor = (props: EditorProps) => {
             <Element
               key={index}
               index={index}
-              focused={currentIndex == index}
+              focused={currentIndex === index}
               onChange={handleChange}
               onAdd={handleAdd}
               onRemove={handleRemove}
@@ -149,6 +155,7 @@ const Editor = (props: EditorProps) => {
               onNext={handleNext}
               onPrev={handlePrev}
               onSelect={handleSelect}
+              prevContext={prevContext[index]}
               {...element}
             />
           ))}

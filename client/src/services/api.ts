@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { useState } from 'react';
-
 export const axiosClient = axios.create({
   baseURL: new URL('/api', 'http://localhost:5000').toString(),
 });

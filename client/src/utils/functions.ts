@@ -4,7 +4,7 @@ export function callbackOnKey(
   callback: (e: React.KeyboardEvent<HTMLInputElement>) => void,
   prevent = true
 ) {
-  if (e.keyCode == key) {
+  if (e.keyCode === key) {
     if (prevent) e.preventDefault();
     callback(e);
   }
