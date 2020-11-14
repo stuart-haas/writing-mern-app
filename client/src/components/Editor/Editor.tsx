@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { updateStory } from 'services/api';
 import Element, { ElementData } from './Element';
+import { usePrevious } from 'utils/hooks';
 import styles from './Editor.module.scss';
 
 interface EditorProps {
@@ -15,6 +16,7 @@ const Editor = (props: EditorProps) => {
     props.content
   );
   const [title, setTitle] = useState<string>(props.title);
+  const prevTitle = usePrevious(props.title);
 
   const [toolbarPosition, setToolbarPosition] = useState<DOMRect>();
   const [selectedText, setSelectedText] = useState<string>();
@@ -27,6 +29,12 @@ const Editor = (props: EditorProps) => {
   const [dirty, setDirty] = useState<boolean>(false);
   const [saved, setSaved] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
+
+  useEffect(() => {
+    if (prevTitle && title) {
+      setDirty(prevTitle !== title);
+    }
+  }, [prevTitle, title]);
 
   useEffect(() => {
     setPrevContext(JSON.parse(prevContent));
@@ -55,7 +63,7 @@ const Editor = (props: EditorProps) => {
   const handleSave = useCallback(async () => {
     try {
       const response = await updateStory(props.id, {
-        title: title,
+        title,
         content: JSON.stringify(shadowContent),
       });
       const { data } = response;
@@ -67,7 +75,7 @@ const Editor = (props: EditorProps) => {
     } catch (error) {
       console.log(error);
     }
-  }, [shadowContent]);
+  }, [title, shadowContent]);
 
   function handleChange(index: number, element: ElementData) {
     const contentCopy = [...shadowContent];
