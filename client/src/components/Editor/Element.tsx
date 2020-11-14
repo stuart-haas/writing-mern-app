@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { callbackOnKey, cursorToEnd } from 'utils/functions';
-import { usePrevious } from 'utils/hooks';
 import styles from './Editor.module.scss';
 
 export interface ElementData {
@@ -48,22 +47,16 @@ const Element = (props: ElementProps & ElementData) => {
   const ref = useRef<(HTMLInputElement & Node) | undefined>();
 
   const [selected, setSelected] = useState(false);
-  const [localText, setLocalText] = useState(text);
-  const [localDirty, setLocalDirty] = useState(false);
 
-  const prevText = usePrevious(localText);
+  const [localTag] = useState(tag);
+  const [localText, setLocalText] = useState(text);
+  const [localDirty, setLocalDirty] = useState(dirty);
 
   useEffect(() => {
     if (focused && !selected) {
       ref.current?.focus();
     }
   }, [focused, selected]);
-
-  useEffect(() => {
-    if (!dirty) {
-      setLocalDirty(false);
-    }
-  }, [dirty]);
 
   useEffect(() => {
     onDirty(localDirty);
@@ -74,12 +67,14 @@ const Element = (props: ElementProps & ElementData) => {
   }, [localText]);
 
   useEffect(() => {
-    if (prevText !== text) {
+    if (localTag !== tag) {
+      setLocalDirty(true);
+    } else if (localText !== text) {
       setLocalDirty(true);
     } else {
       setLocalDirty(false);
     }
-  }, [text, prevText]);
+  }, [tag, localText]);
 
   function handleInput() {
     const text = ref.current?.innerHTML;
