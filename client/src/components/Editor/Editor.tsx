@@ -20,9 +20,6 @@ const Editor = (props: EditorProps) => {
   const [selectedText, setSelectedText] = useState<string>();
   const [selectedRange, setSelectedRange] = useState<Range>();
 
-  const [prevElements, setPrevElements] = useState<ElementData[]>([]);
-  const prevContent: any = usePrevious(content);
-
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [dirty, setDirty] = useState<boolean>(false);
   const [saved, setSaved] = useState<boolean>(false);
@@ -33,10 +30,6 @@ const Editor = (props: EditorProps) => {
       setDirty(prevTitle !== title);
     }
   }, [prevTitle, title]);
-
-  useEffect(() => {
-    prevContent && setPrevElements(JSON.parse(prevContent));
-  }, [content]);
 
   useEffect(() => {
     if (dirty) {
@@ -200,7 +193,6 @@ const Editor = (props: EditorProps) => {
               index={index}
               dirty={dirty}
               focused={currentIndex === index}
-              prevData={prevElements[index]}
               onDirty={handleDirty}
               onChange={handleChange}
               onAdd={handleAdd}

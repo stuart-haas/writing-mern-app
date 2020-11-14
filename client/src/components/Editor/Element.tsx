@@ -13,7 +13,6 @@ export interface ElementProps {
   index: number;
   focused: boolean;
   dirty: boolean;
-  prevData: ElementData;
   onDirty: (value: boolean) => void;
   onChange: (index: number, element: ElementData) => void;
   onAdd: (index: number, element: ElementData) => void;
@@ -44,7 +43,6 @@ const Element = (props: ElementProps & ElementData) => {
     onNext,
     onPrev,
     onSelect,
-    prevData,
   } = props;
 
   const ref = useRef<(HTMLInputElement & Node) | undefined>();
@@ -54,10 +52,6 @@ const Element = (props: ElementProps & ElementData) => {
   const [localDirty, setLocalDirty] = useState(false);
 
   const prevText = usePrevious(localText);
-
-  useEffect(() => {
-    console.log(prevData);
-  }, [prevData]);
 
   useEffect(() => {
     if (focused && !selected) {
@@ -76,20 +70,19 @@ const Element = (props: ElementProps & ElementData) => {
   }, [localDirty, onDirty]);
 
   useEffect(() => {
-    if (prevData) {
-      if (localText !== prevData.text) {
-        return setLocalDirty(true);
-      }
-      if (tag !== prevData.tag) {
-        return setLocalDirty(true);
-      }
+    onChange(index, { type, tag, text: localText });
+  }, [localText]);
+
+  useEffect(() => {
+    if (prevText !== text) {
+      setLocalDirty(true);
+    } else {
       setLocalDirty(false);
     }
-  }, [tag, localText, prevData]);
+  }, [text, prevText]);
 
   function handleInput() {
     const text = ref.current?.innerHTML;
-    onChange(index, { type, tag, text });
     setLocalText(text);
   }
 
