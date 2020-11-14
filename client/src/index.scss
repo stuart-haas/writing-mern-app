@@ -23,3 +23,15 @@ a {
   color: #000;
   text-decoration: none;
 }
+
+.is-hidden {
+  opacity: 0;
+  transition: opacity 0.2s ease, visibility 0s 0.2s ease;
+  visibility: hidden;
+}
+
+.is-visible {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  visibility: visible;
+}

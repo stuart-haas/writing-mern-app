@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { callbackOnKey, cursorToEnd } from 'utils/functions';
-import { usePrevious } from 'utils/hooks';
 import styles from './Editor.module.scss';
 
 export interface ElementData {
@@ -12,7 +11,9 @@ export interface ElementData {
 export interface ElementProps {
   index: number;
   focused: boolean;
+  dirty: boolean;
   prevContext: ElementData;
+  onDirty: (value: boolean) => void;
   onChange: (index: number, element: ElementData) => void;
   onAdd: (index: number, element: ElementData) => void;
   onRemove: (index: number) => void;
@@ -32,6 +33,9 @@ const Element = (props: ElementProps & ElementData) => {
     type,
     tag,
     text,
+    focused,
+    dirty,
+    onDirty,
     onChange,
     onAdd,
     onRemove,
@@ -39,7 +43,6 @@ const Element = (props: ElementProps & ElementData) => {
     onNext,
     onPrev,
     onSelect,
-    focused,
     prevContext,
   } = props;
 
@@ -47,7 +50,7 @@ const Element = (props: ElementProps & ElementData) => {
 
   const [selected, setSelected] = useState(false);
   const [localText, setLocalText] = useState(text);
-  const [dirty, setDirty] = useState(false);
+  const [localDirty, setLocalDirty] = useState(false);
 
   useEffect(() => {
     if (focused && !selected) {
@@ -56,20 +59,26 @@ const Element = (props: ElementProps & ElementData) => {
   }, [focused, selected]);
 
   useEffect(() => {
-    console.log(dirty);
+    if (!dirty) {
+      setLocalDirty(false);
+    }
   }, [dirty]);
+
+  useEffect(() => {
+    onDirty(localDirty);
+  }, [localDirty, onDirty]);
 
   useEffect(() => {
     if (prevContext) {
       if (localText !== prevContext.text) {
-        return setDirty(true);
+        return setLocalDirty(true);
       }
       if (tag !== prevContext.tag) {
-        return setDirty(true);
+        return setLocalDirty(true);
       }
-      setDirty(false);
+      setLocalDirty(false);
     }
-  }, [localText, prevContext]);
+  }, [tag, localText, prevContext]);
 
   function handleInput() {
     const text = ref.current?.innerHTML;
@@ -135,7 +144,7 @@ const Element = (props: ElementProps & ElementData) => {
         ref: ref,
         className: `${styles.element} ${styles[type]} ${
           focused ? styles.focus : ''
-        } ${dirty ? styles.dirty : ''}`,
+        } ${localDirty ? styles.dirty : ''}`,
         contentEditable: true,
         suppressContentEditableWarning: true,
         onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => {

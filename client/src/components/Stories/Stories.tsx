@@ -27,7 +27,7 @@ const Dashboard = () => {
           <Link
             key={index}
             className={styles.item}
-            to={`/stories/${story._id}`}
+            to={`/stories/edit/${story._id}`}
           >
             <div className={styles.itemContent}>
               <h1>{story.title}</h1>

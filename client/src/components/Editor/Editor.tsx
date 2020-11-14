@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { updateStory } from 'services/api';
 import Element, { ElementData } from './Element';
 import styles from './Editor.module.scss';
@@ -10,29 +10,64 @@ interface EditorProps {
 }
 
 const Editor = (props: EditorProps) => {
-  const [content, setContent] = useState<ElementData[]>([...props.content]);
-  const [shadowContent, setShadowContent] = useState<ElementData[]>([
-    ...props.content,
-  ]);
-  const [title, setTitle] = useState(props.title);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [content, setContent] = useState<ElementData[]>(props.content);
+  const [shadowContent, setShadowContent] = useState<ElementData[]>(
+    props.content
+  );
+  const [title, setTitle] = useState<string>(props.title);
+
   const [toolbarPosition, setToolbarPosition] = useState<DOMRect>();
   const [selectedText, setSelectedText] = useState<string>();
   const [selectedRange, setSelectedRange] = useState<Range>();
+
   const [prevContext, setPrevContext] = useState<ElementData[]>([]);
-  const [prevContent] = useState(JSON.stringify(content));
+  const [prevContent] = useState<string>(JSON.stringify(content));
+
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [dirty, setDirty] = useState<boolean>(false);
+  const [saved, setSaved] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>();
 
   useEffect(() => {
     setPrevContext(JSON.parse(prevContent));
   }, [content]);
 
-  async function handleSave() {
-    const response = await updateStory(props.id, {
-      title,
-      content: JSON.stringify(shadowContent),
-    });
-    console.log(response);
-  }
+  useEffect(() => {
+    if (dirty) {
+      setMessage('You have unsaved changes');
+      setSaved(false);
+    }
+  }, [dirty]);
+
+  useEffect(() => {
+    if (saved) {
+      setMessage('Saved!');
+      setTimeout(() => {
+        setSaved(false);
+      }, 3000);
+    }
+  }, [saved]);
+
+  const handleDirty = useCallback((value: boolean) => {
+    setDirty(value);
+  }, []);
+
+  const handleSave = useCallback(async () => {
+    try {
+      const response = await updateStory(props.id, {
+        title: title,
+        content: JSON.stringify(shadowContent),
+      });
+      const { data } = response;
+      setTitle(data.title);
+      setContent(JSON.parse(data.content));
+      setShadowContent(JSON.parse(data.content));
+      setDirty(false);
+      setSaved(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [shadowContent]);
 
   function handleChange(index: number, element: ElementData) {
     const contentCopy = [...shadowContent];
@@ -102,7 +137,18 @@ const Editor = (props: EditorProps) => {
 
   return (
     <div className={styles.root}>
-      <button onClick={() => handleSave()}>Save</button>
+      <div className={styles.controls}>
+        <button className={styles.button} onClick={() => handleSave()}>
+          Save
+        </button>
+        <span
+          className={`${styles.message} ${
+            dirty || saved ? 'is-visible' : 'is-hidden'
+          }`}
+        >
+          {message}
+        </span>
+      </div>
       <input
         className={styles.title}
         onChange={(e) => {
@@ -147,7 +193,10 @@ const Editor = (props: EditorProps) => {
             <Element
               key={index}
               index={index}
+              dirty={dirty}
               focused={currentIndex === index}
+              prevContext={prevContext[index]}
+              onDirty={handleDirty}
               onChange={handleChange}
               onAdd={handleAdd}
               onRemove={handleRemove}
@@ -155,7 +204,6 @@ const Editor = (props: EditorProps) => {
               onNext={handleNext}
               onPrev={handlePrev}
               onSelect={handleSelect}
-              prevContext={prevContext[index]}
               {...element}
             />
           ))}

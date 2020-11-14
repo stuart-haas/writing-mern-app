@@ -17,9 +17,13 @@ const Story = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getStory(params.id);
-      setTitle(response.title);
-      setContent(JSON.parse(response.content));
+      try {
+        const response = await getStory(params.id);
+        setTitle(response.title);
+        setContent(JSON.parse(response.content));
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchData();
   }, [params]);

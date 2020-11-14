@@ -14,7 +14,7 @@ const App = () => {
             <Route path='/stories' exact={true}>
               <Stories />
             </Route>
-            <Route path='/stories/:id' exact={true}>
+            <Route path='/stories/edit/:id' exact={true}>
               <Story />
             </Route>
           </Switch>
