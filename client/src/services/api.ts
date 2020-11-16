@@ -13,7 +13,12 @@ export async function getStory(id: string) {
   return response.data;
 }
 
-export async function updateStory(id: string, data: any) {
+export async function saveStory(data: any) {
+  const response = await axiosClient.post(`/story/`, data);
+  return response.data;
+}
+
+export async function updateStory(id: string | undefined, data: any) {
   const response = await axiosClient.patch(`/story/${id}`, data);
-  return response;
+  return response.data;
 }

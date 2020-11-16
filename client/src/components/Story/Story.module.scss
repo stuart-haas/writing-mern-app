@@ -1,3 +1,39 @@
 .root {
   padding: 1rem 0;
+  margin: 0 1rem;
+}
+
+.title {
+  display: block;
+  padding: 0;
+  border: 0;
+  margin: 1rem 0;
+  font-size: 2.5rem;
+  outline: none;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  padding: 0.25rem 0.35rem;
+  border: solid 1px #000;
+  background-color: #fff;
+  outline: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #ddd;
+  }
+}
+
+.message {
+  margin: 0 1rem;
+  font-size: 0.8rem;
+}
+
+.editor {
+  margin: 1rem 0;
 }

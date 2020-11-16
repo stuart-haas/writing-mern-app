@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   return (
     <div className={styles.root}>
-      {stories &&
+      {stories.length > 0 ? (
         stories.map((story: IStory, index: number) => (
           <Link
             key={index}
@@ -33,7 +33,15 @@ const Dashboard = () => {
               <h1>{story.title}</h1>
             </div>
           </Link>
-        ))}
+        ))
+      ) : (
+        <div className={styles.header}>
+          <h1>{`Looks like you don't have any stories`}</h1>
+          <Link className={styles.button} to='/stories/new'>
+            Start writing
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

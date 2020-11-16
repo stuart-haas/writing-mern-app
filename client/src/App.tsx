@@ -14,6 +14,9 @@ const App = () => {
             <Route path='/stories' exact={true}>
               <Stories />
             </Route>
+            <Route path='/stories/new' exact={true}>
+              <Story />
+            </Route>
             <Route path='/stories/edit/:id' exact={true}>
               <Story />
             </Route>
