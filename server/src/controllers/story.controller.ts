@@ -38,6 +38,7 @@ export default class StoryController implements Controller {
     const story = new Story({
       title: req.body.title,
       content: req.body.content,
+      status: req.body.status,
     });
     await story.save();
     res.json(story);
@@ -53,6 +54,9 @@ export default class StoryController implements Controller {
         }
         if (req.body.content) {
           story.content = req.body.content;
+        }
+        if (req.body.status) {
+          story.status = req.body.status;
         }
         await story.save();
         res.json(story);

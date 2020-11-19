@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { IStory } from 'common/interfaces';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getStories } from 'services/api';
+import { getStory } from 'services/api';
+import { getTimeAgo } from 'utils/functions';
+import { defaultStoryProps } from 'common/interfaces';
 import styles from './Stories.module.scss';
 
-interface IStory {
-  _id: string;
-  title: string;
-  content: string;
-}
-
 const Dashboard = () => {
-  const [stories, setStories] = useState([]);
+  const [stories, setStories] = useState([defaultStoryProps]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getStories();
+      const data = await getStory();
       setStories(data);
     };
     fetchData();
@@ -22,6 +19,9 @@ const Dashboard = () => {
 
   return (
     <div className={styles.root}>
+      <Link className={styles.button} to='/stories/new'>
+        New Story
+      </Link>
       {stories.length > 0 ? (
         stories.map((story: IStory, index: number) => (
           <Link
@@ -31,6 +31,25 @@ const Dashboard = () => {
           >
             <div className={styles.itemContent}>
               <h1>{story.title}</h1>
+              <div className={styles.info}>
+                <span>{story.status}</span>
+                <Fragment>
+                  <span className={styles.divider}>|</span>
+                  <span></span>
+                  <span>{`Started ${getTimeAgo(story.createdAt)}`}</span>
+                </Fragment>
+                {story.createdAt &&
+                  story.updatedAt &&
+                  story.updatedAt > story.createdAt && (
+                    <Fragment>
+                      <span className={styles.divider}>|</span>
+                      <span>
+                        {' '}
+                        {`Last updated ${getTimeAgo(story.updatedAt)}`}
+                      </span>
+                    </Fragment>
+                  )}
+              </div>
             </div>
           </Link>
         ))

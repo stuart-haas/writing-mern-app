@@ -1,27 +1,20 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Fragment } from 'react';
+import { Redirect, useParams } from 'react-router-dom';
 import MDEditor, { commands } from '@uiw/react-md-editor';
-import { useParams } from 'react-router-dom';
-import { getStory, saveStory, updateStory } from 'services/api';
-import { usePrevious } from 'utils/hooks';
+import { getStory, saveStory, deleteStory } from 'services/api';
+import { defaultStoryProps, IParams, IStory } from 'common/interfaces';
 import styles from './Story.module.scss';
-
-interface Params {
-  id: string;
-}
-
-interface StoryData {
-  id?: string;
-  title?: string;
-  content?: string;
-}
+import { getTimeAgo } from 'utils/functions';
 
 const Story = () => {
-  const params = useParams<Params>();
+  const params = useParams<IParams>();
 
-  const [data, setData] = useState<StoryData>({});
-  const [initialData, setInitialData] = useState({});
+  let timer: any = null;
+  const [data, setData] = useState<IStory>(defaultStoryProps);
+  const [initialData, setInitialData] = useState(data);
   const [dirty, setDirty] = useState<boolean>(false);
   const [saved, setSaved] = useState<boolean>(false);
+  const [deleted, setDeleted] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
 
   useEffect(() => {
@@ -37,40 +30,23 @@ const Story = () => {
 
   useEffect(() => {
     if (saved) {
-      setMessage('Saved!');
-      setTimeout(() => {
+      timer = setTimeout(() => {
         setSaved(false);
       }, 3000);
     }
+    return () => {
+      clearTimeout(timer);
+    };
   }, [saved]);
-
-  const handleSave = useCallback(async () => {
-    try {
-      const { title, content } = data;
-      const response: any = await updateStory(params.id, {
-        title,
-        content,
-      });
-      if (response) {
-        const { title, content } = response;
-        setData({ ...data, title, content });
-        setInitialData({ ...initialData, title, content });
-        setDirty(false);
-        setSaved(true);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [params, data]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getStory(params.id);
         if (response) {
-          const { title, content } = response;
-          setData({ ...data, title, content });
-          setInitialData({ ...initialData, title, content });
+          const { title, content, status, updatedAt } = response;
+          setData({ ...data, title, content, status, updatedAt });
+          setInitialData({ ...initialData, title, content, status, updatedAt });
         }
       } catch (error) {
         console.log(error);
@@ -81,44 +57,130 @@ const Story = () => {
     }
   }, [params]);
 
+  const handleSave = useCallback(async () => {
+    try {
+      clearTimeout(timer);
+      const { title, content } = data;
+      const response: IStory = await saveStory(
+        {
+          title,
+          content,
+        },
+        params.id
+      );
+      if (response) {
+        const { title, content, status, updatedAt } = response;
+        setData({ ...data, title, content, status, updatedAt });
+        setInitialData({ ...initialData, title, content, status, updatedAt });
+        setDirty(false);
+        setSaved(true);
+        setMessage('Saved!');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [params, data]);
+
+  const handlePublish = useCallback(async () => {
+    if (!window.confirm('Are you sure?')) return;
+    try {
+      clearTimeout(timer);
+      const newStatus = data.status == 'Draft' ? 'Published' : 'Draft';
+      const response: IStory = await saveStory(
+        {
+          status: newStatus,
+        },
+        params.id
+      );
+      if (response) {
+        const { title, content, status, updatedAt } = response;
+        setData({ ...data, title, content, status, updatedAt });
+        setInitialData({ ...initialData, title, content, status, updatedAt });
+        setDirty(false);
+        setSaved(true);
+        setMessage(status == 'Draft' ? 'Unpublished' : 'Published');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [params, data]);
+
+  const handleDelete = useCallback(async () => {
+    if (!window.confirm('Are you sure?')) return;
+    try {
+      const response: IStory = await deleteStory(params.id);
+      if (response) {
+        setDeleted(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [params, data]);
+
   return (
-    <div className={styles.root}>
-      <div className={styles.controls}>
-        <button className={styles.button} onClick={() => handleSave()}>
-          Save
-        </button>
-        <span
-          className={`${styles.message} ${dirty ? 'is-visible' : 'is-hidden'}`}
-        >
-          {message}
-        </span>
-      </div>
-      <input
-        className={styles.title}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setData({ ...data, title: e.target.value });
-        }}
-        value={data.title}
-      />
-      <div className={styles.editor}>
-        <MDEditor
-          value={data.content}
-          onChange={(content: string | undefined) =>
-            setData({ ...data, content })
-          }
-          preview={'edit'}
-          commands={[
-            commands.title,
-            commands.bold,
-            commands.italic,
-            commands.hr,
-            commands.divider,
-            commands.fullscreen,
-          ]}
+    <Fragment>
+      {deleted ? <Redirect to='/stories' /> : null}
+      <div className={styles.root}>
+        <div className={styles.header}>
+          <div className={styles.headerInner}>
+            <button
+              className={styles.button}
+              disabled={!dirty}
+              onClick={() => handleSave()}
+            >
+              Save
+            </button>
+            <button className={styles.button} onClick={() => handlePublish()}>
+              {data.status == 'Draft' ? 'Publish' : 'Unpublish'}
+            </button>
+            <div className={styles.info}>
+              {data.updatedAt && (
+                <span>{`Last updated ${getTimeAgo(data.updatedAt)}`}</span>
+              )}
+              <span
+                className={`${styles.message} ${
+                  dirty || saved ? 'is-visible' : 'is-hidden'
+                }`}
+              >
+                {data.updatedAt && <span className={styles.divider}>|</span>}
+                {message}
+              </span>
+            </div>
+          </div>
+          <div className={styles.headerInner}>
+            <button className={styles.button} onClick={() => handleDelete()}>
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <input
+          className={styles.title}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setData({ ...data, title: e.currentTarget.value });
+          }}
+          value={data.title}
         />
-        <MDEditor.Markdown source={data.content} />
+        <div className={styles.editor}>
+          <MDEditor
+            value={data.content}
+            onChange={(content: string | undefined) =>
+              setData({ ...data, content })
+            }
+            preview={'edit'}
+            commands={[
+              commands.title,
+              commands.bold,
+              commands.italic,
+              commands.hr,
+              commands.divider,
+              commands.fullscreen,
+            ]}
+          />
+          <MDEditor.Markdown source={data.content} />
+        </div>
       </div>
-    </div>
+    </Fragment>
   );
 };
 
