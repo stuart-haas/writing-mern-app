@@ -5,6 +5,10 @@ import Stories from 'components/Stories/Stories';
 import Story from 'components/Story/Story';
 import './App.scss';
 
+const ErrorPage = () => {
+  return <h1>404 - Not Found</h1>;
+};
+
 const App = () => {
   return (
     <div className='app'>
@@ -20,6 +24,7 @@ const App = () => {
             <Route path='/stories/edit/:id' exact={true}>
               <Story />
             </Route>
+            <Route component={ErrorPage} />
           </Switch>
         </Wrapper>
       </Router>

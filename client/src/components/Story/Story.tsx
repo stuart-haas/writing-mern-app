@@ -44,9 +44,8 @@ const Story = () => {
       try {
         const response = await getStory(params.id);
         if (response) {
-          const { title, content, status, updatedAt } = response;
-          setData({ ...data, title, content, status, updatedAt });
-          setInitialData({ ...initialData, title, content, status, updatedAt });
+          setData({ ...response });
+          setInitialData({ ...response });
         }
       } catch (error) {
         console.log(error);
@@ -69,9 +68,8 @@ const Story = () => {
         params.id
       );
       if (response) {
-        const { title, content, status, updatedAt } = response;
-        setData({ ...data, title, content, status, updatedAt });
-        setInitialData({ ...initialData, title, content, status, updatedAt });
+        setData({ ...response });
+        setInitialData({ ...response });
         setDirty(false);
         setSaved(true);
         setMessage('Saved!');
@@ -93,12 +91,11 @@ const Story = () => {
         params.id
       );
       if (response) {
-        const { title, content, status, updatedAt } = response;
-        setData({ ...data, title, content, status, updatedAt });
-        setInitialData({ ...initialData, title, content, status, updatedAt });
+        setData({ ...response });
+        setInitialData({ ...response });
         setDirty(false);
         setSaved(true);
-        setMessage(status == 'Draft' ? 'Unpublished' : 'Published');
+        setMessage(response.status == 'Draft' ? 'Unpublished' : 'Published');
       }
     } catch (error) {
       console.log(error);
@@ -148,9 +145,11 @@ const Story = () => {
             </div>
           </div>
           <div className={styles.headerInner}>
-            <button className={styles.button} onClick={() => handleDelete()}>
-              Delete
-            </button>
+            {data._id && (
+              <button className={styles.button} onClick={() => handleDelete()}>
+                Delete
+              </button>
+            )}
           </div>
         </div>
 
