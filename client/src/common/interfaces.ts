@@ -10,9 +10,3 @@ export interface IStory {
   createdAt?: string;
   updatedAt?: string;
 }
-
-export const defaultStoryProps = {
-  title: 'Something creative',
-  content: '',
-  status: 'Draft',
-};

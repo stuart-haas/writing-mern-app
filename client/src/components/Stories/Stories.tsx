@@ -3,11 +3,11 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStory } from 'services/api';
 import { getTimeAgo } from 'utils/functions';
-import { defaultStoryProps } from 'common/interfaces';
+import { defaultProps } from 'components/Story/Story';
 import styles from './Stories.module.scss';
 
 const Dashboard = () => {
-  const [stories, setStories] = useState([defaultStoryProps]);
+  const [stories, setStories] = useState([defaultProps]);
 
   useEffect(() => {
     const fetchData = async () => {

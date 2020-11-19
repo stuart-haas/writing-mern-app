@@ -2,15 +2,21 @@ import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import MDEditor, { commands } from '@uiw/react-md-editor';
 import { getStory, saveStory, deleteStory } from 'services/api';
-import { defaultStoryProps, IParams, IStory } from 'common/interfaces';
+import { IParams, IStory } from 'common/interfaces';
 import styles from './Story.module.scss';
 import { getTimeAgo } from 'utils/functions';
+
+export const defaultProps = {
+  title: 'Something creative',
+  content: '',
+  status: 'Draft',
+};
 
 const Story = () => {
   const params = useParams<IParams>();
 
   let timer: NodeJS.Timeout;
-  const [data, setData] = useState<IStory>(defaultStoryProps);
+  const [data, setData] = useState<IStory>(defaultProps);
   const [initialData, setInitialData] = useState(data);
   const [dirty, setDirty] = useState<boolean>(false);
   const [saved, setSaved] = useState<boolean>(false);
