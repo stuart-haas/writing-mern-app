@@ -19,9 +19,11 @@ const Dashboard = () => {
 
   return (
     <div className={styles.root}>
-      <Link className={styles.button} to='/stories/new'>
-        New Story
-      </Link>
+      {stories.length ? (
+        <Link className={styles.button} to='/stories/new'>
+          New Story
+        </Link>
+      ) : null}
       {stories.length > 0 ? (
         stories.map((story: IStory, index: number) => (
           <Link
