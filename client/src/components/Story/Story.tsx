@@ -9,7 +9,7 @@ import { getTimeAgo } from 'utils/functions';
 const Story = () => {
   const params = useParams<IParams>();
 
-  let timer: any = null;
+  let timer: NodeJS.Timeout;
   const [data, setData] = useState<IStory>(defaultStoryProps);
   const [initialData, setInitialData] = useState(data);
   const [dirty, setDirty] = useState<boolean>(false);
