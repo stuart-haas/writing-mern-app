@@ -3,8 +3,8 @@ import { Redirect, useParams } from 'react-router-dom';
 import MDEditor, { commands } from '@uiw/react-md-editor';
 import { getStory, saveStory, deleteStory } from 'services/api';
 import { IParams, IStory } from 'common/interfaces';
-import styles from './Story.module.scss';
 import { getTimeAgo } from 'utils/functions';
+import styles from './Story.module.scss';
 
 export const defaultProps = {
   title: 'Something creative',
@@ -127,13 +127,16 @@ const Story = () => {
         <div className={styles.header}>
           <div className={styles.headerInner}>
             <button
-              className={styles.button}
+              className='btn btn-light btn-sm'
               disabled={!dirty}
               onClick={() => handleSave()}
             >
               Save
             </button>
-            <button className={styles.button} onClick={() => handlePublish()}>
+            <button
+              className='btn btn-success btn-sm'
+              onClick={() => handlePublish()}
+            >
               {data.status == 'Draft' ? 'Publish' : 'Unpublish'}
             </button>
             <div className={styles.info}>
@@ -152,7 +155,10 @@ const Story = () => {
           </div>
           <div className={styles.headerInner}>
             {data._id && (
-              <button className={styles.button} onClick={() => handleDelete()}>
+              <button
+                className='btn btn-danger btn-sm'
+                onClick={() => handleDelete()}
+              >
                 Delete
               </button>
             )}

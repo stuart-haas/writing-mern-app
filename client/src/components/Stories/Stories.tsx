@@ -20,7 +20,7 @@ const Dashboard = () => {
   return (
     <div className={styles.root}>
       {stories.length ? (
-        <Link className={styles.button} to='/stories/new'>
+        <Link className='btn btn-light btn-sm' to='/stories/new'>
           New Story
         </Link>
       ) : null}
@@ -58,7 +58,7 @@ const Dashboard = () => {
       ) : (
         <div className={styles.header}>
           <h1>{`Looks like you don't have any stories`}</h1>
-          <Link className={styles.button} to='/stories/new'>
+          <Link className='btn btn-light btn-sm' to='/stories/new'>
             Start writing
           </Link>
         </div>

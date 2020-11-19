@@ -21,27 +21,8 @@
 
 .headerInner {
   display: flex;
-  align-content: center;
-}
-
-.button {
-  padding: 0.25rem 0.35rem;
-  border: solid 1px #000;
-  background-color: #fff;
-  outline: none;
-  transition: all 0.2s ease;
-
-  &:disabled {
-    border-color: #ddd;
-  }
-
-  &:hover {
-    background-color: #ddd;
-  }
-
-  &:not(:last-of-type) {
-    margin-right: 1rem;
-  }
+  align-items: center;
+  justify-content: space-between;
 }
 
 .message {
