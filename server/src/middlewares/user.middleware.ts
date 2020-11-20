@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
 import { check } from 'express-validator';
-import User, { IUser } from '@models/user.model';
+import User from '@models/user.model';
 
 export const registrationRules = [
   check('username', 'Your username must have more than 5 characters')

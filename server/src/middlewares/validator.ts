@@ -1,4 +1,3 @@
-import * as bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 
