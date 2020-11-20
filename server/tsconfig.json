@@ -30,10 +30,6 @@
       "@tests/*": ["tests/*"],
       "@utils/*": ["utils/*"], 
     },
-    "typeRoots": [
-      "src/types",
-      "./node_modules/@types",
-    ]
   },
   "include": [
     "src",
