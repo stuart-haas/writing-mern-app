@@ -167,7 +167,7 @@ const Story = () => {
           }}
           value={data.title}
         />
-        <div className='mt-2'>
+        <div className='story__editor'>
           <MDEditor
             value={data.content}
             onChange={(content: string | undefined) =>
@@ -183,7 +183,6 @@ const Story = () => {
               commands.fullscreen,
             ]}
           />
-          <MDEditor.Markdown source={data.content} />
         </div>
       </div>
     </Fragment>

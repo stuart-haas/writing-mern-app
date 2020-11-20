@@ -4,12 +4,12 @@ import './Header.scss';
 
 const Header = () => {
   return (
-    <header className='header'>
+    <header className='header flex justify-end'>
       <nav className='nav'>
-        <Link className='nav-item' to='/stories'>
+        <Link className='nav__item' to='/stories'>
           Stories
         </Link>
-        <Link className='nav-item' to='/profile'>
+        <Link className='nav__item' to='/profile'>
           Profile
         </Link>
       </nav>
