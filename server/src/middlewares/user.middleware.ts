@@ -18,7 +18,7 @@ export const registrationRules = [
     .trim()
     .escape(),
   check('passwordConfirm', 'Passwords do not match')
-    .custom((value, { req }) => value == req.body.password)
+    .custom((value: string, { req }) => value == req.body.password)
     .trim()
     .escape(),
 ];
@@ -28,7 +28,7 @@ export const loginRules = [
     .exists()
     .trim()
     .escape()
-    .custom((value) => {
+    .custom((value: string) => {
       return User.findOne({ username: value }).then((user: any) => {
         if (!user) {
           return Promise.reject('Username not found');
@@ -39,9 +39,9 @@ export const loginRules = [
     .exists()
     .trim()
     .escape()
-    .custom((value, { req }) => {
+    .custom((value: string, { req }) => {
       return User.findOne({ username: req.body.username }).then((user: any) => {
-        return bcrypt.compare(value, user.password).then((error) => {
+        return bcrypt.compare(value, user.password).then((error: boolean) => {
           if (!error) {
             return Promise.reject('Password does not match');
           }
@@ -55,7 +55,7 @@ export const hashPassword = (
   res: Response,
   next: NextFunction
 ) => {
-  bcrypt.hash(req.body.password, 10, (err: Error, hash: string) => {
+  bcrypt.hash(req.body.password, 10, (error: any, hash: string) => {
     req.body.password = hash;
     return next();
   });
@@ -64,13 +64,13 @@ export const hashPassword = (
 export const verifyJWT = (req: any, res: Response, next: NextFunction) => {
   const { token } = req.cookies;
   if (!token) {
-    res.status(401).send('Unauthorized: No token provided');
+    res.status(401).json({ error: 'Unauthorized: No token provided' });
   } else {
     jwt.verify(token, secret, (error: any, decoded: any) => {
       if (error) {
-        res.status(401).send('Unauthorized: Invalid token');
+        res.status(401).json({ error: 'Unauthorized: Invalid token' });
       } else {
-        req.username = decoded.username;
+        req.username = decoded && decoded.username;
         return next();
       }
     });

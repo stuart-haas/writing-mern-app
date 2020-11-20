@@ -53,6 +53,7 @@ export default class UserController implements Controller {
   };
 
   private user = async (req: any, res: Response) => {
-    res.send(req.username);
+    const { username } = req;
+    res.json({ username });
   };
 }
