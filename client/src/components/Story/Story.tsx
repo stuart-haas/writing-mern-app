@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { Prompt, Redirect, useParams } from 'react-router-dom';
-import MDEditor, { commands } from '@uiw/react-md-editor';
+import SimpleMDE from 'react-simplemde-editor';
 import { getStory, saveStory, deleteStory } from 'services/api';
 import { IParams, IStory } from 'common/interfaces';
 import { getTimeAgo } from 'utils/functions';
+import 'easymde/dist/easymde.min.css';
 import './Story.scss';
 
 export const defaultProps = {
@@ -168,20 +169,24 @@ const Story = () => {
           value={data.title}
         />
         <div className='story__editor'>
-          <MDEditor
+          <SimpleMDE
             value={data.content}
             onChange={(content: string | undefined) =>
               setData({ ...data, content })
             }
-            preview={'edit'}
-            commands={[
-              commands.title,
-              commands.bold,
-              commands.italic,
-              commands.hr,
-              commands.divider,
-              commands.fullscreen,
-            ]}
+            options={{
+              autofocus: true,
+              toolbar: [
+                'bold',
+                'italic',
+                'heading',
+                '|',
+                'quote',
+                'horizontal-rule',
+                '|',
+                'fullscreen',
+              ],
+            }}
           />
         </div>
       </div>
