@@ -2,7 +2,11 @@ import React from 'react';
 import Header from 'components/Header/Header';
 import Main from 'components/Main/Main';
 
-const Wrapper = (props: any) => {
+interface Props {
+  children: JSX.Element | JSX.Element[];
+}
+
+const Wrapper = (props: Props) => {
   return (
     <div className='wrapper'>
       <Header />

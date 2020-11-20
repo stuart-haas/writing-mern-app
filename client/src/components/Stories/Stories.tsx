@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getStory } from 'services/api';
 import { getTimeAgo } from 'utils/functions';
 import { defaultProps } from 'components/Story/Story';
-import styles from './Stories.module.scss';
+import './Stories.scss';
 
 const Dashboard = () => {
   const [stories, setStories] = useState([defaultProps]);
@@ -18,9 +18,9 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className={styles.root}>
+    <div className='stories'>
       {stories.length ? (
-        <Link className='btn btn-light btn-sm' to='/stories/new'>
+        <Link className='btn' to='/stories/new'>
           New Story
         </Link>
       ) : null}
@@ -28,35 +28,33 @@ const Dashboard = () => {
         stories.map((story: IStory, index: number) => (
           <Link
             key={index}
-            className={styles.item}
+            className='stories__story'
             to={`/stories/edit/${story._id}`}
           >
-            <div className={styles.itemContent}>
-              <h1>{story.title}</h1>
-              <div className={styles.info}>
-                <span>{story.status}</span>
-                <Fragment>
-                  <span className={styles.divider}>|</span>
-                  <span></span>
-                  <span>{`Started ${getTimeAgo(story.createdAt)}`}</span>
-                </Fragment>
-                {story.createdAt &&
-                  story.updatedAt &&
-                  story.updatedAt > story.createdAt && (
-                    <Fragment>
-                      <span className={styles.divider}>|</span>
-                      <span>
-                        {' '}
-                        {`Last updated ${getTimeAgo(story.updatedAt)}`}
-                      </span>
-                    </Fragment>
-                  )}
-              </div>
+            <h1 className='h1'>{story.title}</h1>
+            <div className='stories__story-meta'>
+              <span>{story.status}</span>
+              <Fragment>
+                <span className='pipe'>|</span>
+                <span></span>
+                <span>{`Started ${getTimeAgo(story.createdAt)}`}</span>
+              </Fragment>
+              {story.createdAt &&
+                story.updatedAt &&
+                story.updatedAt > story.createdAt && (
+                  <Fragment>
+                    <span className='pipe'>|</span>
+                    <span>
+                      {' '}
+                      {`Last updated ${getTimeAgo(story.updatedAt)}`}
+                    </span>
+                  </Fragment>
+                )}
             </div>
           </Link>
         ))
       ) : (
-        <div className={styles.header}>
+        <div className='text-center'>
           <h1>{`Looks like you don't have any stories`}</h1>
           <Link className='btn btn-light btn-sm' to='/stories/new'>
             Start writing

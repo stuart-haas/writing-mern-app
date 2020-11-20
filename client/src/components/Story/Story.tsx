@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
-import { Redirect, useParams } from 'react-router-dom';
+import { Prompt, Redirect, useParams } from 'react-router-dom';
 import MDEditor, { commands } from '@uiw/react-md-editor';
 import { getStory, saveStory, deleteStory } from 'services/api';
 import { IParams, IStory } from 'common/interfaces';
 import { getTimeAgo } from 'utils/functions';
-import styles from './Story.module.scss';
+import './Story.scss';
 
 export const defaultProps = {
   title: 'Something creative',
@@ -14,8 +14,6 @@ export const defaultProps = {
 
 const Story = () => {
   const params = useParams<IParams>();
-
-  let timer: NodeJS.Timeout;
   const [data, setData] = useState<IStory>(defaultProps);
   const [initialData, setInitialData] = useState(data);
   const [dirty, setDirty] = useState<boolean>(false);
@@ -36,13 +34,13 @@ const Story = () => {
 
   useEffect(() => {
     if (saved) {
-      timer = setTimeout(() => {
+      const timer = setTimeout(() => {
         setSaved(false);
       }, 3000);
+      return () => {
+        clearTimeout(timer);
+      };
     }
-    return () => {
-      clearTimeout(timer);
-    };
   }, [saved]);
 
   useEffect(() => {
@@ -64,7 +62,6 @@ const Story = () => {
 
   const handleSave = useCallback(async () => {
     try {
-      clearTimeout(timer);
       const { title, content } = data;
       const response: IStory = await saveStory(
         {
@@ -88,8 +85,7 @@ const Story = () => {
   const handlePublish = useCallback(async () => {
     if (!window.confirm('Are you sure?')) return;
     try {
-      clearTimeout(timer);
-      const newStatus = data.status == 'Draft' ? 'Published' : 'Draft';
+      const newStatus = data.status === 'Draft' ? 'Published' : 'Draft';
       const response: IStory = await saveStory(
         {
           status: newStatus,
@@ -101,7 +97,7 @@ const Story = () => {
         setInitialData({ ...response });
         setDirty(false);
         setSaved(true);
-        setMessage(response.status == 'Draft' ? 'Unpublished' : 'Published');
+        setMessage(response.status === 'Draft' ? 'Unpublished' : 'Published');
       }
     } catch (error) {
       console.log(error);
@@ -118,47 +114,46 @@ const Story = () => {
     } catch (error) {
       console.log(error);
     }
-  }, [params, data]);
+  }, [params]);
 
   return (
     <Fragment>
       {deleted ? <Redirect to='/stories' /> : null}
-      <div className={styles.root}>
-        <div className={styles.header}>
-          <div className={styles.headerInner}>
-            <button
-              className='btn btn-light btn-sm'
-              disabled={!dirty}
-              onClick={() => handleSave()}
-            >
-              Save
-            </button>
-            <button
-              className='btn btn-success btn-sm'
-              onClick={() => handlePublish()}
-            >
-              {data.status == 'Draft' ? 'Publish' : 'Unpublish'}
-            </button>
-            <div className={styles.info}>
+      <Prompt when={dirty} message='Are you sure you want to leave?' />
+      <div className='story'>
+        <div className='story__toolbar flex align-center justify-between'>
+          <div className='flex align-center'>
+            <div className='btn-group'>
+              <button
+                className='btn'
+                disabled={!dirty}
+                onClick={() => handleSave()}
+              >
+                Save
+              </button>
+              <button className='btn' onClick={() => handlePublish()}>
+                {data.status === 'Draft' ? 'Publish' : 'Unpublish'}
+              </button>
+            </div>
+            <div className='story__meta'>
               {data.updatedAt && (
-                <span>{`Last updated ${getTimeAgo(data.updatedAt)}`}</span>
+                <span className='story__meta-data'>{`Last updated ${getTimeAgo(
+                  data.updatedAt
+                )}`}</span>
               )}
               <span
-                className={`${styles.message} ${
+                className={`story__meta-data ${
                   dirty || saved ? 'is-visible' : 'is-hidden'
                 }`}
               >
-                {data.updatedAt && <span className={styles.divider}>|</span>}
+                {data.updatedAt && <span className='pipe'>|</span>}
                 {message}
               </span>
             </div>
           </div>
-          <div className={styles.headerInner}>
+          <div className='flex align-center'>
             {data._id && (
-              <button
-                className='btn btn-danger btn-sm'
-                onClick={() => handleDelete()}
-              >
+              <button className='btn' onClick={() => handleDelete()}>
                 Delete
               </button>
             )}
@@ -166,13 +161,13 @@ const Story = () => {
         </div>
 
         <input
-          className={styles.title}
+          className='story__title h1'
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setData({ ...data, title: e.currentTarget.value });
           }}
           value={data.title}
         />
-        <div className={styles.editor}>
+        <div className='mt-2'>
           <MDEditor
             value={data.content}
             onChange={(content: string | undefined) =>

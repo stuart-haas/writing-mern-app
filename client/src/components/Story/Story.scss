@@ -1,0 +1,17 @@
+.story {
+  &__title {
+    border: 0;
+  }
+
+  &__toolbar {
+    margin-bottom: 0.5rem;
+  }
+
+  &__meta {
+    margin-left: 1rem;
+
+    &-data {
+      font-size: 0.875rem;
+    }
+  }
+}
