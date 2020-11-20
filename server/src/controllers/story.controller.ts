@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import Story from '@models/story.model';
-import Controller from '@interfaces/controller.interface';
+import Controller from '@common/interface';
 import StoryNotFoundException from '@exceptions/StoryNotFoundException';
 
 export default class StoryController implements Controller {
@@ -25,7 +25,7 @@ export default class StoryController implements Controller {
   };
 
   private findOne = async (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id;
+    const { id } = req.params;
     try {
       const story = await Story.findById(id);
       res.json(story);
@@ -35,28 +35,30 @@ export default class StoryController implements Controller {
   };
 
   private create = async (req: Request, res: Response) => {
+    const { title, content, status } = req.body;
     const story = new Story({
-      title: req.body.title,
-      content: req.body.content,
-      status: req.body.status,
+      title,
+      content,
+      status,
     });
     await story.save();
     res.json(story);
   };
 
   private update = async (req: Request, res: Response, next: NextFunction) => {
-    const id = req.params.id;
+    const { id } = req.params;
+    const { title, content, status } = req.body;
     try {
       const story = await Story.findById(id);
       if (story) {
-        if (req.body.title) {
-          story.title = req.body.title;
+        if (title) {
+          story.title = title;
         }
-        if (req.body.content) {
-          story.content = req.body.content;
+        if (content) {
+          story.content = content;
         }
-        if (req.body.status) {
-          story.status = req.body.status;
+        if (status) {
+          story.status = status;
         }
         await story.save();
         res.json(story);
@@ -71,7 +73,7 @@ export default class StoryController implements Controller {
     res: Response,
     next: NextFunction
   ) => {
-    const id = req.params.id;
+    const { id } = req.params;
     try {
       const story = await Story.findByIdAndDelete(id);
       res.json(story);

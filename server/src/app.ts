@@ -2,8 +2,9 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
-import Controller from '@interfaces/controller.interface';
+import Controller from '@common/interface';
 
 export default class App {
   private app: express.Application;
@@ -44,9 +45,10 @@ export default class App {
   }
 
   private useMiddlewares() {
-    this.app.use(cors());
+    this.app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(cookieParser());
   }
 
   private useControllers() {

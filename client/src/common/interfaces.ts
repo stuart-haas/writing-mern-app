@@ -10,3 +10,8 @@ export interface IStory {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface IUser {
+  username: string;
+  password: string;
+}

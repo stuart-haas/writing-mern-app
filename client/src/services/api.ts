@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { IStory } from 'common/interfaces';
+import { IStory, IUser } from 'common/interfaces';
 
 export const axiosClient = axios.create({
   baseURL: new URL('/api', 'http://localhost:5000').toString(),
+  withCredentials: true,
 });
 
 export async function getStory(id = '') {
@@ -23,4 +24,16 @@ export async function saveStory(data: IStory, id = '') {
 export async function deleteStory(id: string) {
   const response = await axiosClient.delete(`/story/${id}`);
   return response.data;
+}
+
+export async function login(data: IUser) {
+  return await axiosClient.post('/auth/login', data);
+}
+
+export async function logout() {
+  return await axiosClient.post('/auth/logout');
+}
+
+export async function token() {
+  return await axiosClient.get('/auth/token');
 }

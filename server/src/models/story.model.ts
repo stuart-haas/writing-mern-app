@@ -6,7 +6,7 @@ export interface IStory extends Document {
   status: string;
 }
 
-const storySchema = new mongoose.Schema(
+const StorySchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -26,4 +26,4 @@ const storySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.model<IStory>('Story', storySchema);
+export default mongoose.model<IStory>('Story', StorySchema);

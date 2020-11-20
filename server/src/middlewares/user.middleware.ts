@@ -1,7 +1,10 @@
-import * as bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response } from 'express';
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 import { check } from 'express-validator';
 import User from '@models/user.model';
+
+const secret = 'mysupersecretkey';
 
 export const registrationRules = [
   check('username', 'Your username must have more than 5 characters')
@@ -9,7 +12,6 @@ export const registrationRules = [
     .isLength({ min: 5 })
     .trim()
     .escape(),
-  check('email', 'Your email is not valid').exists().trim().escape().isEmail(),
   check('password', 'Your password must be at least 5 characters')
     .exists()
     .isLength({ min: 5 })
@@ -48,7 +50,7 @@ export const loginRules = [
     }),
 ];
 
-export const encryptPassword = (
+export const hashPassword = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -57,4 +59,31 @@ export const encryptPassword = (
     req.body.password = hash;
     return next();
   });
+};
+
+export const verifyJWT = (req: any, res: Response, next: NextFunction) => {
+  const { token } = req.cookies;
+  if (!token) {
+    res.status(401).send('Unauthorized: No token provided');
+  } else {
+    jwt.verify(token, secret, (error: any, decoded: any) => {
+      if (error) {
+        res.status(401).send('Unauthorized: Invalid token');
+      } else {
+        req.username = decoded.username;
+        return next();
+      }
+    });
+  }
+};
+
+export const signJWT = (req: Request, res: Response, next: NextFunction) => {
+  const { username } = req.body;
+  const payload = { username };
+
+  const token = jwt.sign(payload, secret, {
+    expiresIn: '15min',
+  });
+  res.cookie('token', token, { httpOnly: true });
+  return next();
 };

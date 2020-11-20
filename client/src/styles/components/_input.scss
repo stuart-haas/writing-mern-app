@@ -1,4 +1,13 @@
+form {
+  padding: 1rem;
+
+  input {
+    margin: 1rem 0;
+  }
+}
+
 input {
+  display: block;
   padding: 0.25rem 0.35rem;
   border: 0;
   border-bottom: solid 1px #000;
