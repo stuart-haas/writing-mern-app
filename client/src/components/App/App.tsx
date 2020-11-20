@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Wrapper from 'components/Wrapper/Wrapper';
 import Stories from 'components/Stories/Stories';
 import Story from 'components/Story/Story';
-import './App.scss';
+import './style.scss';
 
 const ErrorPage = () => {
   return <h1>404 - Not Found</h1>;

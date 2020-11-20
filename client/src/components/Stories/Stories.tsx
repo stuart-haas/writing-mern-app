@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getStory } from 'services/api';
 import { getTimeAgo } from 'utils/functions';
 import { defaultProps } from 'components/Story/Story';
-import './Stories.scss';
+import './style.scss';
 
 const Dashboard = () => {
   const [stories, setStories] = useState([defaultProps]);

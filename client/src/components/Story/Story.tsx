@@ -5,7 +5,7 @@ import { getStory, saveStory, deleteStory } from 'services/api';
 import { IParams, IStory } from 'common/interfaces';
 import { getTimeAgo } from 'utils/functions';
 import 'easymde/dist/easymde.min.css';
-import './Story.scss';
+import './style.scss';
 
 export const defaultProps = {
   title: 'Something creative',
