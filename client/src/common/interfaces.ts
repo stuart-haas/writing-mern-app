@@ -9,6 +9,7 @@ export interface IStory {
   status?: string;
   createdAt?: string;
   updatedAt?: string;
+  user?: string;
 }
 
 export interface IUser {

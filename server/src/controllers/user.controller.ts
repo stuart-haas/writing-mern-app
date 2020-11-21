@@ -39,8 +39,7 @@ export default class UserController implements Controller {
   };
 
   private login = async (req: any, res: Response) => {
-    const { username } = req.body;
-    res.send({ username });
+    res.sendStatus(200);
   };
 
   private logout = async (req: Request, res: Response) => {
@@ -49,7 +48,7 @@ export default class UserController implements Controller {
   };
 
   private token = async (req: any, res: Response) => {
-    const { username } = req;
-    res.send({ username });
+    const { user } = req;
+    res.send(user);
   };
 }

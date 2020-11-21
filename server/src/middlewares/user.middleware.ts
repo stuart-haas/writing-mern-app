@@ -70,20 +70,29 @@ export const verifyJWT = (req: any, res: Response, next: NextFunction) => {
       if (error) {
         res.status(401).json({ error: 'Unauthorized: Invalid token' });
       } else {
-        req.username = decoded.username;
+        const { _id, username } = decoded;
+        const user = { _id, username };
+        req.user = user;
         return next();
       }
     });
   }
 };
 
-export const signJWT = (req: Request, res: Response, next: NextFunction) => {
-  const { username } = req.body;
-  const payload = { username };
+export const signJWT = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const user = await User.findOne({ username: req.body.username });
+  if (user) {
+    const { _id, username } = user;
+    const payload = { _id, username };
 
-  const token = jwt.sign(payload, secret, {
-    expiresIn: '15min',
-  });
-  res.cookie('token', token, { httpOnly: true });
-  return next();
+    const token = jwt.sign(payload, secret, {
+      expiresIn: '15min',
+    });
+    res.cookie('token', token, { httpOnly: true });
+    return next();
+  }
 };

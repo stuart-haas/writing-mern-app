@@ -1,9 +1,10 @@
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IStory extends Document {
   title: string;
   content: string;
   status: string;
+  user: any;
 }
 
 const StorySchema = new mongoose.Schema(
@@ -22,8 +23,12 @@ const StorySchema = new mongoose.Schema(
       enum: ['Draft', 'Published'],
       required: true,
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 );
 
-export default mongoose.model<IStory>('Story', StorySchema);
+export default mongoose.model<IStory>('Story', StorySchema, 'stories');

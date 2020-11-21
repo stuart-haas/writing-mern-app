@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import Story from '@models/story.model';
+import User from '@models/user.model';
 import Controller from '@common/interface';
 import StoryNotFoundException from '@exceptions/StoryNotFoundException';
+import { verifyJWT } from '@middlewares/user.middleware';
 
 export default class StoryController implements Controller {
   public path = '/story';
@@ -12,37 +14,71 @@ export default class StoryController implements Controller {
   }
 
   private useRoutes() {
-    this.router.get(this.path, this.findAll);
-    this.router.get(`${this.path}/:id`, this.findOne);
-    this.router.post(this.path, this.create);
-    this.router.patch(`${this.path}/:id`, this.update);
-    this.router.delete(`${this.path}/:id`, this.deleteOne);
+    // Public
+    this.router.get(`${this.path}/public`, this.findAll);
+    this.router.get(`${this.path}/public/:username`, this.findAllByUserName);
+
+    // Private
+    this.router.get(`${this.path}`, verifyJWT, this.findAllByUserId);
+    this.router.get(`${this.path}/:id`, verifyJWT, this.findOneByUserId);
+    this.router.post(`${this.path}`, verifyJWT, this.create);
+    this.router.patch(`${this.path}/:id`, verifyJWT, this.update);
+    this.router.delete(`${this.path}/:id`, verifyJWT, this.deleteOne);
   }
 
-  private findAll = async (req: Request, res: Response) => {
-    const stories = await Story.find();
-    res.json(stories);
+  private findAll = async (req: any, res: Response) => {
+    const story = await Story.find({ status: 'Published' });
+    res.json(story);
   };
 
-  private findOne = async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    try {
-      const story = await Story.findById(id);
-      res.json(story);
-    } catch (error) {
-      next(new StoryNotFoundException(id));
+  private findAllByUserName = async (req: any, res: Response) => {
+    const story = await User.findOne({
+      username: req.params.username,
+    }).populate({ path: 'stories', match: { status: 'Published' } });
+    if (story) {
+      res.json(story.stories);
     }
   };
 
-  private create = async (req: Request, res: Response) => {
+  private findAllByUserId = async (req: any, res: Response) => {
+    const story = await User.findById(req.user._id).populate('stories');
+    if (story) {
+      res.json(story.stories);
+    }
+  };
+
+  private findOneByUserId = async (
+    req: any,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const story = await User.findById(req.user._id).populate({
+      path: 'stories',
+      match: { _id: req.params.id },
+    });
+    if (story) {
+      res.json(story.stories[0]);
+    }
+  };
+
+  private create = async (req: any, res: Response) => {
+    const user = req.user._id;
     const { title, content, status } = req.body;
     const story = new Story({
       title,
       content,
       status,
+      user,
     });
-    await story.save();
-    res.json(story);
+    const newStory = await story.save();
+    if (newStory) {
+      const user = await User.findById(req.user._id);
+      if (user) {
+        user.stories.push(story);
+        user.save();
+        res.json(user);
+      }
+    }
   };
 
   private update = async (req: Request, res: Response, next: NextFunction) => {

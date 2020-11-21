@@ -7,25 +7,25 @@ const LOGOUT = 'LOGOUT';
 
 const INITIAL_STATE = {
   authenticated: false,
-  username: '',
+  user: {},
 };
 
 const Auth = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case LOGIN: {
-      const { authenticated, username } = action.payload;
+      const { authenticated, user } = action.payload;
       return {
         ...state,
         authenticated,
-        username,
+        user,
       };
     }
     case LOGOUT: {
-      const { authenticated, username } = action.payload;
+      const { authenticated, user } = action.payload;
       return {
         ...state,
         authenticated,
-        username,
+        user,
       };
     }
     default:
@@ -37,9 +37,10 @@ export const authLogin = (data: IUser) => {
   return async (dispatch: Dispatch) => {
     const response = await login(data);
     if (response) {
+      const { _id, username } = response;
       dispatch({
         type: LOGIN,
-        payload: { authenticated: true, username: response.data.username },
+        payload: { authenticated: true, user: { _id, username } },
       });
     }
   };
@@ -48,16 +49,17 @@ export const authLogin = (data: IUser) => {
 export const authLogout = async (dispatch: Dispatch) => {
   const response = await logout();
   if (response) {
-    dispatch({ type: LOGOUT, payload: { authenticated: false, username: '' } });
+    dispatch({ type: LOGOUT, payload: { authenticated: false, user: {} } });
   }
 };
 
 export const authToken = async (dispatch: Dispatch) => {
   const response = await token();
   if (response) {
+    const { _id, username } = response;
     dispatch({
       type: LOGIN,
-      payload: { authenticated: true, username: response.data.username },
+      payload: { authenticated: true, user: { _id, username } },
     });
   }
 };

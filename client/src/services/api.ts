@@ -27,7 +27,8 @@ export async function deleteStory(id: string) {
 }
 
 export async function login(data: IUser) {
-  return await axiosClient.post('/auth/login', data);
+  const response = await axiosClient.post('/auth/login', data);
+  return response.data;
 }
 
 export async function logout() {
@@ -35,5 +36,6 @@ export async function logout() {
 }
 
 export async function token() {
-  return await axiosClient.get('/auth/token');
+  const response = await axiosClient.get('/auth/token');
+  return response.data;
 }
