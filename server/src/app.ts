@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import jwt from 'express-jwt';
 import mongoose from 'mongoose';
 import Controller from '@common/interface';
 
@@ -51,6 +52,7 @@ export default class App {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(cookieParser());
+    //this.app.use(jwt({ secret: process.env.JWT_SECRET!, algorithms: ['HS256']}));
   }
 
   private useControllers() {

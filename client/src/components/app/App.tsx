@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Wrapper from 'components/wrapper/Wrapper';
 import Stories from 'components/stories/Stories';
@@ -7,7 +6,6 @@ import Story from 'components/story/Story';
 import Login from 'components/login/Login';
 import Register from 'components/register/Register';
 import RouteGuard from 'components/route/RouteGuard';
-import { authToken } from 'redux/reducers/auth';
 import './style.scss';
 
 const ErrorPage = () => {
@@ -15,12 +13,6 @@ const ErrorPage = () => {
 };
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(authToken);
-  }, [dispatch]);
-
   return (
     <Wrapper>
       <Switch>

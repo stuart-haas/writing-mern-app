@@ -4,28 +4,35 @@ import { login, logout, token } from 'services/api';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
+const TOKEN = 'TOKEN';
 
 const INITIAL_STATE = {
   authenticated: false,
-  user: {},
 };
 
 const Auth = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case LOGIN: {
-      const { authenticated, user } = action.payload;
+      const { authenticated } = action.payload;
       return {
         ...state,
         authenticated,
-        user,
+        token,
       };
     }
     case LOGOUT: {
-      const { authenticated, user } = action.payload;
+      const { authenticated } = action.payload;
       return {
         ...state,
         authenticated,
-        user,
+        token,
+      };
+    }
+    case TOKEN: {
+      const { authenticated } = action.payload;
+      return {
+        ...state,
+        authenticated,
       };
     }
     default:
@@ -37,10 +44,9 @@ export const authLogin = (data: IUser) => {
   return async (dispatch: Dispatch) => {
     const response = await login(data);
     if (response) {
-      const { _id, username } = response;
       dispatch({
         type: LOGIN,
-        payload: { authenticated: true, user: { _id, username } },
+        payload: { authenticated: true },
       });
     }
   };
@@ -49,17 +55,16 @@ export const authLogin = (data: IUser) => {
 export const authLogout = async (dispatch: Dispatch) => {
   const response = await logout();
   if (response) {
-    dispatch({ type: LOGOUT, payload: { authenticated: false, user: {} } });
+    dispatch({ type: LOGOUT, payload: { authenticated: false } });
   }
 };
 
 export const authToken = async (dispatch: Dispatch) => {
   const response = await token();
   if (response) {
-    const { _id, username } = response;
     dispatch({
-      type: LOGIN,
-      payload: { authenticated: true, user: { _id, username } },
+      type: TOKEN,
+      payload: { authenticated: true },
     });
   }
 };

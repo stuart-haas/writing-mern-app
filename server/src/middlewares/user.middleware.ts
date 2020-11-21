@@ -71,8 +71,7 @@ export const verifyJWT = (req: any, res: Response, next: NextFunction) => {
         res.status(401).json({ error: 'Unauthorized: Invalid token' });
       } else {
         const { _id, username } = decoded;
-        const user = { _id, username };
-        req.user = user;
+        req.user = { _id, username };
         return next();
       }
     });
@@ -89,7 +88,7 @@ export const signJWT = async (
     const { _id, username } = user;
     const payload = { _id, username };
 
-    const token = jwt.sign(payload, secret, {
+    const token = jwt.sign(payload, process.env.JWT_SECRET!, {
       expiresIn: '15min',
     });
     res.cookie('token', token, { httpOnly: true });
