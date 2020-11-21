@@ -1,7 +1,9 @@
 import { Dispatch } from 'redux';
 import { IUser } from 'common/interfaces';
-import { LOGIN, LOGOUT } from 'redux/actions';
 import { login, logout, token } from 'services/api';
+
+const LOGIN = 'LOGIN';
+const LOGOUT = 'LOGOUT';
 
 const INITIAL_STATE = {
   authenticated: false,
