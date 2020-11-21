@@ -15,4 +15,5 @@ export interface IStory {
 export interface IUser {
   username: string;
   password: string;
+  passwordConfirm?: string;
 }

@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getStory } from 'services/api';
 import { getTimeAgo } from 'utils/functions';
-import { defaultProps } from 'components/Story/Story';
+import { defaultProps } from 'components/story/Story';
 import './style.scss';
 
 const Dashboard = () => {
