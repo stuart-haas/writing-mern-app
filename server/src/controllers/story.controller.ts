@@ -47,11 +47,7 @@ export default class StoryController implements Controller {
     }
   };
 
-  private findOneByUserId = async (
-    req: any,
-    res: Response,
-    next: NextFunction
-  ) => {
+  private findOneByUserId = async (req: any, res: Response) => {
     const story = await User.findById(req.user._id).populate({
       path: 'stories',
       match: { _id: req.params.id },

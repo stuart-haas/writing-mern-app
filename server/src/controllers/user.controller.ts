@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import User from '@models/user.model';
 import Controller from '@common/interface';
-import UserNotFoundException from '@exceptions/UserNotFoundException';
 import {
   registrationRules,
   hashPassword,

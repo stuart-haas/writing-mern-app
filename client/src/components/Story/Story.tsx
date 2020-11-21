@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
-import { useSelector } from 'react-redux';
 import { Prompt, Redirect, useParams } from 'react-router-dom';
 import SimpleMDE from 'react-simplemde-editor';
 import { getStory, saveStory, deleteStory } from 'services/api';
@@ -16,7 +15,6 @@ export const defaultProps = {
 
 const Story = () => {
   const params = useParams<IParams>();
-  const auth = useSelector((state: any) => state.auth);
   const [data, setData] = useState<IStory>(defaultProps);
   const [initialData, setInitialData] = useState(data);
   const [dirty, setDirty] = useState<boolean>(false);
