@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { token } from 'services/api';
 
-interface Props {
-  key: string;
-}
-
 interface State {
   loading: boolean;
   redirect: boolean;
@@ -25,7 +21,6 @@ export default function withAuth(ComponentToGuard: any) {
       const fetchData = async () => {
         try {
           const response = await token();
-          console.log(response);
           if (response.status === 200) {
             this.setState({ loading: false });
           }

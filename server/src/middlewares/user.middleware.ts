@@ -70,7 +70,7 @@ export const verifyJWT = (req: any, res: Response, next: NextFunction) => {
       if (error) {
         res.status(401).json({ error: 'Unauthorized: Invalid token' });
       } else {
-        req.username = decoded && decoded.username;
+        req.username = decoded.username;
         return next();
       }
     });

@@ -1,16 +1,26 @@
-import { IUser } from 'common/interfaces';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { login } from 'services/api';
+import { IUser } from 'common/interfaces';
+import { loginUser } from 'redux/reducers/auth';
 import './style.scss';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state: any) => state.auth);
   const history = useHistory();
 
   const [data, setData] = useState<IUser>({
     username: '',
     password: '',
   });
+
+  useEffect(() => {
+    const { authenticated } = auth;
+    if (authenticated) {
+      history.push('/stories');
+    }
+  }, [auth, history]);
 
   function handleChange(e: any) {
     const { value, name } = e.target;
@@ -20,12 +30,9 @@ const Login = () => {
     });
   }
 
-  async function handleSubmit(e: any) {
+  function handleSubmit(e: any) {
     e.preventDefault();
-    const response = await login(data);
-    if (response.status === 200) {
-      history.push('/stories');
-    }
+    dispatch(loginUser(data));
   }
 
   return (

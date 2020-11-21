@@ -26,7 +26,6 @@ export default class UserController implements Controller {
     this.router.post(`${this.path}/login`, loginRules, validate, signJWT, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
     this.router.get(`${this.path}/token`, verifyJWT, this.token);
-    this.router.get(`${this.path}/user`, verifyJWT, this.user);
   }
 
   private register = async (req: Request, res: Response) => {
@@ -39,8 +38,9 @@ export default class UserController implements Controller {
     res.json(user);
   };
 
-  private login = async (req: Request, res: Response) => {
-    res.sendStatus(200);
+  private login = async (req: any, res: Response) => {
+    const { username } = req.body;
+    res.send({ username });
   };
 
   private logout = async (req: Request, res: Response) => {
@@ -48,12 +48,7 @@ export default class UserController implements Controller {
     res.sendStatus(200);
   };
 
-  private token = async (req: Request, res: Response) => {
+  private token = async (req: any, res: Response) => {
     res.sendStatus(200);
-  };
-
-  private user = async (req: any, res: Response) => {
-    const { username } = req;
-    res.json({ username });
   };
 }
