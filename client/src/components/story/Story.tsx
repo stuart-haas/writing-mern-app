@@ -21,7 +21,7 @@ const Story = () => {
   const [saved, setSaved] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setDirty(JSON.stringify(initialData) !== JSON.stringify(data));
@@ -59,6 +59,7 @@ const Story = () => {
       }
     };
     if (params.id) {
+      setLoading(true);
       fetchData();
     }
   }, [params]);
