@@ -8,7 +8,7 @@ Client: http://localhost:3000
 
 Server: http://localhost:5000
 
-```make start-dev```
+```yarn dev```
 
 Start nginx, client, server, database, and redis containers with docker compose
 
@@ -18,4 +18,4 @@ Client: http://localhost
 
 Server: http://localhost/api
 
-```yarn build-dev```
+```yarn start```
