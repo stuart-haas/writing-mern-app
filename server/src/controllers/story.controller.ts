@@ -4,6 +4,7 @@ import User from '@models/user.model';
 import Controller from '@common/interface';
 import StoryNotFoundException from '@exceptions/StoryNotFoundException';
 import { verifyJWT } from '@middlewares/user.middleware';
+import { selectFields } from 'express-validator/src/select-fields';
 
 export default class StoryController implements Controller {
   public path = '/story';
@@ -27,16 +28,21 @@ export default class StoryController implements Controller {
   }
 
   private findAll = async (req: any, res: Response) => {
-    const story = await Story.find({ status: 'Published' });
+    const story = await Story.find({ status: 'Published' }).populate(
+      'user',
+      'username'
+    );
     res.json(story);
   };
 
   private findAllByUserName = async (req: any, res: Response) => {
     const story = await User.findOne({
       username: req.params.username,
-    }).populate({ path: 'stories', match: { status: 'Published' } });
+    })
+      .select('username')
+      .populate({ path: 'stories', match: { status: 'Published' } });
     if (story) {
-      res.json(story.stories);
+      res.json(story);
     }
   };
 
