@@ -8,14 +8,20 @@ import './style.scss';
 
 const Dashboard = () => {
   const [stories, setStories] = useState([defaultProps]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getStory();
       setStories(data);
+      setLoading(false);
     };
     fetchData();
   }, []);
+
+  if (loading) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <div className='stories'>

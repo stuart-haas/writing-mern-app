@@ -21,6 +21,7 @@ const Story = () => {
   const [saved, setSaved] = useState<boolean>(false);
   const [deleted, setDeleted] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setDirty(JSON.stringify(initialData) !== JSON.stringify(data));
@@ -51,6 +52,7 @@ const Story = () => {
         if (response) {
           setData({ ...response });
           setInitialData({ ...response });
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
@@ -116,6 +118,10 @@ const Story = () => {
       console.log(error);
     }
   }, [params]);
+
+  if (loading) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <Fragment>
