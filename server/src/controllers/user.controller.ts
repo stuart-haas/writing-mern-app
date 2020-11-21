@@ -49,6 +49,7 @@ export default class UserController implements Controller {
   };
 
   private token = async (req: any, res: Response) => {
-    res.sendStatus(200);
+    const { username } = req;
+    res.send({ username });
   };
 }

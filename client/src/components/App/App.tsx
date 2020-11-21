@@ -1,10 +1,12 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 import Wrapper from 'components/Wrapper/Wrapper';
 import Stories from 'components/Stories/Stories';
 import Story from 'components/Story/Story';
 import Login from 'components/Login/Login';
-import withAuth from 'middlewares/withAuth';
+import RouteGuard from 'components/Route/RouteGuard';
+import { authToken } from 'redux/reducers/auth';
 import './style.scss';
 
 const ErrorPage = () => {
@@ -12,28 +14,22 @@ const ErrorPage = () => {
 };
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(authToken);
+  }, []);
+
   return (
-    <div className='app'>
-      <Router>
-        <Wrapper>
-          <Switch>
-            <Route path='/login' exact={true} component={Login} />
-            <Route path='/stories' exact={true} component={withAuth(Stories)} />
-            <Route
-              path='/stories/new'
-              exact={true}
-              component={withAuth(Story)}
-            />
-            <Route
-              path='/stories/edit/:id'
-              exact={true}
-              component={withAuth(Story)}
-            />
-            <Route component={ErrorPage} />
-          </Switch>
-        </Wrapper>
-      </Router>
-    </div>
+    <Wrapper>
+      <Switch>
+        <Route path='/login' exact={true} component={Login} />
+        <RouteGuard path='/stories' exact={true} component={Stories} />
+        <RouteGuard path='/stories/new' exact={true} component={Story} />
+        <RouteGuard path='/stories/edit/:id' exact={true} component={Story} />
+        <Route component={ErrorPage} />
+      </Switch>
+    </Wrapper>
   );
 };
 

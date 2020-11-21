@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 import { IUser } from 'common/interfaces';
 import { LOGIN, LOGOUT } from 'redux/actions';
-import { login, logout } from 'services/api';
+import { login, logout, token } from 'services/api';
 
 const INITIAL_STATE = {
   authenticated: false,
@@ -31,7 +31,7 @@ const Auth = (state = INITIAL_STATE, action: any) => {
   }
 };
 
-export const loginUser = (data: IUser) => {
+export const authLogin = (data: IUser) => {
   return async (dispatch: Dispatch) => {
     const response = await login(data);
     if (response) {
@@ -43,10 +43,20 @@ export const loginUser = (data: IUser) => {
   };
 };
 
-export const logoutUser = async (dispatch: Dispatch) => {
+export const authLogout = async (dispatch: Dispatch) => {
   const response = await logout();
   if (response) {
     dispatch({ type: LOGOUT, payload: { authenticated: false, username: '' } });
+  }
+};
+
+export const authToken = async (dispatch: Dispatch) => {
+  const response = await token();
+  if (response) {
+    dispatch({
+      type: LOGIN,
+      payload: { authenticated: true, username: response.data.username },
+    });
   }
 };
 

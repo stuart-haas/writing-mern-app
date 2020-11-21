@@ -1,26 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
-import { loginUser } from 'redux/reducers/auth';
+import { authLogin } from 'redux/reducers/auth';
 import './style.scss';
 
 const Login = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state: any) => state.auth);
-  const history = useHistory();
 
   const [data, setData] = useState<IUser>({
     username: '',
     password: '',
   });
-
-  useEffect(() => {
-    const { authenticated } = auth;
-    if (authenticated) {
-      history.push('/stories');
-    }
-  }, [auth, history]);
 
   function handleChange(e: any) {
     const { value, name } = e.target;
@@ -32,7 +24,11 @@ const Login = () => {
 
   function handleSubmit(e: any) {
     e.preventDefault();
-    dispatch(loginUser(data));
+    dispatch(authLogin(data));
+  }
+
+  if (auth.authenticated) {
+    return <Redirect to='/stories' />;
   }
 
   return (

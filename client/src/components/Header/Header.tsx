@@ -1,23 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { logoutUser } from 'redux/reducers/auth';
+import { Link, Redirect } from 'react-router-dom';
+import { authLogout } from 'redux/reducers/auth';
 import './style.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state: any) => state.auth);
-  const history = useHistory();
-
-  useEffect(() => {
-    const { authenticated } = auth;
-    if (!authenticated) {
-      history.push('/login');
-    }
-  }, [auth, history]);
 
   function handleLogout() {
-    dispatch(logoutUser);
+    dispatch(authLogout);
+  }
+
+  if (!auth.authenticated) {
+    return <Redirect to='/login' />;
   }
 
   return (
