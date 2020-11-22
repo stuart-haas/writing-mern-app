@@ -37,7 +37,7 @@ export default class UserController implements Controller {
     res.json(user);
   };
 
-  private login = async (req: any, res: Response) => {
+  private login = async (req: Request, res: Response) => {
     res.sendStatus(200);
   };
 
@@ -46,7 +46,7 @@ export default class UserController implements Controller {
     res.sendStatus(200);
   };
 
-  private token = async (req: any, res: Response) => {
+  private token = async (req: Request, res: Response) => {
     res.sendStatus(200);
   };
 }

@@ -29,9 +29,11 @@ const Header = () => {
           Profile
         </Link>
         {auth.authenticated && (
-          <button className='btn nav__item' onClick={handleLogout}>
-            Logout
-          </button>
+          <span className='nav__item'>
+            <button className='btn' onClick={handleLogout}>
+              Logout
+            </button>
+          </span>
         )}
       </nav>
     </header>

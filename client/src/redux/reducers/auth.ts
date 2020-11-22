@@ -17,7 +17,6 @@ const Auth = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         authenticated,
-        token,
       };
     }
     case LOGOUT: {
@@ -25,7 +24,6 @@ const Auth = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         authenticated,
-        token,
       };
     }
     case TOKEN: {

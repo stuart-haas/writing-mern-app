@@ -8,8 +8,10 @@ const RouteGuard = ({ component, ...rest }: any) => {
   const auth = useSelector((state: any) => state.auth);
 
   useEffect(() => {
-    dispatch(authToken);
-  }, [dispatch]);
+    if (!auth.authenticated) {
+      dispatch(authToken);
+    }
+  }, [auth, dispatch]);
 
   return (
     <Route

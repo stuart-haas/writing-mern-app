@@ -6,7 +6,7 @@ import { getTimeAgo } from 'utils/functions';
 import { defaultProps } from 'components/story/Story';
 import './style.scss';
 
-const Dashboard = () => {
+const Stories = () => {
   const [stories, setStories] = useState([defaultProps]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -71,4 +71,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Stories;
