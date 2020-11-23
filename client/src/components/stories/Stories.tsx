@@ -26,7 +26,7 @@ const Stories = () => {
   return (
     <div className='stories'>
       {stories.length ? (
-        <Link className='btn' to='/stories/new'>
+        <Link className='button' to='/stories/new'>
           New Story
         </Link>
       ) : null}
@@ -34,7 +34,7 @@ const Stories = () => {
         stories.map((story: IStory, index: number) => (
           <Link
             key={index}
-            className='stories__story'
+            className='stories__story link'
             to={`/stories/edit/${story._id}`}
           >
             <h1 className='h1'>{story.title}</h1>
@@ -62,7 +62,7 @@ const Stories = () => {
       ) : (
         <div className='text-center'>
           <h1>{`Looks like you don't have any stories`}</h1>
-          <Link className='btn btn-light btn-sm' to='/stories/new'>
+          <Link className='button button-light button-sm' to='/stories/new'>
             Start writing
           </Link>
         </div>

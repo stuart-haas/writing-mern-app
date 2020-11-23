@@ -1,24 +1,16 @@
-.btn-group {
-  .btn {
+.button-group {
+  .button {
     &:not(:last-child) {
       margin-right: 0.5rem;
     }
   }
 }
 
-.btn {
-  padding: 0.25rem 0.35rem;
-  border: solid 1px #000;
-  background-color: #fff;
+.button {
+  @include depth-shadow;
+  width: 100%;
+  padding: 0.5rem;
+  background-color: $green;
   border-radius: 3px;
-  outline: none;
-
-  &:disabled {
-    border-color: #999;
-    color: #999;
-  }
-
-  &:hover {
-    background-color: #eee;
-  }
+  color: $light-gray;
 }

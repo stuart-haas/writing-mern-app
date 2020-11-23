@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import Wrapper from 'components/wrapper/Wrapper';
 import Stories from 'components/stories/Stories';
 import Story from 'components/story/Story';
-import Login from 'components/login/Login';
-import Register from 'components/register/Register';
+import Login from 'components/forms/Login';
+import Register from 'components/forms/Register';
 import RouteGuard from 'components/route/RouteGuard';
 import './style.scss';
 

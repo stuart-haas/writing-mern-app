@@ -22,15 +22,15 @@ const Header = () => {
   return (
     <header className='header flex justify-end'>
       <nav className='nav'>
-        <Link className='nav__item' to='/stories'>
+        <Link className='link' to='/stories'>
           Stories
         </Link>
-        <Link className='nav__item' to='/profile'>
+        <Link className='link' to='/profile'>
           Profile
         </Link>
         {auth.authenticated && (
-          <span className='nav__item'>
-            <button className='btn' onClick={handleLogout}>
+          <span className='link'>
+            <button className='button' onClick={handleLogout}>
               Logout
             </button>
           </span>

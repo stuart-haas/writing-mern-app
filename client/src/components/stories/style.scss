@@ -1,11 +1,13 @@
+@import '../../styles/utils/variables';
+
 .stories {
   &__story {
     display: block;
     padding: 1rem 0;
-    border-bottom: solid 1px #000;
+    border-bottom: solid 1px $light-gray;
 
     &-meta {
-      color: #333;
+      color: $light-gray;
       font-size: 0.875rem;
     }
   }

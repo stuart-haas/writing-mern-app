@@ -131,15 +131,15 @@ const Story = () => {
       <div className='story'>
         <div className='story__toolbar flex align-center justify-between'>
           <div className='flex align-center'>
-            <div className='btn-group'>
+            <div className='button-group'>
               <button
-                className='btn'
+                className='button'
                 disabled={!dirty}
                 onClick={() => handleSave()}
               >
                 Save
               </button>
-              <button className='btn' onClick={() => handlePublish()}>
+              <button className='button' onClick={() => handlePublish()}>
                 {data.status === 'Draft' ? 'Publish' : 'Unpublish'}
               </button>
             </div>
@@ -161,7 +161,7 @@ const Story = () => {
           </div>
           <div className='flex align-center'>
             {data._id && (
-              <button className='btn' onClick={() => handleDelete()}>
+              <button className='button' onClick={() => handleDelete()}>
                 Delete
               </button>
             )}

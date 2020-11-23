@@ -4,20 +4,23 @@
 @import 'utils/behaviors';
 @import 'utils/text';
 @import 'layout/grid';
+@import 'components/link';
 @import 'components/button';
 @import 'components/input';
 @import 'components/heading';
 @import 'components/misc';
 
 * {
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
 html,
 body {
+  background-color: $black;
   font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 main {
@@ -34,6 +37,16 @@ button {
 }
 
 a {
-  color: #000;
   text-decoration: none;
+}
+
+input {
+  display: block;
+}
+
+input,
+ 
+button {
+  border: 0;
+  outline: none;
 }

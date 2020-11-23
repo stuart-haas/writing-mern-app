@@ -1,15 +1,24 @@
-form {
+.form {
+  @include depth-shadow(2);
+  max-width: 400px;
   padding: 1rem;
-
-  input {
-    margin: 1rem 0;
-  }
+  margin: 0 auto;
+  background-color: $gray;
+  border-radius: 3px;
 }
 
-input {
-  display: block;
-  padding: 0.25rem 0.35rem;
-  border: 0;
-  border-bottom: solid 1px #000;
-  outline: none;
+.field {
+  margin-bottom: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.5rem;
+  border-bottom: solid 1px $light-gray;
+  background-color: transparent;
+  color: $light-gray;
+
+  &.center {
+    margin: 0 auto;
+  }
 }
