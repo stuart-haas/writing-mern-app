@@ -1,5 +1,8 @@
 .button-group {
   .button {
+    display: inline-block;
+    width: auto;
+    
     &:not(:last-child) {
       margin-right: 0.5rem;
     }

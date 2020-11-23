@@ -1,6 +1,10 @@
+@import '../../styles/utils/variables';
+
 .story {
   &__title {
     border: 0;
+    background-color: $black;
+    color: $light-gray;
   }
 
   &__toolbar {
@@ -11,6 +15,7 @@
     margin-left: 1rem;
 
     &-data {
+      color: $light-gray;
       font-size: 0.875rem;
     }
   }
@@ -18,4 +23,34 @@
 
 .w-md-editor {
   box-shadow: none;
+}
+
+.editor-toolbar {
+  border: 0;
+
+  button {
+    color: $light-gray;
+
+    &:hover {
+      background-color: $gray;
+    }
+  }
+}
+
+.EasyMDEContainer {
+  .CodeMirror {
+    border: 0;
+  }
+}
+
+.CodeMirror {
+  background-color: $gray;
+
+  span {
+    color: $light-gray;
+  }
+}
+
+.CodeMirror-cursor {
+  border-color: $light-gray;
 }
