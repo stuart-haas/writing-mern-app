@@ -6,10 +6,7 @@ import Story from 'components/story/Story';
 import Login from 'components/forms/Login';
 import Register from 'components/forms/Register';
 import RouteGuard from 'components/route/RouteGuard';
-
-const ErrorPage = () => {
-  return <h1>404 - Not Found</h1>;
-};
+import PageNotFound from 'components/pages/404';
 
 const App = () => {
   return (
@@ -20,7 +17,7 @@ const App = () => {
         <RouteGuard path='/stories' exact={true} component={Stories} />
         <RouteGuard path='/stories/new' exact={true} component={Story} />
         <RouteGuard path='/stories/edit/:id' exact={true} component={Story} />
-        <Route component={ErrorPage} />
+        <Route component={PageNotFound} />
       </Switch>
     </Wrapper>
   );
