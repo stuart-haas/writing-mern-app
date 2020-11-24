@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import { authToken } from 'redux/reducers/auth';
 
-const RouteGuard = ({ component, ...rest }: any) => {
+const ProtectedRoute = ({ component, ...rest }: any) => {
   const dispatch = useDispatch();
   const auth = useSelector((state: any) => state.auth);
 
@@ -27,4 +27,4 @@ const RouteGuard = ({ component, ...rest }: any) => {
   );
 };
 
-export default RouteGuard;
+export default ProtectedRoute;

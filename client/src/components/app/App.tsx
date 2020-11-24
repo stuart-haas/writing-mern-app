@@ -5,7 +5,7 @@ import Stories from 'components/stories/Stories';
 import Story from 'components/story/Story';
 import Login from 'components/forms/Login';
 import Register from 'components/forms/Register';
-import RouteGuard from 'components/route/RouteGuard';
+import ProtectedRoute from 'components/route/ProtectedRoute';
 import PageNotFound from 'components/pages/404';
 
 const App = () => {
@@ -14,9 +14,13 @@ const App = () => {
       <Switch>
         <Route path='/login' exact={true} component={Login} />
         <Route path='/register' exact={true} component={Register} />
-        <RouteGuard path='/stories' exact={true} component={Stories} />
-        <RouteGuard path='/stories/new' exact={true} component={Story} />
-        <RouteGuard path='/stories/edit/:id' exact={true} component={Story} />
+        <ProtectedRoute path='/stories' exact={true} component={Stories} />
+        <ProtectedRoute path='/stories/new' exact={true} component={Story} />
+        <ProtectedRoute
+          path='/stories/edit/:id'
+          exact={true}
+          component={Story}
+        />
         <Route component={PageNotFound} />
       </Switch>
     </Wrapper>
