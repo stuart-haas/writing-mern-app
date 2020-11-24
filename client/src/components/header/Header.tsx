@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { authLogout } from 'redux/reducers/auth';
-import './style.scss';
+import classnames from 'classnames';
+import styles from './header.module.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -20,16 +21,16 @@ const Header = () => {
   }
 
   return (
-    <header className='header flex justify-end'>
-      <nav className='nav'>
-        <Link className='link' to='/stories'>
+    <header className={classnames(styles.root, 'flex justify-end')}>
+      <nav className={styles.nav}>
+        <Link className={classnames(styles.navLink, 'link')} to='/stories'>
           Stories
         </Link>
-        <Link className='link' to='/profile'>
+        <Link className={classnames(styles.navLink, 'link')} to='/profile'>
           Profile
         </Link>
         {auth.authenticated && (
-          <span className='link'>
+          <span className={classnames(styles.navLink, 'link')}>
             <button className='button' onClick={handleLogout}>
               Logout
             </button>

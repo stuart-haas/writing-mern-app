@@ -1,12 +1,12 @@
 import React from 'react';
-import './style.scss';
+import styles from './main.module.scss';
 
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
 
 const Main = (props: Props) => {
-  return <main>{props.children}</main>;
+  return <main className={styles.root}>{props.children}</main>;
 };
 
 export default Main;

@@ -4,8 +4,9 @@ import SimpleMDE from 'react-simplemde-editor';
 import { getStory, saveStory, deleteStory } from 'services/api';
 import { IParams, IStory } from 'common/interfaces';
 import { getTimeAgo } from 'utils/functions';
+import classnames from 'classnames';
 import 'easymde/dist/easymde.min.css';
-import './style.scss';
+import styles from './story.module.scss';
 
 export const defaultProps = {
   title: 'Something creative',
@@ -128,8 +129,13 @@ const Story = () => {
     <Fragment>
       {deleted ? <Redirect to='/stories' /> : null}
       <Prompt when={dirty} message='Are you sure you want to leave?' />
-      <div className='story'>
-        <div className='story__toolbar flex align-center justify-between'>
+      <div className={styles.root}>
+        <div
+          className={classnames(
+            styles.toolbar,
+            'flex align-center justify-between'
+          )}
+        >
           <div className='flex align-center'>
             <div className='button-group'>
               <button
@@ -143,14 +149,14 @@ const Story = () => {
                 {data.status === 'Draft' ? 'Publish' : 'Unpublish'}
               </button>
             </div>
-            <div className='story__meta'>
+            <div className={styles.meta}>
               {data.updatedAt && (
-                <span className='story__meta-data'>{`Last updated ${getTimeAgo(
+                <span className={styles.metaData}>{`Last updated ${getTimeAgo(
                   data.updatedAt
                 )}`}</span>
               )}
               <span
-                className={`story__meta-data ${
+                className={`${styles.metaData} ${
                   dirty || saved ? 'is-visible' : 'is-hidden'
                 }`}
               >
@@ -168,13 +174,15 @@ const Story = () => {
           </div>
         </div>
 
-        <input
-          className='story__title h1'
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setData({ ...data, title: e.currentTarget.value });
-          }}
-          value={data.title}
-        />
+        <div className={styles.title}>
+          <input
+            className='h1'
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setData({ ...data, title: e.currentTarget.value });
+            }}
+            value={data.title}
+          />
+        </div>
         <div className='story__editor'>
           <SimpleMDE
             value={data.content}
@@ -183,6 +191,7 @@ const Story = () => {
             }
             options={{
               autofocus: true,
+              status: false,
               toolbar: [
                 'bold',
                 'italic',

@@ -1,0 +1,7 @@
+.form {
+  @include depth-shadow(2);
+  max-width: 400px;
+  padding: 1rem;
+  margin: 0 auto;
+  border-radius: 3px;
+}

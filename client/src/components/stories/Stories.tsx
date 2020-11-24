@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { getStory } from 'services/api';
 import { getTimeAgo } from 'utils/functions';
 import { defaultProps } from 'components/story/Story';
-import './style.scss';
+import classnames from 'classnames';
+import styles from './stories.module.scss';
 
 const Stories = () => {
   const [stories, setStories] = useState([defaultProps]);
@@ -24,7 +25,7 @@ const Stories = () => {
   }
 
   return (
-    <div className='stories'>
+    <div className={styles.root}>
       {stories.length ? (
         <Link className='button' to='/stories/new'>
           New Story
@@ -34,11 +35,11 @@ const Stories = () => {
         stories.map((story: IStory, index: number) => (
           <Link
             key={index}
-            className='stories__story link'
+            className={classnames(styles.story, 'link')}
             to={`/stories/edit/${story._id}`}
           >
             <h1 className='h1'>{story.title}</h1>
-            <div className='stories__story-meta'>
+            <div className={styles.storyMeta}>
               <span>{story.status}</span>
               <Fragment>
                 <span className='pipe'>|</span>

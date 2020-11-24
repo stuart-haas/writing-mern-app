@@ -4,11 +4,12 @@
 @import 'utils/behaviors';
 @import 'utils/text';
 @import 'layout/grid';
+@import 'components/form';
 @import 'components/link';
 @import 'components/button';
 @import 'components/input';
 @import 'components/heading';
-@import 'components/misc';
+@import 'components/extras';
 
 * {
   box-sizing: border-box;
@@ -18,7 +19,6 @@
 
 html,
 body {
-  background-color: $black;
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
 }
@@ -45,7 +45,6 @@ input {
 }
 
 input,
- 
 button {
   border: 0;
   outline: none;

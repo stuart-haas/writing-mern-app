@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from 'components/header/Header';
 import Main from 'components/main/Main';
-import './style.scss';
+import styles from './wrapper.module.scss';
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -9,7 +9,7 @@ interface Props {
 
 const Wrapper = (props: Props) => {
   return (
-    <div className='wrapper'>
+    <div className={styles.root}>
       <Header />
       <Main>{props.children}</Main>
     </div>

@@ -1,6 +1,15 @@
-$light-gray: #fffcf2;
-$medium-gray: #ccc5b9;
-$gray: #252422;
-$black: #403d39;
-$orange: #eb5e28;
-$green: #52b788;
+:root {
+  --color-black: #403d39;
+  --color-light-gray: #fffcf2;
+  --color-medium-gray: #ccc5b9;
+  --color-gray: #252422;
+  --color-orange: #eb5e28;
+  --color-green: #52b788;
+}
+
+$light-gray: var(--color-light-gray);
+$medium-gray: var(--color-medium-gray);
+$gray: var(--color-gray);
+$black: var(--color-black);
+$orange: var(--color-orange);
+$green: var(--color-green);
