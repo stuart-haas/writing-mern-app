@@ -6,7 +6,6 @@ import Story from 'components/story/Story';
 import Login from 'components/forms/Login';
 import Register from 'components/forms/Register';
 import RouteGuard from 'components/route/RouteGuard';
-import './style.scss';
 
 const ErrorPage = () => {
   return <h1>404 - Not Found</h1>;
