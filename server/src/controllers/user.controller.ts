@@ -6,7 +6,6 @@ import {
   hashPassword,
   loginRules,
   signJWT,
-  verifyJWT,
 } from '@middlewares/user.middleware';
 import { validate } from '@common/middleware';
 

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from 'redux/store';
 
 export const usePrevious = <T>(value: T) => {
   const ref = useRef<T>();
@@ -11,7 +10,7 @@ export const usePrevious = <T>(value: T) => {
 };
 
 export const useAuth = () => {
-  const auth = useSelector((state: RootState) => state.auth);
+  const auth = useSelector((state: any) => state.auth);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {

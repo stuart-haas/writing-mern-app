@@ -42,7 +42,7 @@ export default class App {
   }
 
   private useEnv() {
-    dotenv.config({ path: '../.env' });
+    dotenv.config();
   }
 
   private useMiddlewares() {

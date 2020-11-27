@@ -1,9 +1,14 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from 'redux/actions';
+import { apiInterceptor } from 'services/api';
+import auth from 'redux/auth/reducers';
 
-export type RootState = ReturnType<typeof rootReducer>;
+const rootReducer = combineReducers({
+  auth,
+});
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
+
+apiInterceptor(store);
 
 export default store;

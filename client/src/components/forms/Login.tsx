@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
-import { authLogin } from 'redux/actions/auth';
-import { RootState } from 'redux/store';
+import { authLogin } from 'redux/auth/actions';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state: RootState) => state.auth);
+  const auth = useSelector((state: any) => state.auth);
 
   const [data, setData] = useState<IUser>({
     username: '',

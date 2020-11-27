@@ -23,8 +23,6 @@ services:
     build: 
       context: ./server
       target: dev
-    env_file:
-      - .env
     depends_on:
       - database
       - redis
@@ -39,8 +37,8 @@ services:
   database:
     container_name: fable_database
     image: mongo
-    env_file:
-      - .env
+    environment:
+      - MONGO_INITDB_DATABASE=fable
     volumes:
       - mongo-data:/data/db
 

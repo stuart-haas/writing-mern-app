@@ -26,7 +26,7 @@ export default class StoryController implements Controller {
     this.router.delete(`${this.path}/:id`, verifyJWT, this.deleteOne);
   }
 
-  private findAll = async (req: any, res: Response) => {
+  private findAll = async (req: Request, res: Response) => {
     const story = await Story.find({ status: 'Published' }).populate(
       'user',
       'username'
@@ -34,7 +34,7 @@ export default class StoryController implements Controller {
     res.json(story);
   };
 
-  private findAllByUserName = async (req: any, res: Response) => {
+  private findAllByUserName = async (req: Request, res: Response) => {
     const story = await User.findOne({
       username: req.params.username,
     })

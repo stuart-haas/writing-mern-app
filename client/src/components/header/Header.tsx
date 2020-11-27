@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { authLogout } from 'redux/actions/auth';
+import { authLogout } from 'redux/auth/actions';
 import { useAuth } from 'utils/hooks';
 import classnames from 'classnames';
 import styles from './header.module.scss';

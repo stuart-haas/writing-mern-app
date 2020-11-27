@@ -1,19 +1,45 @@
 import axios from 'axios';
 import { IStory, IUser } from 'common/interfaces';
+import { authLogout } from 'redux/auth/actions';
 
-export const axiosClient = axios.create({
-  baseURL: new URL('/api', 'http://localhost:5000').toString(),
+const api = axios.create({
+  baseURL: new URL('/api', process.env.REACT_APP_SERVER_URL).toString(),
   withCredentials: true,
 });
 
+export const apiInterceptor = (store: any) => {
+  api.interceptors.request.use(
+    (config) => {
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  api.interceptors.response.use(
+    (next) => {
+      return Promise.resolve(next);
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        store.dispatch(authLogout);
+      }
+      if (error.response.status === 422) {
+        window.alert('Invalid credentials');
+      }
+      return Promise.reject(error);
+    }
+  );
+};
+
 export async function getStory(id = '') {
-  const response = await axiosClient.get(`/story/${id}`);
+  const response = await api.get(`/story/${id}`);
   return response.data;
 }
 
 export async function saveStory(data: IStory, id = '') {
   const method = id ? 'PATCH' : 'POST';
-  const response = await axiosClient.request({
+  const response = await api.request({
     url: `/story/${id}`,
     method,
     data,
@@ -22,20 +48,13 @@ export async function saveStory(data: IStory, id = '') {
 }
 
 export async function deleteStory(id: string) {
-  const response = await axiosClient.delete(`/story/${id}`);
+  const response = await api.delete(`/story/${id}`);
   return response.data;
 }
 
 export async function register(data: IUser) {
-  const response = await axiosClient.post('/auth/register', data);
+  const response = await api.post('/auth/register', data);
   return response.data;
 }
 
-export async function login(data: IUser) {
-  const response = await axiosClient.post('/auth/login', data);
-  return response.data;
-}
-
-export async function logout() {
-  return await axiosClient.post('/auth/logout');
-}
+export default api;
