@@ -4,8 +4,6 @@ import * as jwt from 'jsonwebtoken';
 import { check } from 'express-validator';
 import User from '@models/user.model';
 
-const secret = 'mysupersecretkey';
-
 export const registrationRules = [
   check('username', 'Your username must have more than 5 characters')
     .exists()
@@ -66,7 +64,7 @@ export const verifyJWT = (req: any, res: Response, next: NextFunction) => {
   if (!token) {
     res.status(401).json({ error: 'Unauthorized: No token provided' });
   } else {
-    jwt.verify(token, secret, (error: any, decoded: any) => {
+    jwt.verify(token, process.env.JWT_SECRET!, (error: any, decoded: any) => {
       if (error) {
         res.status(401).json({ error: 'Unauthorized: Invalid token' });
       } else {
@@ -78,20 +76,17 @@ export const verifyJWT = (req: any, res: Response, next: NextFunction) => {
   }
 };
 
-export const signJWT = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const signJWT = async (req: any, res: Response, next: NextFunction) => {
   const user = await User.findOne({ username: req.body.username });
   if (user) {
     const { _id, username } = user;
     const payload = { _id, username };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: '5sec',
+      expiresIn: process.env.JWT_EXPIRATION,
     });
     res.cookie('token', token, { httpOnly: true });
+    req.user = { _id, username };
     return next();
   }
 };

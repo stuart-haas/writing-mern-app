@@ -39,8 +39,3 @@ export async function login(data: IUser) {
 export async function logout() {
   return await axiosClient.post('/auth/logout');
 }
-
-export async function token() {
-  const response = await axiosClient.get('/auth/token');
-  return response.data;
-}

@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
+import { useAuth } from 'utils/hooks';
 
 const PrivateRoute = ({ component, ...rest }: any) => {
-  const auth = useSelector((state: any) => state.auth);
+  const isAuthenticated = useAuth();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    console.log(token);
-  }, [auth]);
+  if (isAuthenticated === null) {
+    return <></>;
+  }
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        auth.authenticated ? (
+        isAuthenticated ? (
           React.createElement(component, props)
         ) : (
           <Redirect to='/login' />

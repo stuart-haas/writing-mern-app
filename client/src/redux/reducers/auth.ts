@@ -1,35 +1,30 @@
 import { Dispatch } from 'redux';
 import { IUser } from 'common/interfaces';
-import { login, logout, token } from 'services/api';
+import { login, logout } from 'services/api';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
-const TOKEN = 'TOKEN';
 
 const INITIAL_STATE = {
+  user: {},
   authenticated: false,
 };
 
 const Auth = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case LOGIN: {
-      const { authenticated } = action.payload;
+      const { user, authenticated } = action.payload;
       return {
         ...state,
+        user,
         authenticated,
       };
     }
     case LOGOUT: {
-      const { authenticated } = action.payload;
+      const { user, authenticated } = action.payload;
       return {
         ...state,
-        authenticated,
-      };
-    }
-    case TOKEN: {
-      const { authenticated } = action.payload;
-      return {
-        ...state,
+        user,
         authenticated,
       };
     }
@@ -40,37 +35,27 @@ const Auth = (state = INITIAL_STATE, action: any) => {
 
 export const authLogin = (data: IUser) => {
   return async (dispatch: Dispatch) => {
-    const response = await login(data);
-    if (response) {
+    try {
+      const { _id, username } = await login(data);
+      const user = { _id, username };
+      localStorage.setItem('user', JSON.stringify(user));
       dispatch({
         type: LOGIN,
-        payload: { authenticated: true },
+        payload: { user, authenticated: true },
       });
+    } catch (error) {
+      console.log(error);
     }
   };
 };
 
 export const authLogout = async (dispatch: Dispatch) => {
-  const response = await logout();
-  if (response) {
-    dispatch({ type: LOGOUT, payload: { authenticated: false } });
-  }
-};
-
-export const authToken = async (dispatch: Dispatch) => {
   try {
-    const response = await token();
-    if (response) {
-      dispatch({
-        type: TOKEN,
-        payload: { authenticated: true },
-      });
-    }
+    await logout();
+    localStorage.removeItem('user');
+    dispatch({ type: LOGOUT, payload: { user: {}, authenticated: false } });
   } catch (error) {
-    dispatch({
-      type: TOKEN,
-      payload: { authenticated: false },
-    });
+    console.log(error);
   }
 };
 

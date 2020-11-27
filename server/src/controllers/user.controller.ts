@@ -24,7 +24,6 @@ export default class UserController implements Controller {
     // eslint-disable-next-line prettier/prettier
     this.router.post(`${this.path}/login`, loginRules, validate, signJWT, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
-    this.router.get(`${this.path}/token`, verifyJWT, this.token);
   }
 
   private register = async (req: Request, res: Response) => {
@@ -37,16 +36,11 @@ export default class UserController implements Controller {
     res.json(user);
   };
 
-  private login = async (req: Request, res: Response) => {
-    res.sendStatus(200);
+  private login = async (req: any, res: Response) => {
+    res.json(req.user);
   };
 
   private logout = async (req: Request, res: Response) => {
-    res.clearCookie('token');
-    res.sendStatus(200);
-  };
-
-  private token = async (req: Request, res: Response) => {
-    res.sendStatus(200);
+    res.clearCookie('token').sendStatus(200);
   };
 }

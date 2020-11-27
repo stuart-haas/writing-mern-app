@@ -4,7 +4,6 @@ import User from '@models/user.model';
 import Controller from '@common/interface';
 import StoryNotFoundException from '@exceptions/StoryNotFoundException';
 import { verifyJWT } from '@middlewares/user.middleware';
-import { selectFields } from 'express-validator/src/select-fields';
 
 export default class StoryController implements Controller {
   public path = '/story';
