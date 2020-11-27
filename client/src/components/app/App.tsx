@@ -5,7 +5,7 @@ import Stories from 'components/stories/Stories';
 import Story from 'components/story/Story';
 import Login from 'components/forms/Login';
 import Register from 'components/forms/Register';
-import ProtectedRoute from 'components/route/ProtectedRoute';
+import PrivateRoute from 'components/route/PrivateRoute';
 import PageNotFound from 'components/pages/404';
 
 const App = () => {
@@ -14,13 +14,9 @@ const App = () => {
       <Switch>
         <Route path='/login' exact={true} component={Login} />
         <Route path='/register' exact={true} component={Register} />
-        <ProtectedRoute path='/stories' exact={true} component={Stories} />
-        <ProtectedRoute path='/stories/new' exact={true} component={Story} />
-        <ProtectedRoute
-          path='/stories/edit/:id'
-          exact={true}
-          component={Story}
-        />
+        <PrivateRoute path='/stories' exact={true} component={Stories} />
+        <PrivateRoute path='/stories/new' exact={true} component={Story} />
+        <PrivateRoute path='/stories/edit/:id' exact={true} component={Story} />
         <Route component={PageNotFound} />
       </Switch>
     </Wrapper>

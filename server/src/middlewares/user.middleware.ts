@@ -89,7 +89,7 @@ export const signJWT = async (
     const payload = { _id, username };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: '15min',
+      expiresIn: '5sec',
     });
     res.cookie('token', token, { httpOnly: true });
     return next();

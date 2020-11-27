@@ -58,11 +58,18 @@ export const authLogout = async (dispatch: Dispatch) => {
 };
 
 export const authToken = async (dispatch: Dispatch) => {
-  const response = await token();
-  if (response) {
+  try {
+    const response = await token();
+    if (response) {
+      dispatch({
+        type: TOKEN,
+        payload: { authenticated: true },
+      });
+    }
+  } catch (error) {
     dispatch({
       type: TOKEN,
-      payload: { authenticated: true },
+      payload: { authenticated: false },
     });
   }
 };

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "make dev",
-    "start": "make build",
+    "start": "make start",
+    "build": "make build",
     "lint": "yarn run-s lint:css lint:ts -c",
     "lint:ts": "eslint client server --ext .ts,.tsx",
     "lint:css": "npx stylelint -f verbose -q client/**/*.scss",
