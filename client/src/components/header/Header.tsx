@@ -10,10 +10,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useAuth();
 
-  function handleLogout() {
-    dispatch(authLogout);
-  }
-
   return (
     <header className={classnames(styles.root, 'flex justify-end')}>
       <nav className={styles.nav}>
@@ -25,7 +21,7 @@ const Header = () => {
         </Link>
         {isAuthenticated && (
           <span className={classnames(styles.navLink, 'link')}>
-            <button className='button' onClick={handleLogout}>
+            <button className='button' onClick={() => dispatch(authLogout)}>
               Logout
             </button>
           </span>
