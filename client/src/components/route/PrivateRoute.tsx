@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { useAuth } from 'utils/hooks';
 
-const PrivateRoute = ({ component, ...rest }: any) => {
+const PrivateRoute = ({ component: Component, ...rest }: any) => {
   const isAuthenticated = useAuth();
 
   if (isAuthenticated === null) {
@@ -13,11 +13,7 @@ const PrivateRoute = ({ component, ...rest }: any) => {
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated ? (
-          React.createElement(component, props)
-        ) : (
-          <Redirect to='/login' />
-        )
+        isAuthenticated ? <Component {...props} /> : <Redirect to='/login' />
       }
     />
   );

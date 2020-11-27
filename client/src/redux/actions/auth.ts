@@ -2,17 +2,34 @@ import { Dispatch } from 'redux';
 import { IUser } from 'common/interfaces';
 import { login, logout } from 'services/api';
 
-const LOGIN = 'LOGIN';
-const LOGOUT = 'LOGOUT';
-
 const INITIAL_STATE = {
   user: {},
   authenticated: false,
 };
 
-const Auth = (state = INITIAL_STATE, action: any) => {
+enum ActionTypes {
+  LOGIN = 'LOGIN',
+  LOGOUT = 'LOGOUT',
+}
+
+interface AuthUser {
+  _id: string;
+  user: string;
+}
+
+interface AuthPayload {
+  user: AuthUser;
+  authenticated: boolean;
+}
+
+export interface AuthAction {
+  type: ActionTypes;
+  payload: AuthPayload;
+}
+
+const Auth = (state = INITIAL_STATE, action: AuthAction) => {
   switch (action.type) {
-    case LOGIN: {
+    case ActionTypes.LOGIN: {
       const { user, authenticated } = action.payload;
       return {
         ...state,
@@ -20,7 +37,7 @@ const Auth = (state = INITIAL_STATE, action: any) => {
         authenticated,
       };
     }
-    case LOGOUT: {
+    case ActionTypes.LOGOUT: {
       const { user, authenticated } = action.payload;
       return {
         ...state,
@@ -40,7 +57,7 @@ export const authLogin = (data: IUser) => {
       const user = { _id, username };
       localStorage.setItem('user', JSON.stringify(user));
       dispatch({
-        type: LOGIN,
+        type: ActionTypes.LOGIN,
         payload: { user, authenticated: true },
       });
     } catch (error) {
@@ -53,7 +70,10 @@ export const authLogout = async (dispatch: Dispatch) => {
   try {
     await logout();
     localStorage.removeItem('user');
-    dispatch({ type: LOGOUT, payload: { user: {}, authenticated: false } });
+    dispatch({
+      type: ActionTypes.LOGOUT,
+      payload: { user: {}, authenticated: false },
+    });
   } catch (error) {
     console.log(error);
   }

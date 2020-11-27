@@ -12,7 +12,7 @@ const Register = () => {
     passwordConfirm: '',
   });
 
-  function handleChange(e: any) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
     setData({
       ...data,
@@ -20,7 +20,7 @@ const Register = () => {
     });
   }
 
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const response = await register(data);
     if (response) {
