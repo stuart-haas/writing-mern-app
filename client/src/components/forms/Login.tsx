@@ -52,7 +52,7 @@ const Login = () => {
           onChange={handleChange}
         />
       </div>
-      <button className='button'>Login</button>
+      <button className='button success'>Login</button>
     </form>
   );
 };

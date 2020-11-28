@@ -1,0 +1,45 @@
+.toast-container {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  padding: 1rem;
+}
+
+.toast {
+  @include depth-shadow(1);
+  position: relative;
+  padding: 1rem;
+  border-radius: 3px;
+  color: $color-light-gray;
+  transition: all 0.3s ease;
+
+  &:not(:first-of-type) {
+    margin-top: 1rem;
+  }
+
+  &.success {
+    background-color: $color-green;
+  }
+
+  &.error {
+    background-color: $color-red;
+  }
+}
+
+.toast-transition-enter {
+  opacity: 0;
+}
+
+.toast-transition-enter-active {
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.toast-transition-exit {
+  opacity: 1;
+}
+
+.toast-transition-exit-active {
+  opacity: 0;
+  transition: all 0.3s ease;
+}

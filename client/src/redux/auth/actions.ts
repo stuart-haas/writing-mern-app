@@ -1,7 +1,9 @@
 import { Dispatch } from 'redux';
+import store from 'redux/store';
 import ActionTypes from './actionTypes';
 import { IUser } from 'common/interfaces';
 import api from 'services/api';
+import { addMessage } from 'redux/message/actions';
 
 export const authLogin = (data: IUser) => {
   return async (dispatch: Dispatch) => {

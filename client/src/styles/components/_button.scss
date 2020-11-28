@@ -13,7 +13,35 @@
   @include depth-shadow;
   width: 100%;
   padding: 0.5rem;
-  background-color: $green;
+  background-color: $color-gray;
   border-radius: 3px;
-  color: $light-gray;
+  color: $color-light-gray;
+
+  &:hover {
+    background-color: darken($color-gray, 5%);
+  }
+
+  &.success {
+    background-color: $color-green;
+
+    &:hover {
+      background-color: darken($color-green, 5%);
+    }
+  }
+
+  &.warning {
+    background-color: $color-orange;
+
+    &:hover {
+      background-color: darken($color-orange, 5%);
+    }
+  }
+
+  &.danger {
+    background-color: $color-red;
+
+    &:hover {
+      background-color: darken($color-red, 5%);
+    }
+  }
 }

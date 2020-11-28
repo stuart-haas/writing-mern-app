@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IStory, IUser } from 'common/interfaces';
+import { IStory } from 'common/interfaces';
 import { authLogout } from 'redux/auth/actions';
 
 const api = axios.create({
@@ -25,7 +25,7 @@ export const apiInterceptor = (store: any) => {
         store.dispatch(authLogout);
       }
       if (error.response.status === 422) {
-        window.alert('Invalid credentials');
+        console.log(error);
       }
       return Promise.reject(error);
     }

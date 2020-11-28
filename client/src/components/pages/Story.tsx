@@ -4,9 +4,7 @@ import SimpleMDE from 'react-simplemde-editor';
 import { getStory, saveStory, deleteStory } from 'services/api';
 import { IParams, IStory } from 'common/interfaces';
 import { getTimeAgo } from 'utils/functions';
-import classnames from 'classnames';
 import 'easymde/dist/easymde.min.css';
-import styles from './story.module.scss';
 
 export const defaultProps = {
   title: 'Something creative',
@@ -129,34 +127,32 @@ const Story = () => {
     <Fragment>
       {deleted ? <Redirect to='/stories' /> : null}
       <Prompt when={dirty} message='Are you sure you want to leave?' />
-      <div className={styles.root}>
-        <div
-          className={classnames(
-            styles.toolbar,
-            'flex align-center justify-between'
-          )}
-        >
+      <div className='story'>
+        <div className='story__toolbar flex align-center justify-between'>
           <div className='flex align-center'>
             <div className='button-group'>
               <button
-                className='button'
+                className='button success'
                 disabled={!dirty}
                 onClick={() => handleSave()}
               >
                 Save
               </button>
-              <button className='button' onClick={() => handlePublish()}>
+              <button
+                className='button success'
+                onClick={() => handlePublish()}
+              >
                 {data.status === 'Draft' ? 'Publish' : 'Unpublish'}
               </button>
             </div>
-            <div className={styles.meta}>
+            <div className='story__info'>
               {data.updatedAt && (
-                <span className={styles.metaData}>{`Last updated ${getTimeAgo(
+                <span className='text dark-gray'>{`Last updated ${getTimeAgo(
                   data.updatedAt
                 )}`}</span>
               )}
               <span
-                className={`${styles.metaData} ${
+                className={`text dark-gray ${
                   dirty || saved ? 'is-visible' : 'is-hidden'
                 }`}
               >
@@ -167,14 +163,14 @@ const Story = () => {
           </div>
           <div className='flex align-center'>
             {data._id && (
-              <button className='button' onClick={() => handleDelete()}>
+              <button className='button danger' onClick={() => handleDelete()}>
                 Delete
               </button>
             )}
           </div>
         </div>
 
-        <div className={styles.title}>
+        <div className='story__title'>
           <input
             className='h1'
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

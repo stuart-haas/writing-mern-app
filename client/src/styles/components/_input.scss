@@ -5,9 +5,9 @@
 .input {
   width: 100%;
   padding: 0.5rem;
-  border-bottom: solid 1px $black;
+  border-bottom: solid 1px $color-gray;
   background-color: transparent;
-  color: $black;
+  color: $color-black;
 
   &.center {
     margin: 0 auto;
