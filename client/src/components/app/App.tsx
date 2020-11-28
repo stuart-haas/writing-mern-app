@@ -7,7 +7,7 @@ import Login from 'components/forms/Login';
 import Register from 'components/forms/Register';
 import PrivateRoute from 'components/route/PrivateRoute';
 import ErrorPage from 'components/pages/ErrorPage';
-import ToastContainer from 'components/toast/ToastContainer';
+import ToastGroup from 'components/toast/ToastGroup';
 
 const App = () => {
   return (
@@ -20,7 +20,7 @@ const App = () => {
         <PrivateRoute path='/stories/edit/:id' exact={true} component={Story} />
         <Route component={ErrorPage} />
       </Switch>
-      <ToastContainer />
+      <ToastGroup autoDismiss={true} />
     </Container>
   );
 };

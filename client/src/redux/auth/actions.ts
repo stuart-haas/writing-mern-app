@@ -4,6 +4,7 @@ import ActionTypes from './actionTypes';
 import { IUser } from 'common/interfaces';
 import api from 'services/api';
 import { addMessage } from 'redux/message/actions';
+import { generateId } from 'utils/functions';
 
 export const authLogin = (data: IUser) => {
   return async (dispatch: Dispatch) => {
@@ -16,8 +17,25 @@ export const authLogin = (data: IUser) => {
         type: ActionTypes.LOGIN,
         payload: { user, authenticated: true },
       });
+      const id = generateId('toast');
+      store.dispatch(
+        addMessage({
+          id,
+          type: 'toast',
+          message: 'Login successful',
+          status: 'success',
+        })
+      );
     } catch (error) {
-      console.log(error);
+      const id = generateId('toast');
+      store.dispatch(
+        addMessage({
+          id,
+          type: 'toast',
+          message: 'Login failed',
+          status: 'error',
+        })
+      );
     }
   };
 };

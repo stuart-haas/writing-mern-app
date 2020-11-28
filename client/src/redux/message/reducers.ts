@@ -7,17 +7,16 @@ const INITIAL_STATE = {
 const Message = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
     case ActionTypes.ADD: {
-      const { type, message, status } = action.payload;
       return {
         ...state,
-        data: [...state.data, { type, message, status }],
+        data: [...state.data, action.payload],
       };
     }
     case ActionTypes.REMOVE: {
-      const { index } = action.payload;
+      const { id } = action.payload;
       return {
         ...state,
-        data: state.data.slice(0, index),
+        data: [...state.data.filter((e: any) => e.id !== id)],
       };
     }
     default:

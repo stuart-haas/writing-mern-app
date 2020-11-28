@@ -1,20 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import { IMessage } from 'common/interfaces';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeMessage } from 'redux/message/actions';
 
-const Toast = (props: any) => {
+export interface ToastProps {
+  autoDismiss?: boolean;
+}
+
+const Toast = (props: IMessage & ToastProps) => {
+  const ref = useRef<any>();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const duration = 3000;
-    const id = setTimeout(() => dispatch(removeMessage(props.id)), duration);
-
-    return () => clearTimeout(id);
+    if (props.autoDismiss) {
+      const interval = setInterval(() => {
+        dispatch(removeMessage(props.id));
+      }, 3000);
+      return () => {
+        clearInterval(interval);
+      };
+    }
   }, [props.id]);
 
+  function handleClose() {
+    dispatch(removeMessage(props.id));
+  }
+
   return (
-    <div className={`toast ${props.status}`}>
+    <div ref={ref} className={`toast ${props.status}`}>
       <span className='toast-message'>{props.message}</span>
+      {!props.autoDismiss && (
+        <span className='toast-close' onClick={() => handleClose()}></span>
+      )}
     </div>
   );
 };

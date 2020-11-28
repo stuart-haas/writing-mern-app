@@ -17,3 +17,10 @@ export interface IUser {
   password: string;
   passwordConfirm?: string;
 }
+
+export interface IMessage {
+  id: string;
+  type: string;
+  message: string;
+  status: string;
+}
