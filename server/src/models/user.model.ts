@@ -4,7 +4,7 @@ export interface IUser extends Document {
   _id: string;
   username: string;
   password: string;
-  stories: any[];
+  stories: Document[];
 }
 
 const UserSchema = new mongoose.Schema(

@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 
 interface AuthUser {
   _id: string;
-  user: string;
+  username: string;
 }
 
 interface AuthPayload {

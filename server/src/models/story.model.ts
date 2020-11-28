@@ -4,7 +4,7 @@ export interface IStory extends Document {
   title: string;
   content: string;
   status: string;
-  user: any;
+  user: string;
 }
 
 const StorySchema = new mongoose.Schema(

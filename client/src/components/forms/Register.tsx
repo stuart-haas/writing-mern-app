@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
-import { register } from 'services/api';
+import { authRegister } from 'redux/auth/actions';
 
 const Register = () => {
+  const dispatch = useDispatch();
   const [redirect, setRedirect] = useState<boolean>(false);
 
   const [data, setData] = useState<IUser>({
@@ -22,9 +24,11 @@ const Register = () => {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const response = await register(data);
-    if (response) {
+    try {
+      await dispatch(authRegister(data));
       setRedirect(true);
+    } catch (error) {
+      console.log(error);
     }
   }
 

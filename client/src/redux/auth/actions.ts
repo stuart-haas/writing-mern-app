@@ -32,3 +32,9 @@ export const authLogout = async (dispatch: Dispatch) => {
     console.log(error);
   }
 };
+
+export const authRegister = (data: IUser) => {
+  return async () => {
+    return await api.post('/auth/register', data);
+  };
+};

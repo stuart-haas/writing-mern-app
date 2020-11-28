@@ -52,9 +52,4 @@ export async function deleteStory(id: string) {
   return response.data;
 }
 
-export async function register(data: IUser) {
-  const response = await api.post('/auth/register', data);
-  return response.data;
-}
-
 export default api;
