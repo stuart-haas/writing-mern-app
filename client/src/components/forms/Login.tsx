@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
 import { userLogin } from 'redux/user/actions';
+import { useAuth } from 'utils/hooks';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
+  const isAuthenticated = useAuth();
 
   const [data, setData] = useState<IUser>({
     username: '',
@@ -26,7 +27,7 @@ const Login = () => {
     dispatch(userLogin(data));
   }
 
-  if (user.authenticated) {
+  if (isAuthenticated) {
     return <Redirect to='/me/stories' />;
   }
 
