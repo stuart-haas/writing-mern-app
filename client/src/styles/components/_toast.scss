@@ -2,7 +2,7 @@
   position: fixed;
   right: 0;
   bottom: 0;
-  width: 100%;
+  width: 300px;
 }
 
 .toast {
@@ -13,7 +13,7 @@
   margin-bottom: 0.5rem;
   border-radius: 3px;
   color: $color-light-gray;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 
   &.success {
     background-color: $color-green;
@@ -36,7 +36,7 @@
   display: inline;
   width: 24px;
   height: 24px;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
   background-color: darken($color-red, 20%);
   border-radius: 50%;
   cursor: pointer;
@@ -72,7 +72,7 @@
 .toast-transition-enter-active {
   right: 0.5rem;
   opacity: 1;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .toast-transition-exit {
@@ -83,5 +83,5 @@
 .toast-transition-exit-active {
   right: calc(-100% + 0.5rem);
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
 }
