@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
-import { authLogin } from 'redux/auth/actions';
+import { userLogin } from 'redux/user/actions';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state: any) => state.auth);
+  const user = useSelector((state: any) => state.user);
 
   const [data, setData] = useState<IUser>({
     username: '',
@@ -23,10 +23,10 @@ const Login = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(authLogin(data));
+    dispatch(userLogin(data));
   }
 
-  if (auth.authenticated) {
+  if (user.authenticated) {
     return <Redirect to='/stories' />;
   }
 

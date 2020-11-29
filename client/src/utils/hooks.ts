@@ -10,7 +10,7 @@ export const usePrevious = <T>(value: T) => {
 };
 
 export const useAuth = () => {
-  const auth = useSelector((state: any) => state.auth);
+  const user = useSelector((state: any) => state.user);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export const useAuth = () => {
     } else {
       setIsAuthenticated(false);
     }
-  }, [auth]);
+  }, [user]);
 
   return isAuthenticated;
 };

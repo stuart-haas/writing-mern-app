@@ -1,28 +1,24 @@
-import ActionTypes from './actionTypes';
+import { IUser } from 'common/interfaces';
+import ActionTypes from 'redux/actionTypes';
 
-const INITIAL_STATE = {
+const INITIAL_STATE: UserPayload = {
   user: {},
   authenticated: false,
 };
 
-interface AuthUser {
-  _id: string;
-  username: string;
-}
-
-interface AuthPayload {
-  user: AuthUser;
+interface UserPayload {
+  user: IUser;
   authenticated: boolean;
 }
 
-export interface AuthAction {
+export interface UserAction {
   type: ActionTypes;
-  payload: AuthPayload;
+  payload: UserPayload;
 }
 
-const Auth = (state = INITIAL_STATE, action: AuthAction) => {
+const User = (state = INITIAL_STATE, action: UserAction) => {
   switch (action.type) {
-    case ActionTypes.LOGIN: {
+    case ActionTypes.USER_LOGIN: {
       const { user, authenticated } = action.payload;
       return {
         ...state,
@@ -30,7 +26,7 @@ const Auth = (state = INITIAL_STATE, action: AuthAction) => {
         authenticated,
       };
     }
-    case ActionTypes.LOGOUT: {
+    case ActionTypes.USER_LOGOUT: {
       const { user, authenticated } = action.payload;
       return {
         ...state,
@@ -43,4 +39,4 @@ const Auth = (state = INITIAL_STATE, action: AuthAction) => {
   }
 };
 
-export default Auth;
+export default User;

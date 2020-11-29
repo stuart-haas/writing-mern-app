@@ -1,11 +1,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { apiInterceptor } from 'services/api';
-import auth from 'redux/auth/reducers';
+import user from 'redux/user/reducers';
 import message from 'redux/message/reducers';
 
 const rootReducer = combineReducers({
-  auth,
+  user,
   message,
 });
 

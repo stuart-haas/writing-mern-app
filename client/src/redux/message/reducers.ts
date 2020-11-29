@@ -1,4 +1,4 @@
-import ActionTypes from './actionTypes';
+import ActionTypes from 'redux/actionTypes';
 
 const INITIAL_STATE = {
   data: [],
@@ -6,13 +6,13 @@ const INITIAL_STATE = {
 
 const Message = (state = INITIAL_STATE, action: any) => {
   switch (action.type) {
-    case ActionTypes.ADD: {
+    case ActionTypes.MESSAGE_ADD: {
       return {
         ...state,
         data: [...state.data, action.payload],
       };
     }
-    case ActionTypes.REMOVE: {
+    case ActionTypes.MESSAGE_REMOVE: {
       const { id } = action.payload;
       return {
         ...state,

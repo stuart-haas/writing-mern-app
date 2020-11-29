@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
-import { authRegister } from 'redux/auth/actions';
+import { userRegister } from 'redux/user/actions';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Register = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
-      await dispatch(authRegister(data));
+      await dispatch(userRegister(data));
       setRedirect(true);
     } catch (error) {
       console.log(error);

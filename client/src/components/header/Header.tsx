@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { authLogout } from 'redux/auth/actions';
+import { userLogout } from 'redux/user/actions';
 import { useAuth } from 'utils/hooks';
 
 const Header = () => {
@@ -21,7 +21,7 @@ const Header = () => {
           <span className='nav-link'>
             <button
               className='button link'
-              onClick={() => dispatch(authLogout)}
+              onClick={() => dispatch(userLogout)}
             >
               Logout
             </button>
