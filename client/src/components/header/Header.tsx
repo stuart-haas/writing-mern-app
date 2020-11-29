@@ -58,9 +58,23 @@ const Dropdown = (props: any) => {
             </span>
           </span>
           <span className='dropdown-item'>
-            <Link className='link' to='/me/stories'>
-              My Stories
-            </Link>
+            <NavLink
+              className='link'
+              activeClassName='is-active'
+              to='/me/stories'
+            >
+              Stories
+            </NavLink>
+          </span>
+          <hr className='dropdown-divider' />
+          <span className='dropdown-item'>
+            <NavLink
+              className='link'
+              activeClassName='is-active'
+              to='/me/settings'
+            >
+              Settings
+            </NavLink>
           </span>
           <hr className='dropdown-divider' />
           <span className='dropdown-item'>
