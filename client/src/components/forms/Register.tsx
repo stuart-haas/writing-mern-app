@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
@@ -7,6 +7,7 @@ import { userRegister } from 'redux/user/actions';
 const Register = () => {
   const dispatch = useDispatch();
   const [redirect, setRedirect] = useState<boolean>(false);
+  const ref = useRef<any>();
 
   const [data, setData] = useState<IUser>({
     username: '',
@@ -32,14 +33,20 @@ const Register = () => {
     }
   }
 
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
+
   if (redirect) {
     return <Redirect to='/login' />;
   }
 
   return (
-    <form className='form' onSubmit={handleSubmit}>
+    <form className='form center' onSubmit={handleSubmit}>
+      <h2 className='h2'>Register</h2>
       <div className='field'>
         <input
+          ref={ref}
           className='input'
           type='text'
           name='username'
@@ -68,7 +75,7 @@ const Register = () => {
           onChange={handleChange}
         />
       </div>
-      <button className='button'>Register</button>
+      <button className='button success'>Register</button>
     </form>
   );
 };

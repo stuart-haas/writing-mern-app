@@ -2,7 +2,8 @@
   color: $color-black;
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &.is-active {
     color: $color-green;
   }
 }

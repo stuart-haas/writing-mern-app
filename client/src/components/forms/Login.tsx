@@ -37,7 +37,8 @@ const Login = () => {
   }
 
   return (
-    <form className='form' onSubmit={handleSubmit}>
+    <form className='form center' onSubmit={handleSubmit}>
+      <h2 className='h2'>Login</h2>
       <div className='field'>
         <input
           ref={ref}

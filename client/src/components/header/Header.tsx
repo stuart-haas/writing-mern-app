@@ -71,11 +71,22 @@ const Dropdown = (props: any) => {
         </Fragment>
       )}
       {!isAuthenticated && (
-        <span className='dropdown-item'>
-          <Link className='link' to='/login'>
-            Login
-          </Link>
-        </span>
+        <Fragment>
+          <span className='dropdown-item'>
+            <NavLink className='link' activeClassName='is-active' to='/login'>
+              Login
+            </NavLink>
+          </span>
+          <span className='dropdown-item'>
+            <NavLink
+              className='link'
+              activeClassName='is-active'
+              to='/register'
+            >
+              Register
+            </NavLink>
+          </span>
+        </Fragment>
       )}
     </div>
   );
