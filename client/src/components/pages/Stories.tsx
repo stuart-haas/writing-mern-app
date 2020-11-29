@@ -7,14 +7,14 @@ import { format } from 'date-fns';
 
 const Stories = () => {
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
+  const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const response: any = await dispatch(getStory('', 'published'));
       const { data } = response;
-      setData(data);
+      setStories(data);
       setLoading(false);
     };
     fetchData();
@@ -27,8 +27,8 @@ const Stories = () => {
   return (
     <Fragment>
       <div className='items'>
-        {data.length > 0 ? (
-          data.map((story: IStory, index: number) => (
+        {stories.length > 0 ? (
+          stories.map((story: IStory, index: number) => (
             <Link key={index} className='item link' to={`/story/${story._id}`}>
               <h1 className='h1'>{story.title}</h1>
               <span className='text small dark-gray'>
