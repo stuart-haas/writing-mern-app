@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import { userLogout } from 'redux/user/actions';
@@ -11,29 +11,25 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <header className='flex justify-end'>
+    <header className='flex justify-between align-center'>
+      <Link to='/' className='link'>
+        <h1 className='h1'>Fable</h1>
+      </Link>
       <nav className='nav'>
         <NavLink className='nav-link' activeClassName='is-active' to='/stories'>
           Stories
         </NavLink>
-        {isAuthenticated && (
-          <span
-            className='nav-link dropdown-trigger'
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <span className='button round outline'>
-              <i className='icon'>
-                <FaUserAlt />
-              </i>
-            </span>
-            <Dropdown isOpen={isOpen} />
+        <span
+          className='nav-link dropdown-trigger'
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className='button round outline'>
+            <i className='icon'>
+              <FaUserAlt />
+            </i>
           </span>
-        )}
-        {!isAuthenticated && (
-          <NavLink className='nav-link' activeClassName='is-active' to='/login'>
-            Login
-          </NavLink>
-        )}
+          <Dropdown isOpen={isOpen} />
+        </span>
       </nav>
     </header>
   );
@@ -42,6 +38,7 @@ const Header = () => {
 const Dropdown = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const isAuthenticated = useAuth();
 
   async function handleNewStory() {
     const response = await api.post('/story/user/new');
@@ -53,22 +50,33 @@ const Dropdown = (props: any) => {
 
   return (
     <div className={`dropdown ${props.isOpen ? 'is-active' : ''}`}>
-      <span className='dropdown-item'>
-        <span className='link' onClick={() => handleNewStory()}>
-          New Story
+      {isAuthenticated && (
+        <Fragment>
+          <span className='dropdown-item'>
+            <span className='link' onClick={() => handleNewStory()}>
+              New Story
+            </span>
+          </span>
+          <span className='dropdown-item'>
+            <Link className='link' to='/me/stories'>
+              My Stories
+            </Link>
+          </span>
+          <hr className='dropdown-divider' />
+          <span className='dropdown-item'>
+            <button className='button' onClick={() => dispatch(userLogout)}>
+              Logout
+            </button>
+          </span>
+        </Fragment>
+      )}
+      {!isAuthenticated && (
+        <span className='dropdown-item'>
+          <Link className='link' to='/login'>
+            Login
+          </Link>
         </span>
-      </span>
-      <span className='dropdown-item'>
-        <Link className='link' to='/me/stories'>
-          My Stories
-        </Link>
-      </span>
-      <hr className='dropdown-divider' />
-      <span className='dropdown-item'>
-        <button className='button' onClick={() => dispatch(userLogout)}>
-          Logout
-        </button>
-      </span>
+      )}
     </div>
   );
 };

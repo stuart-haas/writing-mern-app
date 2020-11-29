@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
@@ -8,11 +8,16 @@ import { useAuth } from 'utils/hooks';
 const Login = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useAuth();
+  const ref = useRef<any>();
 
   const [data, setData] = useState<IUser>({
     username: '',
     password: '',
   });
+
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
@@ -35,6 +40,7 @@ const Login = () => {
     <form className='form' onSubmit={handleSubmit}>
       <div className='field'>
         <input
+          ref={ref}
           className='input center'
           type='text'
           name='username'
