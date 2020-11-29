@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { getStory } from 'redux/story/actions';
 import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 const Story = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,11 @@ const Story = () => {
             {data.createdAt &&
               format(Date.parse(data.createdAt), 'MMMM dd, yyyy')}
           </span>
-          <div className='content'>{data.content}</div>
+          <section>
+            <article>
+              <ReactMarkdown source={data.content} />
+            </article>
+          </section>
         </div>
       )}
     </Fragment>

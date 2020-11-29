@@ -39,25 +39,21 @@ export const userLogin = (data: IUser) => {
 };
 
 export const userLogout = async (dispatch: Dispatch) => {
-  try {
-    await api.post('/auth/logout');
-    localStorage.removeItem('user');
-    dispatch({
-      type: ActionTypes.USER_LOGOUT,
-      payload: { user: {}, authenticated: false },
-    });
-    dispatch({
-      type: ActionTypes.MESSAGE_ADD,
-      payload: {
-        id: generateId('toast'),
-        type: 'toast',
-        message: 'Logout Successful',
-        status: 'success',
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  await api.post('/auth/logout');
+  localStorage.removeItem('user');
+  dispatch({
+    type: ActionTypes.USER_LOGOUT,
+    payload: { user: {}, authenticated: false },
+  });
+  dispatch({
+    type: ActionTypes.MESSAGE_ADD,
+    payload: {
+      id: generateId('toast'),
+      type: 'toast',
+      message: 'Logout Successful',
+      status: 'success',
+    },
+  });
 };
 
 export const userRegister = (data: IUser) => {

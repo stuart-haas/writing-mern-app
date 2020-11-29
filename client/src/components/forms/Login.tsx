@@ -27,7 +27,7 @@ const Login = () => {
   }
 
   if (user.authenticated) {
-    return <Redirect to='/stories' />;
+    return <Redirect to='/me/stories' />;
   }
 
   return (

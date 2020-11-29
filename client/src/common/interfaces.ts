@@ -5,7 +5,7 @@ export interface IParams {
 export interface IStory {
   _id?: string;
   title?: string;
-  content?: string;
+  content?: any;
   status?: string;
   createdAt?: string;
   updatedAt?: string;

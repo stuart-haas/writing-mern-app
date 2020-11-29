@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Header from 'components/header/Header';
 import Main from 'components/main/Main';
 
@@ -8,10 +8,10 @@ interface Props {
 
 const Container = (props: Props) => {
   return (
-    <div className='container'>
+    <Fragment>
       <Header />
       <Main>{props.children}</Main>
-    </div>
+    </Fragment>
   );
 };
 
