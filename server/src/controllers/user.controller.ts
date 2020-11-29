@@ -6,6 +6,7 @@ import {
   hashPassword,
   loginRules,
   signJWT,
+  verifyJWT,
 } from '@middlewares/user.middleware';
 import { validate } from '@common/middleware';
 
@@ -20,6 +21,8 @@ export default class UserController implements Controller {
   private useRoutes() {
     // eslint-disable-next-line prettier/prettier
     this.router.post(`${this.path}/register`, registrationRules, validate, hashPassword, this.register);
+    // eslint-disable-next-line prettier/prettier
+    this.router.patch(`${this.path}`, verifyJWT, registrationRules, validate, hashPassword, this.update);
     // eslint-disable-next-line prettier/prettier
     this.router.post(`${this.path}/login`, loginRules, validate, signJWT, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
@@ -41,5 +44,21 @@ export default class UserController implements Controller {
 
   private logout = async (req: Request, res: Response) => {
     res.clearCookie('token').sendStatus(200);
+  };
+
+  private update = async (req: any, res: Response) => {
+    const id = req.user._id;
+    const { username, password } = req.body;
+    const user = await User.findById(id);
+    if (user) {
+      if (username) {
+        user.username = username;
+      }
+      if (password) {
+        user.password = password;
+      }
+      await user.save();
+      res.json(user);
+    }
   };
 }

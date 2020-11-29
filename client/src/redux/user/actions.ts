@@ -4,7 +4,7 @@ import { IUser } from 'common/interfaces';
 import api from 'services/api';
 import { generateId } from 'utils/functions';
 
-export const userLogin = (data: IUser) => {
+export const loginUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await api.post('/auth/login', data);
@@ -38,7 +38,7 @@ export const userLogin = (data: IUser) => {
   };
 };
 
-export const userLogout = async (dispatch: Dispatch) => {
+export const logoutUser = async (dispatch: Dispatch) => {
   await api.post('/auth/logout');
   localStorage.removeItem('user');
   dispatch({
@@ -56,8 +56,45 @@ export const userLogout = async (dispatch: Dispatch) => {
   });
 };
 
-export const userRegister = (data: IUser) => {
+export const registerUser = (data: IUser) => {
   return async () => {
     return await api.post('/auth/register', data);
   };
+};
+
+export const updateUser = (data: IUser) => {
+  return async (dispatch: Dispatch) => {
+    const response = await api.patch('/auth', data);
+    const { _id, username } = response.data;
+    const user = { _id, username };
+    localStorage.setItem('user', JSON.stringify(user));
+    /*dispatch({
+      type: ActionTypes.USER_UPDATE,
+      payload: { user, authenticated: true },
+    });*/
+    dispatch({
+      type: ActionTypes.MESSAGE_ADD,
+      payload: {
+        id: generateId('toast'),
+        type: 'toast',
+        message: 'User Updated',
+        status: 'success',
+      },
+    });
+  };
+};
+
+export const getCurrentUser = async (dispatch: Dispatch) => {
+  const user = localStorage.getItem('user');
+  if (user) {
+    dispatch({
+      type: ActionTypes.USER_LOGIN,
+      payload: { user, authenticated: true },
+    });
+  } else {
+    dispatch({
+      type: ActionTypes.USER_LOGOUT,
+      payload: { user: {}, authenticated: false },
+    });
+  }
 };

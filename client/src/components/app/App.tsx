@@ -10,6 +10,7 @@ import Register from 'components/forms/Register';
 import PrivateRoute from 'components/route/PrivateRoute';
 import ErrorPage from 'components/pages/ErrorPage';
 import ToastContainer from 'components/toast/ToastContainer';
+import UserSettings from 'components/pages/user/UserSettings';
 
 const App = () => {
   return (
@@ -24,6 +25,11 @@ const App = () => {
           path='/me/story/edit/:id'
           exact={true}
           component={UserStory}
+        />
+        <PrivateRoute
+          path='/me/settings'
+          exact={true}
+          component={UserSettings}
         />
         <Route component={ErrorPage} />
       </Switch>

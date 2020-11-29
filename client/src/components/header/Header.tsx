@@ -1,13 +1,12 @@
 import React, { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, NavLink, useHistory } from 'react-router-dom';
-import { userLogout } from 'redux/user/actions';
+import { logoutUser } from 'redux/user/actions';
 import { useAuth } from 'utils/hooks';
 import { FaUserAlt } from 'react-icons/fa';
 import api from 'services/api';
 
 const Header = () => {
-  const isAuthenticated = useAuth();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -78,7 +77,7 @@ const Dropdown = (props: any) => {
           </span>
           <hr className='dropdown-divider' />
           <span className='dropdown-item'>
-            <button className='button' onClick={() => dispatch(userLogout)}>
+            <button className='button' onClick={() => dispatch(logoutUser)}>
               Logout
             </button>
           </span>

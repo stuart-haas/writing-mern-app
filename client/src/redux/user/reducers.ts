@@ -34,6 +34,14 @@ const User = (state = INITIAL_STATE, action: UserAction) => {
         authenticated,
       };
     }
+    case ActionTypes.USER_UPDATE: {
+      const { user, authenticated } = action.payload;
+      return {
+        ...state,
+        user,
+        authenticated,
+      };
+    }
     default:
       return state;
   }

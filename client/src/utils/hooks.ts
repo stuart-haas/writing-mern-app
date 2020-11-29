@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getCurrentUser } from 'redux/user/actions';
 
 export const usePrevious = <T>(value: T) => {
   const ref = useRef<T>();
@@ -10,12 +11,16 @@ export const usePrevious = <T>(value: T) => {
 };
 
 export const useAuth = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
+    dispatch(getCurrentUser);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (user.authenticated) {
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);

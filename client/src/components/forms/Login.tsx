@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
-import { userLogin } from 'redux/user/actions';
+import { loginUser } from 'redux/user/actions';
 import { useAuth } from 'utils/hooks';
 
 const Login = () => {
@@ -29,7 +29,7 @@ const Login = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(userLogin(data));
+    dispatch(loginUser(data));
   }
 
   if (isAuthenticated) {

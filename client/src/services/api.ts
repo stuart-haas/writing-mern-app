@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { addMessage } from 'redux/message/actions';
-import { userLogout } from 'redux/user/actions';
+import { logoutUser } from 'redux/user/actions';
 import { generateId } from 'utils/functions';
 
 const api = axios.create({
@@ -23,7 +23,7 @@ export const apiInterceptor = (store: any) => {
     },
     (error) => {
       if (error.response.status === 401) {
-        store.dispatch(userLogout);
+        store.dispatch(logoutUser);
       } else {
         store.dispatch(
           addMessage({
