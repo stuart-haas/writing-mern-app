@@ -8,10 +8,14 @@
 
 .editor-toolbar {
   border: 0;
+  border-top: solid 1px $color-gray;
+  border-bottom: solid 1px $color-gray;
+  border-radius: 0;
 }
 
 .EasyMDEContainer {
   .CodeMirror {
+    padding: 2rem 1rem;
     border: 0;
   }
 }
