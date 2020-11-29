@@ -37,10 +37,7 @@ const UserStories = () => {
   return (
     <Fragment>
       {stories.length ? (
-        <button
-          className='button w-auto success'
-          onClick={() => handleNewStory()}
-        >
+        <button className='button success' onClick={() => handleNewStory()}>
           New Story
         </button>
       ) : null}
