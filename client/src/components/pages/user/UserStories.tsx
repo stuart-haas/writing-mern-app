@@ -73,10 +73,10 @@ const UserStories = () => {
           ))
         ) : (
           <div className='text center'>
-            <h1>{`Looks like you don't have any stories`}</h1>
-            <Link className='button button-light button-sm' to='/stories/new'>
+            <h2 className='h2'>{`Looks like you don't have any stories`}</h2>
+            <button className='button success' onClick={() => handleNewStory()}>
               Start writing
-            </Link>
+            </button>
           </div>
         )}
       </div>
