@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { IStory } from 'common/interfaces';
 import { authLogout } from 'redux/auth/actions';
+import { addMessage } from 'redux/message/actions';
+import { generateId } from 'utils/functions';
 
 const api = axios.create({
   baseURL: new URL('/api', process.env.REACT_APP_SERVER_URL).toString(),
@@ -25,7 +27,15 @@ export const apiInterceptor = (store: any) => {
         store.dispatch(authLogout);
       }
       if (error.response.status === 422) {
-        console.log(error);
+        const id = generateId('toast');
+        store.dispatch(
+          addMessage({
+            id,
+            type: 'toast',
+            message: 'Login failed',
+            status: 'error',
+          })
+        );
       }
       return Promise.reject(error);
     }

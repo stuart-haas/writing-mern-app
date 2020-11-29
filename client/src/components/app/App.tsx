@@ -20,7 +20,7 @@ const App = () => {
         <PrivateRoute path='/stories/edit/:id' exact={true} component={Story} />
         <Route component={ErrorPage} />
       </Switch>
-      <ToastContainer autoDismiss={false} autoDismissDelay={3000} />
+      <ToastContainer autoDismiss autoDismissDelay={3000} />
     </Container>
   );
 };
