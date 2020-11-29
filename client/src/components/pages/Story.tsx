@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
+import { useDispatch } from 'react-redux';
 import { Prompt, Redirect, useParams } from 'react-router-dom';
 import SimpleMDE from 'react-simplemde-editor';
-import { getStory, saveStory, deleteStory } from 'services/api';
+import { getStory, saveStory, deleteStory } from 'redux/story/actions';
 import { IParams, IStory } from 'common/interfaces';
 import { getTimeAgo } from 'utils/functions';
 import 'easymde/dist/easymde.min.css';
@@ -13,6 +14,7 @@ export const defaultProps = {
 };
 
 const Story = () => {
+  const dispatch = useDispatch();
   const params = useParams<IParams>();
   const [data, setData] = useState<IStory>(defaultProps);
   const [initialData, setInitialData] = useState(data);
@@ -46,16 +48,11 @@ const Story = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await getStory(params.id);
-        if (response) {
-          setData({ ...response });
-          setInitialData({ ...response });
-          setLoading(false);
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      const response: any = await dispatch(getStory(params.id));
+      const { data } = response;
+      setData({ ...data });
+      setInitialData({ ...data });
+      setLoading(false);
     };
     if (params.id) {
       setLoading(true);
@@ -64,60 +61,52 @@ const Story = () => {
   }, [params]);
 
   const handleSave = useCallback(async () => {
-    try {
-      const { title, content } = data;
-      const response: IStory = await saveStory(
+    const { title, content } = data;
+    const response: any = await dispatch(
+      saveStory(
         {
           title,
           content,
         },
         params.id
-      );
-      if (response) {
-        setData({ ...response });
-        setInitialData({ ...response });
-        setDirty(false);
-        setSaved(true);
-        setMessage('Saved!');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      )
+    );
+    handleResponse(response);
   }, [params, data]);
 
   const handlePublish = useCallback(async () => {
     if (!window.confirm('Are you sure?')) return;
-    try {
-      const newStatus = data.status === 'Draft' ? 'Published' : 'Draft';
-      const response: IStory = await saveStory(
+    const newStatus = data.status === 'Draft' ? 'Published' : 'Draft';
+    const response: any = await dispatch(
+      saveStory(
         {
           status: newStatus,
         },
-        params.id
-      );
-      if (response) {
-        setData({ ...response });
-        setInitialData({ ...response });
-        setDirty(false);
-        setSaved(true);
-        setMessage(response.status === 'Draft' ? 'Unpublished' : 'Published');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+        params.id,
+        data.status === 'Draft' ? 'Story Published!' : 'Story Unpublished'
+      )
+    );
+    handleResponse(response);
   }, [params, data]);
 
   const handleDelete = useCallback(async () => {
     if (!window.confirm('Are you sure?')) return;
-    try {
-      const response: IStory = await deleteStory(params.id);
-      if (response) {
-        setDeleted(true);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    await dispatch(deleteStory(params.id));
+    handleResponse();
   }, [params]);
+
+  function handleResponse(response: any = null) {
+    if (response) {
+      const { data } = response;
+      setData({ ...data });
+      setInitialData({ ...data });
+      setDirty(false);
+      setSaved(true);
+      setMessage('');
+    } else {
+      setDeleted(true);
+    }
+  }
 
   if (loading) {
     return <h1>Loading</h1>;
@@ -156,7 +145,7 @@ const Story = () => {
                   dirty || saved ? 'is-visible' : 'is-hidden'
                 }`}
               >
-                {data.updatedAt && <span className='pipe'>|</span>}
+                {data.updatedAt && message && <span className='pipe'>|</span>}
                 {message}
               </span>
             </div>

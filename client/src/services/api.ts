@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { IStory } from 'common/interfaces';
 import { userLogout } from 'redux/user/actions';
 
 const api = axios.create({
@@ -28,25 +27,5 @@ export const apiInterceptor = (store: any) => {
     }
   );
 };
-
-export async function getStory(id = '') {
-  const response = await api.get(`/story/${id}`);
-  return response.data;
-}
-
-export async function saveStory(data: IStory, id = '') {
-  const method = id ? 'PATCH' : 'POST';
-  const response = await api.request({
-    url: `/story/${id}`,
-    method,
-    data,
-  });
-  return response.data;
-}
-
-export async function deleteStory(id: string) {
-  const response = await api.delete(`/story/${id}`);
-  return response.data;
-}
 
 export default api;

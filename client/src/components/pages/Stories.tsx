@@ -1,17 +1,20 @@
 import { IStory } from 'common/interfaces';
 import React, { Fragment, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getStory } from 'services/api';
+import { getStory } from 'redux/story/actions';
 import { getTimeAgo } from 'utils/functions';
 import { defaultProps } from 'components/pages/Story';
 
 const Stories = () => {
+  const dispatch = useDispatch();
   const [stories, setStories] = useState([defaultProps]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getStory();
+      const response: any = await dispatch(getStory());
+      const { data } = response;
       setStories(data);
       setLoading(false);
     };

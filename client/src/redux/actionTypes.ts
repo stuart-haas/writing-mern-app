@@ -3,6 +3,7 @@ enum ActionTypes {
   MESSAGE_REMOVE = 'MESSAGE_REMOVE',
   USER_LOGIN = 'USER_LOGIN',
   USER_LOGOUT = 'USER_LOGOUT',
+  STORY_SAVE = 'STORY_SAVE',
 }
 
 export default ActionTypes;
