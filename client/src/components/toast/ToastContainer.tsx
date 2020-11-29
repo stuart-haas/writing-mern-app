@@ -12,7 +12,7 @@ const ToastContainer = (props: ToastProps) => {
       {message.data.map((message: IMessage, index: number) => (
         <CSSTransition
           key={message.id}
-          timeout={500}
+          timeout={300}
           classNames='toast-transition'
         >
           <Toast index={index} {...message} {...props} />
