@@ -17,15 +17,6 @@ export const authLogin = (data: IUser) => {
         type: ActionTypes.LOGIN,
         payload: { user, authenticated: true },
       });
-      const id = generateId('toast');
-      store.dispatch(
-        addMessage({
-          id,
-          type: 'toast',
-          message: 'Login successful',
-          status: 'success',
-        })
-      );
     } catch (error) {
       const id = generateId('toast');
       store.dispatch(

@@ -2,22 +2,18 @@
   position: fixed;
   right: 0;
   bottom: 0;
-  padding: 1rem;
+  width: 100%;
 }
 
 .toast {
   @include depth-shadow(1);
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 1rem;
+  position: absolute;
+  right: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
   border-radius: 3px;
   color: $color-light-gray;
   transition: all 0.3s ease;
-
-  &:not(:first-of-type) {
-    margin-top: 1rem;
-  }
 
   &.success {
     background-color: $color-green;
@@ -28,12 +24,19 @@
   }
 }
 
+.toast-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .toast-close {
   position: relative;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  margin-left: 1rem;
+  display: inline;
+  width: 24px;
+  height: 24px;
+  margin-left: 0.5rem;
   background-color: darken($color-red, 20%);
   border-radius: 50%;
   cursor: pointer;
@@ -62,23 +65,23 @@
 }
 
 .toast-transition-enter {
-  left: calc(100% + 1rem);
+  right: calc(-100% + 0.5rem);
   opacity: 0;
 }
 
 .toast-transition-enter-active {
-  left: 0;
+  right: 0.5rem;
   opacity: 1;
   transition: all 0.3s ease;
 }
 
 .toast-transition-exit {
-  left: 0;
+  right: 0.5rem;
   opacity: 1;
 }
 
 .toast-transition-exit-active {
-  left: calc(100% + 1rem);
+  right: calc(-100% + 0.5rem);
   opacity: 0;
   transition: all 0.3s ease;
 }

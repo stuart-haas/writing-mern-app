@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+
   nginx:
     container_name: fable_nginx
     build: ./config/nginx

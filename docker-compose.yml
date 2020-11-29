@@ -1,6 +1,7 @@
 version: '3.4'
 
 services:
+
   client:
     container_name: fable_client
     stdin_open: true
