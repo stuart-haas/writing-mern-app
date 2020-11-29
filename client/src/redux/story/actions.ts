@@ -13,7 +13,7 @@ export const saveStory = (
   return async (dispatch: Dispatch) => {
     const method = id ? 'PATCH' : 'POST';
     const response = await api.request({
-      url: `/story/${id}`,
+      url: `/story/user/${id}`,
       method,
       data,
     });
@@ -36,7 +36,7 @@ export const deleteStory = (
   status = 'error'
 ) => {
   return async (dispatch: Dispatch) => {
-    await api.delete(`/story/${id}`);
+    await api.delete(`/story/user/${id}`);
     dispatch({
       type: ActionTypes.MESSAGE_ADD,
       payload: {
@@ -49,8 +49,8 @@ export const deleteStory = (
   };
 };
 
-export const getStory = (id = '') => {
+export const getStory = (id = '', path = 'user') => {
   return async () => {
-    return await api.get(`/story/${id}`);
+    return await api.get(`/story/${path}/${id}`);
   };
 };

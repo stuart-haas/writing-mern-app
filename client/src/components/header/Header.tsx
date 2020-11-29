@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { userLogout } from 'redux/user/actions';
 import { useAuth } from 'utils/hooks';
 
@@ -11,12 +11,23 @@ const Header = () => {
   return (
     <header className='flex justify-end'>
       <nav className='nav'>
-        <Link className='nav-link' to='/stories'>
+        <NavLink className='nav-link' activeClassName='is-active' to='/stories'>
           Stories
-        </Link>
-        <Link className='nav-link' to='/profile'>
-          Profile
-        </Link>
+        </NavLink>
+        {isAuthenticated && (
+          <NavLink
+            className='nav-link'
+            activeClassName='is-active'
+            to='/me/stories'
+          >
+            My Stories
+          </NavLink>
+        )}
+        {!isAuthenticated && (
+          <NavLink className='nav-link' activeClassName='is-active' to='/login'>
+            Login
+          </NavLink>
+        )}
         {isAuthenticated && (
           <span className='nav-link'>
             <button

@@ -15,17 +15,27 @@ export default class StoryController implements Controller {
 
   private useRoutes() {
     // Public
-    this.router.get(`${this.path}/public`, this.findAll);
-    this.router.get(`${this.path}/public/:username`, this.findAllByUserName);
+    this.router.get(`${this.path}/published`, this.findAll);
+    this.router.get(`${this.path}/published/:id`, this.findPublishedById);
+    // eslint-disable-next-line prettier/prettier
+    //this.router.get(`${this.path}/published/user/:username`, this.findAllByUserName);
 
     // Private
-    this.router.get(`${this.path}`, verifyJWT, this.findAllByUserId);
-    this.router.get(`${this.path}/:id`, verifyJWT, this.findOneByUserId);
-    this.router.post(`${this.path}/new`, verifyJWT, this.new);
-    this.router.post(`${this.path}`, verifyJWT, this.create);
-    this.router.patch(`${this.path}/:id`, verifyJWT, this.update);
-    this.router.delete(`${this.path}/:id`, verifyJWT, this.deleteOne);
+    this.router.get(`${this.path}/user`, verifyJWT, this.findAllByUserId);
+    this.router.get(`${this.path}/user/:id`, verifyJWT, this.findOneByUserId);
+    this.router.post(`${this.path}/user/new`, verifyJWT, this.new);
+    this.router.post(`${this.path}/user`, verifyJWT, this.create);
+    this.router.patch(`${this.path}/user/:id`, verifyJWT, this.update);
+    this.router.delete(`${this.path}/user/:id`, verifyJWT, this.deleteOne);
   }
+
+  private findPublishedById = async (req: any, res: Response) => {
+    const story = await Story.findOne({ _id: req.params.id }).populate(
+      'user',
+      'username'
+    );
+    res.json(story);
+  };
 
   private findAll = async (req: Request, res: Response) => {
     const story = await Story.find({ status: 'Published' }).populate(

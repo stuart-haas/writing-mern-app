@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import Container from 'components/container/Container';
 import Stories from 'components/pages/Stories';
 import Story from 'components/pages/Story';
+import UserStories from 'components/pages/user/UserStories';
+import UserStory from 'components/pages/user/UserStory';
 import Login from 'components/forms/Login';
 import Register from 'components/forms/Register';
 import PrivateRoute from 'components/route/PrivateRoute';
@@ -15,9 +17,14 @@ const App = () => {
       <Switch>
         <Route path='/login' exact={true} component={Login} />
         <Route path='/register' exact={true} component={Register} />
-        <PrivateRoute path='/stories' exact={true} component={Stories} />
-        <PrivateRoute path='/stories/new' exact={true} component={Story} />
-        <PrivateRoute path='/stories/edit/:id' exact={true} component={Story} />
+        <Route path='/stories' exact={true} component={Stories} />
+        <Route path='/story/:id' exact={true} component={Story} />
+        <PrivateRoute path='/me/stories' exact={true} component={UserStories} />
+        <PrivateRoute
+          path='/me/story/edit/:id'
+          exact={true}
+          component={UserStory}
+        />
         <Route component={ErrorPage} />
       </Switch>
       <ToastContainer autoDismiss autoDismissDelay={3000} />

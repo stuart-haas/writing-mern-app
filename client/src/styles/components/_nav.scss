@@ -7,4 +7,12 @@
   @extend .link;
   display: inline-block;
   padding: 0.5rem;
+
+  &.is-active {
+    color: $color-green;
+  }
+  
+  &:not(:last-child) {
+    margin-right: 1rem;
+  }
 }

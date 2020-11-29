@@ -3,6 +3,10 @@
     text-align: center;
   }
 
+  &.small {
+    font-size: 0.875rem;
+  }
+
   &.dark-gray {
     color: $color-dark-gray;
   }
