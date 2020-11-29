@@ -35,7 +35,7 @@ const Toast = (props: IMessage & ToastProps & ToastPropsExtras) => {
         clearInterval(interval);
       };
     }
-  }, [props.id]);
+  }, [dispatch, props]);
 
   return (
     <div

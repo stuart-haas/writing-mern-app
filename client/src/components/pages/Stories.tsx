@@ -18,7 +18,7 @@ const Stories = () => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
     return <h1>Loading</h1>;

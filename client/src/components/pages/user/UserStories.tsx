@@ -20,7 +20,7 @@ const UserStories = () => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   async function handleNewStory() {
     const response = await api.post('/story/user/new');

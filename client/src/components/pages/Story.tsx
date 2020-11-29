@@ -20,7 +20,7 @@ const Story = () => {
       setLoading(false);
     };
     fetchData();
-  }, [params.id]);
+  }, [dispatch, params.id]);
 
   if (loading) {
     return <h1>Loading</h1>;

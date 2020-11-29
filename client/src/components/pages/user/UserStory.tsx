@@ -52,7 +52,7 @@ const UserStory = () => {
       setLoading(true);
       fetchData();
     }
-  }, [params]);
+  }, [dispatch, params]);
 
   const handleSave = useCallback(async () => {
     const { title, content } = data;
@@ -66,7 +66,7 @@ const UserStory = () => {
       )
     );
     handleResponse(response);
-  }, [params, data]);
+  }, [dispatch, params, data]);
 
   const handlePublish = useCallback(async () => {
     if (!window.confirm('Are you sure?')) return;
@@ -81,13 +81,13 @@ const UserStory = () => {
       )
     );
     handleResponse(response);
-  }, [params, data]);
+  }, [dispatch, params, data]);
 
   const handleDelete = useCallback(async () => {
     if (!window.confirm('Are you sure?')) return;
     await dispatch(deleteStory(params.id));
     handleResponse();
-  }, [params]);
+  }, [dispatch, params]);
 
   function handleResponse(response: any = null) {
     if (response) {
