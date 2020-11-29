@@ -47,7 +47,7 @@ export default class App {
 
   private useMiddlewares() {
     this.app.use(helmet());
-    this.app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+    this.app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(cookieParser());

@@ -24,9 +24,6 @@ export const apiInterceptor = (store: any) => {
       if (error.response.status === 401) {
         store.dispatch(userLogout);
       }
-      if (error.response.status === 422) {
-        console.log(error);
-      }
       return Promise.reject(error);
     }
   );
