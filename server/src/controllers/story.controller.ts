@@ -77,6 +77,7 @@ export default class StoryController implements Controller {
     const user = req.user._id;
     const story = new Story({
       title: 'New Story',
+      content: '',
       status: 'Draft',
       user,
     });
