@@ -21,6 +21,7 @@ export default class StoryController implements Controller {
     // Private
     this.router.get(`${this.path}`, verifyJWT, this.findAllByUserId);
     this.router.get(`${this.path}/:id`, verifyJWT, this.findOneByUserId);
+    this.router.post(`${this.path}/new`, verifyJWT, this.new);
     this.router.post(`${this.path}`, verifyJWT, this.create);
     this.router.patch(`${this.path}/:id`, verifyJWT, this.update);
     this.router.delete(`${this.path}/:id`, verifyJWT, this.deleteOne);
@@ -59,6 +60,24 @@ export default class StoryController implements Controller {
     });
     if (story) {
       res.json(story.stories[0]);
+    }
+  };
+
+  private new = async (req: any, res: Response) => {
+    const user = req.user._id;
+    const story = new Story({
+      title: 'New Story',
+      status: 'Draft',
+      user,
+    });
+    const newStory = await story.save();
+    if (newStory) {
+      const user = await User.findById(req.user._id);
+      if (user) {
+        user.stories.push(story);
+        user.save();
+        res.json(newStory);
+      }
     }
   };
 

@@ -1,14 +1,15 @@
 import { IStory } from 'common/interfaces';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { getStory } from 'redux/story/actions';
 import { getTimeAgo } from 'utils/functions';
-import { defaultProps } from 'components/pages/Story';
+import api from 'services/api';
 
 const Stories = () => {
   const dispatch = useDispatch();
-  const [stories, setStories] = useState([defaultProps]);
+  const history = useHistory();
+  const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -21,6 +22,15 @@ const Stories = () => {
     fetchData();
   }, []);
 
+  async function handleNewStory() {
+    const response = await api.post('/story/new');
+    console.log(response.data);
+    if (response) {
+      const { data } = response;
+      history.push(`/stories/edit/${data._id}`);
+    }
+  }
+
   if (loading) {
     return <h1>Loading</h1>;
   }
@@ -28,9 +38,12 @@ const Stories = () => {
   return (
     <Fragment>
       {stories.length ? (
-        <Link className='button success' to='/stories/new'>
+        <button
+          className='button w-auto success'
+          onClick={() => handleNewStory()}
+        >
           New Story
-        </Link>
+        </button>
       ) : null}
       <div className='items'>
         {stories.length > 0 ? (

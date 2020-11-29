@@ -7,16 +7,10 @@ import { IParams, IStory } from 'common/interfaces';
 import { getTimeAgo } from 'utils/functions';
 import 'easymde/dist/easymde.min.css';
 
-export const defaultProps = {
-  title: 'Something creative',
-  content: '',
-  status: 'Draft',
-};
-
 const Story = () => {
   const dispatch = useDispatch();
   const params = useParams<IParams>();
-  const [data, setData] = useState<IStory>(defaultProps);
+  const [data, setData] = useState<IStory>({});
   const [initialData, setInitialData] = useState(data);
   const [dirty, setDirty] = useState<boolean>(false);
   const [saved, setSaved] = useState<boolean>(false);
@@ -122,13 +116,14 @@ const Story = () => {
             <div className='button-group'>
               <button
                 className='button success'
-                disabled={!dirty}
+                disabled={!dirty || !data.title || !data.content}
                 onClick={() => handleSave()}
               >
                 Save
               </button>
               <button
                 className='button success'
+                disabled={!data.title || !data.content}
                 onClick={() => handlePublish()}
               >
                 {data.status === 'Draft' ? 'Publish' : 'Unpublish'}
