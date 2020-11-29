@@ -7,13 +7,13 @@
 @mixin heading-2() {
   margin: 0.5rem 0;
   font-size: 2rem;
-  line-height: 1.75;
+  line-height: 1.25;
 }
 
 @mixin heading-3() {
   margin: 0.5rem 0;
   font-size: 1.5rem;
-  line-height: 1.25;
+  line-height: 1;
 }
 
 @mixin depth-shadow($level: 1) {

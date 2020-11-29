@@ -30,7 +30,7 @@ const Stories = () => {
         {stories.length > 0 ? (
           stories.map((story: IStory, index: number) => (
             <Link key={index} className='item link' to={`/story/${story._id}`}>
-              <h1 className='h1'>{story.title}</h1>
+              <h1 className='h2'>{story.title}</h1>
               <span className='text small dark-gray'>
                 Written by {story.user && story.user.username} |{' '}
                 {story.createdAt &&

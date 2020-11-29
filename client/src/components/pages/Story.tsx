@@ -30,7 +30,7 @@ const Story = () => {
     <Fragment>
       {data && (
         <div className='container'>
-          <h1 className='h1'>{data.title}</h1>
+          <h1 className='h2'>{data.title}</h1>
           <span className='text dark-gray'>
             Written by {data.user && data.user.username} |{' '}
             {data.createdAt &&

@@ -156,7 +156,7 @@ const UserStory = () => {
 
         <div className='story__title'>
           <input
-            className='h1'
+            className='h2'
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setData({ ...data, title: e.currentTarget.value });
             }}
