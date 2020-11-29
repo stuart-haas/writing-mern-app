@@ -69,6 +69,11 @@ article {
     color: $color-dark-gray;
     font-style: italic;
   }
+
+  hr {
+    border-top: solid 1px $color-gray;
+    margin: 1rem 0 1.5rem;
+  }
 }
 
 a,
