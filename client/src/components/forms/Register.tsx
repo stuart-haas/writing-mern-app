@@ -13,6 +13,10 @@ const Register = () => {
     passwordConfirm: '',
   });
 
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
     setData({
@@ -25,10 +29,6 @@ const Register = () => {
     e.preventDefault();
     dispatch(registerUser(data));
   }
-
-  useEffect(() => {
-    ref.current?.focus();
-  }, []);
 
   return (
     <form className='form position-center' onSubmit={handleSubmit}>

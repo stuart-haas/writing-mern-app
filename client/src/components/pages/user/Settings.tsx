@@ -16,6 +16,15 @@ const Settings = () => {
     passwordConfirm: '',
   });
 
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    const { username } = user.user;
+    setData((prevState: any) => ({ ...prevState, username }));
+  }, [user]);
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
     setData({
@@ -26,8 +35,7 @@ const Settings = () => {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const { response, errors } = await dispatch<any>(updateUser(data));
-    console.log(errors);
+    const { errors } = await dispatch<any>(updateUser(data));
     if (errors) {
       setErrors(errors);
     }
@@ -38,15 +46,6 @@ const Settings = () => {
       passwordConfirm: '',
     });
   }
-
-  useEffect(() => {
-    ref.current?.focus();
-  }, []);
-
-  useEffect(() => {
-    const { username } = user.user;
-    setData((prevState: any) => ({ ...prevState, username }));
-  }, [user]);
 
   return (
     <form className='form position-center' onSubmit={handleSubmit}>
