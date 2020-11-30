@@ -12,19 +12,18 @@
   padding: 0.5rem 1rem;
   margin-bottom: 0.5rem;
   border-radius: 3px;
-  color: $color-light-gray;
   transition: all 0.3s ease;
 
   &.success {
-    background-color: $color-green;
+    background-color: var(--color-green);
   }
 
   &.danger {
-    background-color: $color-orange;
+    background-color: var(--color-orange);
   }
 
   &.error {
-    background-color: $color-red;
+    background-color: var(--color-red);
   }
 }
 
@@ -35,19 +34,23 @@
   justify-content: space-between;
 }
 
+.toast-message {
+  color: var(--color-light-gray);
+}
+
 .toast-close {
   position: relative;
   display: inline;
   width: 24px;
   height: 24px;
   margin-left: 1rem;
-  background-color: darken($color-red, 20%);
+  background-color: var(--color-dark-red);
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: darken($color-red, 25%);
+    background-color: var(--color-extra-dark-red);
   }
 
   &::after,
@@ -57,7 +60,7 @@
     left: 50%;
     width: 2px;
     height: 50%;
-    background-color: $color-light-gray;
+    background-color: var(--color-light-gray);
     content: '';
     transform: translate(-50%, -50%) rotate(-45deg);
     transition: all 0.2s ease;

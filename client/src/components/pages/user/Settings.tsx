@@ -6,6 +6,7 @@ import { updateUser } from 'redux/user/actions';
 const Settings = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
+  const [errors, setErrors] = useState<any>([]);
   const ref = useRef<any>();
 
   const [data, setData] = useState<IUser>({
@@ -23,9 +24,13 @@ const Settings = () => {
     });
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(updateUser(data));
+    const { response, errors } = await dispatch<any>(updateUser(data));
+    console.log(errors);
+    if (errors) {
+      setErrors(errors);
+    }
     setData({
       ...data,
       currentPassword: '',
@@ -68,6 +73,12 @@ const Settings = () => {
             value={data.currentPassword}
             onChange={handleChange}
           />
+          <label className='field-error'>
+            {errors.length > 0 &&
+              errors.filter((e: any) => e.param === 'currentPassword')[0][
+                'msg'
+              ]}
+          </label>
         </div>
         <div className='field'>
           <input

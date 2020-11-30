@@ -1,9 +1,12 @@
 .link {
-  color: $color-black;
   cursor: pointer;
+
+  &.underline {
+    text-decoration: underline;
+  }
 
   &:hover,
   &.is-active {
-    color: $color-green;
+    color: var(--color-green);
   }
 }

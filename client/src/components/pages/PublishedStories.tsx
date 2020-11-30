@@ -37,7 +37,7 @@ const PublishedStories = () => {
                 Written by{' '}
                 {story.user && (
                   <Link
-                    className='link'
+                    className='link underline'
                     to={`/stories/user/${story.user.username}`}
                   >
                     {story.user.username}

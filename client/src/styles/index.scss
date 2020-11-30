@@ -9,7 +9,6 @@
 @import 'components/form';
 @import 'components/link';
 @import 'components/button';
-@import 'components/input';
 @import 'components/heading';
 @import 'components/common';
 @import 'components/nav';
@@ -24,12 +23,16 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  color: var(--color-text);
 }
 
 html,
 body {
+  height: 100%;
+  background-color: var(--color-background);
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
+  transition: background-color 0.2s ease;
 }
 
 main {
@@ -42,6 +45,7 @@ main {
 header {
   @include depth-shadow;
   padding: 0 8rem;
+  background-color: var(--color-background-offset);
 }
 
 section {
@@ -67,14 +71,13 @@ article {
 
   blockquote {
     padding: 0.25rem 0 0.25rem 1rem;
-    border-left: solid 4px $color-dark-gray;
+    border-left: solid 4px var(--color-dark-gray);
     margin: 1rem 0;
-    color: $color-dark-gray;
     font-style: italic;
   }
 
   hr {
-    border-top: solid 1px $color-gray;
+    border-top: solid 1px var(--color-gray);
     margin: 1rem 0 1.5rem;
   }
 }

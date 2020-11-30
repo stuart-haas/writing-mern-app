@@ -8,7 +8,7 @@
   padding: 0.5rem;
 
   &.is-active {
-    color: $color-green;
+    color: var(--color-green);
   }
   
   &:not(:last-child) {

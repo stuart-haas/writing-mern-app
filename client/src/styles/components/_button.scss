@@ -12,14 +12,14 @@
 .button {
   @include depth-shadow;
   padding: 0.5rem;
-  background-color: $color-gray;
+  background-color: var(--color-gray);
   border-radius: 3px;
-  color: $color-light-gray;
+  color: var(--color-white);
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background-color: darken($color-gray, 5%);
+    background-color: var(--color-dark-gray);
   }
 
   &.round {
@@ -33,40 +33,40 @@
   }
 
   &.outline {
-    border: solid 1px $color-gray;
+    border: solid 1px var(--color-light-gray);
     background: transparent;
 
     &:hover {
-      background-color: $color-light-gray;
+      border-color: var(--color-gray);
     }
   }
 
   &.success {
-    background-color: $color-green;
+    background-color: var(--color-green);
 
     &:hover {
-      background-color: darken($color-green, 5%);
+      background-color: var(--color-dark-green);
     }
   }
 
   &.warning {
-    background-color: $color-orange;
+    background-color: var(--color-orange);
 
     &:hover {
-      background-color: darken($color-orange, 5%);
+      background-color: var(--color-dark-orange);
     }
   }
 
   &.danger {
-    background-color: $color-red;
+    background-color: var(--color-red);
 
     &:hover {
-      background-color: darken($color-red, 5%);
+      background-color: var(--color-dark-red);
     }
   }
 
   &:disabled {
-    background-color: $color-gray;
+    background-color: var(--color-gray);
     pointer-events: none;
   }
 }

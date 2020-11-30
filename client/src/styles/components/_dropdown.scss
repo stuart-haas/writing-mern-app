@@ -3,14 +3,14 @@
 }
 
 .dropdown {
+  @include depth-shadow(2);
   position: absolute;
   left: 50%;
   display: none;
   min-width: 200px;
   padding: 0.25rem 1rem;
-  border: solid 1px $color-gray;
   margin-top: 0.5rem;
-  background-color: $color-light-gray;
+  background-color: var(--color-background-contrast);
   border-radius: 3px;
   transform: translateX(-50%);
 
@@ -25,8 +25,7 @@
     width: 0;
     height: 0;
     border-right: 8px solid transparent;
-      
-    border-bottom: 8px solid $color-gray;
+    border-bottom: 8px solid var(--color-background-contrast);
     border-left: 8px solid transparent;
     content: '';
     transform: translateX(-50%);

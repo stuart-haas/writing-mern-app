@@ -1,6 +1,10 @@
 .story {
   &__title {
     margin: 2rem 0;
+
+    input {
+      background-color: var(--color-background);
+    }
   }
 
   &__toolbar {

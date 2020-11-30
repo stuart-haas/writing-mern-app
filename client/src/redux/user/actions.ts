@@ -67,19 +67,25 @@ export const registerUser = (data: IUser) => {
 
 export const updateUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
-    const response = await api.patch('/auth', data);
-    const { _id, username } = response.data;
-    const user = { _id, username };
-    localStorage.setItem('user', JSON.stringify(user));
-    dispatch({
-      type: ActionTypes.MESSAGE_ADD,
-      payload: {
-        id: generateId('toast'),
-        type: 'toast',
-        message: 'User Updated',
-        status: 'success',
-      },
-    });
+    try {
+      const response = await api.patch('/auth', data);
+      const { _id, username } = response.data;
+      const user = { _id, username };
+      localStorage.setItem('user', JSON.stringify(user));
+      dispatch({
+        type: ActionTypes.MESSAGE_ADD,
+        payload: {
+          id: generateId('toast'),
+          type: 'toast',
+          message: 'User Updated',
+          status: 'success',
+        },
+      });
+      return { response };
+    } catch (error) {
+      const errors = error.response.data;
+      return { errors };
+    }
   };
 };
 

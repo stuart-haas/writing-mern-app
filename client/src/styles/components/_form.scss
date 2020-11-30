@@ -4,7 +4,17 @@
   max-width: 400px;
   padding: 1rem;
   margin: 0 auto;
+  background-color: var(--color-background-contrast);
   border-radius: 3px;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field-error {
+  color: var(--color-red);
+  font-size: 0.75rem;
 }
 
 .field-group {
@@ -14,13 +24,20 @@
 .field-group-heading {
   display: block;
   margin-bottom: 1rem;
-  color: darken($color-dark-gray, 8%);
 }
 
 .input {
+  width: 100%;
+  padding: 0.5rem;
+  border-bottom: solid 1px var(--color-text-dark-gray);
+  background-color: transparent;
   transition: all 0.2s ease;
+
+  &.center {
+    margin: 0 auto;
+  }
   
   &:focus {
-    border-color: $color-green;
+    border-color: var(--color-green);
   }
 }

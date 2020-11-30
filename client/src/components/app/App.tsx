@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Container from 'components/container/Container';
 import PublishedStories from 'components/pages/PublishedStories';
@@ -16,8 +16,82 @@ import Page from 'components/pages/Page';
 
 const App = () => {
   /* eslint-disable */
+  const themeColours: any = {
+    light: [
+      {
+        name: 'text',
+        color: '#252422',
+      },
+      {
+        name: 'background',
+        color: '#fff',
+      },
+      {
+        name: 'background-contrast',
+        color: '#edf2f4',
+      },
+      {
+        name: 'background-offset',
+        color: '#dfe8ec',
+      },
+      {
+        name: 'text-gray',
+        color: '#8d99ae',
+      },
+      {
+        name: 'text-dark-gray',
+        color: '#5e6472',
+      }
+    ],
+    dark: [
+      {
+        name: 'text',
+        color: '#edf2f4',
+      },
+      {
+        name: 'background',
+        color: '#454954',
+      },
+      {
+        name: 'background-contrast',
+        color: '#17191c',
+      },
+      {
+        name: 'background-offset',
+        color: '#252422',
+      },
+      {
+        name: 'text-gray',
+        color: '#edf2f4',
+      },
+      {
+        name: 'text-dark-gray',
+        color: '#edf2f4',
+      }
+    ],
+  };
+
+  const [theme, setTheme] = useState<string>('light');
+
+  useEffect(() => {
+    themeColours[theme].forEach((el: any) => {
+      document.body.style.setProperty(
+        `--color-${el.name}`, el.color,
+      );
+    });
+  }, [theme]);
+
+  function toggleTheme() {
+    if(theme == 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+
   return (
     <Container>
+      <button className='button success' onClick={() => toggleTheme()}>Change Theme</button>
       <Switch>
         <Route path='/login' exact={true} component={() => <Page><Login /></Page>} />
         <Route path='/register' exact={true} component={() => <Page><Register /></Page>} />

@@ -8,6 +8,6 @@
   }
 
   &.dark-gray {
-    color: $color-dark-gray;
+    color: var(--color-text-dark-gray);
   }
 }
