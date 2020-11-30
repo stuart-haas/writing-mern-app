@@ -92,6 +92,7 @@ const App = () => {
   return (
     <Container>
       <Switch>
+        <Route path='/' exact={true} component={() => <Page><PublishedStories /></Page>} />
         <Route path='/login' exact={true} component={() => <Page><Login /></Page>} />
         <Route path='/register' exact={true} component={() => <Page><Register /></Page>} />
         <Route path='/stories' exact={true} component={() => <Page><PublishedStories /></Page>} />
