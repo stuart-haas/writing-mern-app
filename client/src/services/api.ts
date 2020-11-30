@@ -22,17 +22,19 @@ export const apiInterceptor = (store: any) => {
       return Promise.resolve(next);
     },
     (error) => {
-      if (error.response.status === 401) {
-        store.dispatch(logoutUser);
-      } else {
-        store.dispatch(
-          addMessage({
-            id: generateId('toast'),
-            type: 'toast',
-            message: 'Something went wrong :(',
-            status: 'error',
-          })
-        );
+      if (error.response) {
+        if (error.response.status === 401) {
+          store.dispatch(logoutUser);
+        } else {
+          store.dispatch(
+            addMessage({
+              id: generateId('toast'),
+              type: 'toast',
+              message: 'Something went wrong :(',
+              status: 'error',
+            })
+          );
+        }
       }
       return Promise.reject(error);
     }

@@ -26,13 +26,13 @@ const UserStories = () => {
 
   return (
     <Fragment>
-      {stories.length ? (
+      {stories && stories.length ? (
         <button className='button success' onClick={() => dispatch(newStory)}>
           New Story
         </button>
       ) : null}
       <div className='items'>
-        {stories.length > 0 ? (
+        {stories && stories.length > 0 ? (
           stories.map((story: IStory, index: number) => (
             <Link
               key={index}

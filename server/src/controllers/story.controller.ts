@@ -16,18 +16,25 @@ export default class StoryController implements Controller {
   private useRoutes() {
     // Public
     this.router.get(`${this.path}/published`, this.findAll);
-    this.router.get(`${this.path}/published/:id`, this.findPublishedById);
     // eslint-disable-next-line prettier/prettier
-    //this.router.get(`${this.path}/published/user/:username`, this.findAllByUserName);
+    this.router.get(`${this.path}/published/user/:username`, this.findPublishedByUsername);
+    this.router.get(`${this.path}/published/:id`, this.findPublishedById);
 
     // Private
     this.router.get(`${this.path}/user`, verifyJWT, this.findAllByUserId);
-    this.router.get(`${this.path}/user/:id`, verifyJWT, this.findOneByUserId);
+    this.router.get(`${this.path}/user/:id`, verifyJWT, this.findByUserId);
     this.router.post(`${this.path}/user/new`, verifyJWT, this.new);
     this.router.post(`${this.path}/user`, verifyJWT, this.create);
     this.router.patch(`${this.path}/user/:id`, verifyJWT, this.update);
-    this.router.delete(`${this.path}/user/:id`, verifyJWT, this.deleteOne);
+    this.router.delete(`${this.path}/user/:id`, verifyJWT, this.delete);
   }
+
+  private findAll = async (req: Request, res: Response) => {
+    const story = await Story.find({ status: 'Published' })
+      .sort('-createdAt')
+      .populate('user', 'username');
+    res.json(story);
+  };
 
   private findPublishedById = async (req: any, res: Response) => {
     const story = await Story.findOne({ _id: req.params.id }).populate(
@@ -37,15 +44,7 @@ export default class StoryController implements Controller {
     res.json(story);
   };
 
-  private findAll = async (req: Request, res: Response) => {
-    const story = await Story.find({ status: 'Published' }).populate(
-      'user',
-      'username'
-    );
-    res.json(story);
-  };
-
-  private findAllByUserName = async (req: Request, res: Response) => {
+  private findPublishedByUsername = async (req: Request, res: Response) => {
     const story = await User.findOne({
       username: req.params.username,
     })
@@ -57,13 +56,16 @@ export default class StoryController implements Controller {
   };
 
   private findAllByUserId = async (req: any, res: Response) => {
-    const story = await User.findById(req.user._id).populate('stories');
+    const story = await User.findById(req.user._id).populate({
+      path: 'stories',
+      options: { sort: { createdAt: -1 } },
+    });
     if (story) {
       res.json(story.stories);
     }
   };
 
-  private findOneByUserId = async (req: any, res: Response) => {
+  private findByUserId = async (req: any, res: Response) => {
     const story = await User.findById(req.user._id).populate({
       path: 'stories',
       match: { _id: req.params.id },
@@ -135,11 +137,7 @@ export default class StoryController implements Controller {
     }
   };
 
-  private deleteOne = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  private delete = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
       const story = await Story.findByIdAndDelete(id);

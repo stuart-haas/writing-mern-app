@@ -29,6 +29,7 @@ const Dropdown = (props: Props) => {
             <NavLink
               className='link'
               activeClassName='is-active'
+              exact={true}
               to='/me/stories'
             >
               My Stories
