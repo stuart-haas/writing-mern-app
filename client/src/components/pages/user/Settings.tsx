@@ -16,19 +16,19 @@ const Settings = () => {
       name: 'currentPassword',
       type: 'password',
       placeholder: 'Current Password',
-      required: false,
+      required: true,
     },
     {
       name: 'password',
       type: 'password',
       placeholder: 'Password',
-      required: false,
+      required: true,
     },
     {
       name: 'passwordConfirm',
       type: 'password',
       placeholder: 'Confirm Password',
-      required: false,
+      required: true,
     },
   ];
   const dispatch = useDispatch();

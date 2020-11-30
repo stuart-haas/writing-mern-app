@@ -8,7 +8,7 @@ import { generateId } from 'utils/functions';
 export const loginUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await api.post('/auth/login', data);
+      const response = await api.post('/user/login', data);
       const { _id, username } = response.data;
       const user = { _id, username };
       localStorage.setItem('user', JSON.stringify(user));
@@ -38,7 +38,7 @@ export const logoutUser = (
   status = 'success'
 ) => {
   return async (dispatch: Dispatch) => {
-    const response = await api.post('/auth/logout');
+    const response = await api.post('/user/logout');
     localStorage.removeItem('user');
     dispatch(push('/login'));
     dispatch({
@@ -61,7 +61,7 @@ export const logoutUser = (
 export const registerUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await api.post('/auth/register', data);
+      const response = await api.post('/user/register', data);
       dispatch(push('/me/stories'));
       dispatch({
         type: ActionTypes.MESSAGE_ADD,
@@ -82,7 +82,7 @@ export const registerUser = (data: IUser) => {
 
 export const updateUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
-    const response = await api.patch('/auth', data);
+    const response = await api.patch('/user', data);
     const { _id, username } = response.data;
     const user = { _id, username };
     localStorage.setItem('user', JSON.stringify(user));

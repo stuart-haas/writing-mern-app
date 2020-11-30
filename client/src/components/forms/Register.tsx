@@ -13,6 +13,8 @@ const Register = () => {
       type: 'text',
       placeholder: 'Username',
       required: true,
+      lookup: '/user/',
+      lookupMessage: 'Username already exists',
     },
     {
       name: 'password',

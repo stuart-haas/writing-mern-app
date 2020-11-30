@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import api from 'services/api';
 
 export interface FormData {
   [key: string]: string;
@@ -12,6 +13,8 @@ export interface FormField {
   required?: boolean;
   match?: string;
   matchError?: string;
+  lookup?: string;
+  lookupMessage?: string;
 }
 interface FormButton {
   label?: string;
@@ -48,7 +51,6 @@ export function mapData(fields: FormField[]) {
 const Form = (props: Props) => {
   const [data, setData] = useState<FormData>(mapData(props.fields));
   const [errors, setErrors] = useState<FormError[]>([]);
-  const [disabled, setDisabled] = useState<boolean>(false);
   const ref = useRef<any>();
 
   useEffect(() => {
@@ -66,13 +68,6 @@ const Form = (props: Props) => {
   useEffect(() => {
     props.fields.forEach((field: FormField) => {
       if (field.name) {
-        if (field.required) {
-          if (data[field.name] === '') {
-            setDisabled(true);
-          } else {
-            setDisabled(false);
-          }
-        }
         if (field.match) {
           if (data[field.name] !== data[field.match]) {
             setErrors([
@@ -93,6 +88,26 @@ const Form = (props: Props) => {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
+
+    props.fields.forEach((field: FormField) => {
+      if (field.lookup && value) {
+        api.get(`${field.lookup}${value}`).then((response: any) => {
+          if (response.data) {
+            setErrors([
+              ...errors,
+              { msg: field.lookupMessage, param: field.name },
+            ]);
+          } else {
+            setErrors(
+              errors.filter((e: FormError) => {
+                return e.param !== field.name;
+              })
+            );
+          }
+        });
+      }
+    });
+
     setData({
       ...data,
       [name]: value,
@@ -151,7 +166,6 @@ const Form = (props: Props) => {
         ))}
       </div>
       <button
-        disabled={disabled}
         className={`button ${
           props.button && props.button.class ? props.button.class : 'success'
         }`}

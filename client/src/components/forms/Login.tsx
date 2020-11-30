@@ -6,10 +6,6 @@ import { useHistory } from 'react-router-dom';
 import Form, { FormField } from './Form';
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state: UserState) => state.user);
-  const history = useHistory();
-
   const fields: FormField[] = [
     {
       name: 'username',
@@ -24,6 +20,10 @@ const Login = () => {
       required: true,
     },
   ];
+
+  const dispatch = useDispatch();
+  const user = useSelector((state: UserState) => state.user);
+  const history = useHistory();
 
   useEffect(() => {
     if (user && user.authenticated) {

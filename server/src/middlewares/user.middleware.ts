@@ -32,7 +32,7 @@ export const loginRules = [
       } else {
         return User.findOne({ username: value }).then((user: any) => {
           if (!user) {
-            return Promise.reject('User not found');
+            return Promise.reject('Username not found');
           }
         });
       }
@@ -48,7 +48,7 @@ export const loginRules = [
         return User.findOne({ username: req.body.username }).then(
           (user: any) => {
             if (!user) {
-              return Promise.reject('User not found');
+              return Promise.reject('Something went wrong');
             } else {
               return bcrypt
                 .compare(value, user.password)

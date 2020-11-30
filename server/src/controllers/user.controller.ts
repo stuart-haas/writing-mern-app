@@ -12,7 +12,7 @@ import {
 import { validate } from '@common/middleware';
 
 export default class UserController implements Controller {
-  public path = '/auth';
+  public path = '/user';
   public router = Router();
 
   constructor() {
@@ -27,6 +27,8 @@ export default class UserController implements Controller {
     // eslint-disable-next-line prettier/prettier
     this.router.post(`${this.path}/login`, loginRules, validate, signJWT, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
+
+    this.router.get(`${this.path}/:username`, this.findByUsername);
   }
 
   private register = async (req: Request, res: Response) => {
@@ -45,6 +47,11 @@ export default class UserController implements Controller {
 
   private logout = async (req: Request, res: Response) => {
     res.clearCookie('token').sendStatus(200);
+  };
+
+  private findByUsername = async (req: any, res: Response) => {
+    const user = await User.findOne({ username: req.params.username });
+    res.json(user);
   };
 
   private update = async (req: any, res: Response) => {
