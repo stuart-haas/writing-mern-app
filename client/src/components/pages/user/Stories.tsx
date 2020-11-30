@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 import { getStory, newStory } from 'redux/story/actions';
 import { getTimeAgo } from 'utils/functions';
 
-const UserStories = () => {
+const Stories = () => {
   const dispatch = useDispatch();
-  const [stories, setStories] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const response: any = await dispatch(getStory());
       const { data } = response;
-      setStories(data);
+      setData(data);
       setLoading(false);
     };
     fetchData();
@@ -26,14 +26,14 @@ const UserStories = () => {
 
   return (
     <Fragment>
-      {stories && stories.length ? (
+      {data && data.length ? (
         <button className='button success' onClick={() => dispatch(newStory)}>
           New Story
         </button>
       ) : null}
       <div className='items'>
-        {stories && stories.length > 0 ? (
-          stories.map((story: IStory, index: number) => (
+        {data && data.length > 0 ? (
+          data.map((story: IStory, index: number) => (
             <Link
               key={index}
               className='item link'
@@ -77,4 +77,4 @@ const UserStories = () => {
   );
 };
 
-export default UserStories;
+export default Stories;

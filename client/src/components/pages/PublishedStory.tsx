@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
-const Story = () => {
+const PublishedStory = () => {
   const dispatch = useDispatch();
   const params = useParams<IParams>();
   const [data, setData] = useState<IStory>();
@@ -47,4 +47,4 @@ const Story = () => {
   );
 };
 
-export default Story;
+export default PublishedStory;

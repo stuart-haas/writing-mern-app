@@ -1,6 +1,11 @@
 import React from 'react';
 
-const Page = (props: any) => {
+interface Props {
+  title?: string;
+  children: JSX.Element | JSX.Element[];
+}
+
+const Page = (props: Props) => {
   return (
     <div className='page'>
       <div className='page-header'>

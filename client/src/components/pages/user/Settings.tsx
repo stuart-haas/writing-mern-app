@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IUser } from 'common/interfaces';
 import { updateUser } from 'redux/user/actions';
 
-const UserSettings = () => {
+const Settings = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const ref = useRef<any>();
@@ -75,4 +75,4 @@ const UserSettings = () => {
   );
 };
 
-export default UserSettings;
+export default Settings;

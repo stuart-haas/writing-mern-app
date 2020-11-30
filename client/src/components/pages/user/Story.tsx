@@ -7,7 +7,7 @@ import { IParams, IStory } from 'common/interfaces';
 import { getTimeAgo } from 'utils/functions';
 import 'easymde/dist/easymde.min.css';
 
-const UserStory = () => {
+const Story = () => {
   const dispatch = useDispatch();
   const params = useParams<IParams>();
   const [data, setData] = useState<IStory>({});
@@ -186,4 +186,4 @@ const UserStory = () => {
   );
 };
 
-export default UserStory;
+export default Story;

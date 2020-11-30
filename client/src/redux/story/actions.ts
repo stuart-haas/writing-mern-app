@@ -57,8 +57,8 @@ export const newStory = async (dispatch: Dispatch) => {
   dispatch(push(`/me/stories/edit/${data._id}`));
 };
 
-export const getStory = (id = '', path = 'user') => {
+export const getStory = (param = '', path = 'user') => {
   return async () => {
-    return await api.get(`/story/${path}/${id}`);
+    return await api.get(`/story/${path}/${param}`);
   };
 };

@@ -1,24 +1,28 @@
 import { IStory } from 'common/interfaces';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getStory } from 'redux/story/actions';
 import { format } from 'date-fns';
 
-const Stories = () => {
+const PublishedStories = () => {
   const dispatch = useDispatch();
-  const [stories, setStories] = useState([]);
+  const [data, setData] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
+  const params = useParams<any>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const response: any = await dispatch(getStory('', 'published'));
+      const response: any = await dispatch(
+        getStory(params.username, 'published/user')
+      );
       const { data } = response;
-      setStories(data);
+      console.log(data);
+      setData(data);
       setLoading(false);
     };
     fetchData();
-  }, [dispatch]);
+  }, [dispatch, params]);
 
   if (loading) {
     return <h1>Loading</h1>;
@@ -26,21 +30,19 @@ const Stories = () => {
 
   return (
     <Fragment>
+      <h2 className='h2'>Stories written by {data.username}</h2>
       <div className='items'>
-        {stories.length > 0 ? (
-          stories.map((story: IStory, index: number) => (
-            <Link
-              key={index}
-              className='item link'
-              to={`/stories/${story._id}`}
-            >
-              <h1 className='h2'>{story.title}</h1>
+        {data && data.stories.length > 0 ? (
+          data.stories.map((story: IStory, index: number) => (
+            <div key={index} className='item'>
+              <Link className='link' to={`/stories/${story._id}`}>
+                <h1 className='h2'>{story.title}</h1>
+              </Link>
               <span className='text small dark-gray'>
-                Written by {story.user && story.user.username} |{' '}
                 {story.createdAt &&
                   format(Date.parse(story.createdAt), 'MMMM dd, yyyy')}
               </span>
-            </Link>
+            </div>
           ))
         ) : (
           <div className='text center'>
@@ -52,4 +54,4 @@ const Stories = () => {
   );
 };
 
-export default Stories;
+export default PublishedStories;
