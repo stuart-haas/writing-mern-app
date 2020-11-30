@@ -47,7 +47,7 @@ const Dropdown = (props: Props) => {
           </span>
           <hr className='dropdown-divider' />
           <span className='dropdown-item'>
-            <button className='button' onClick={() => dispatch(logoutUser)}>
+            <button className='button' onClick={() => dispatch(logoutUser())}>
               Logout
             </button>
           </span>

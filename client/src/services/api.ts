@@ -25,7 +25,7 @@ export const apiInterceptor = (store: any) => {
     (error) => {
       if (error.response) {
         if (error.response.status === 401) {
-          store.dispatch(logoutUser);
+          store.dispatch(logoutUser('Your session expired', 'error'));
         } else {
           store.dispatch(
             addMessage({
