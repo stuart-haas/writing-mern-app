@@ -31,7 +31,7 @@ const Dropdown = (props: Props) => {
               activeClassName='is-active'
               to='/me/stories'
             >
-              Stories
+              My Stories
             </NavLink>
           </span>
           <hr className='dropdown-divider' />

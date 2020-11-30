@@ -29,7 +29,11 @@ const Stories = () => {
       <div className='items'>
         {stories.length > 0 ? (
           stories.map((story: IStory, index: number) => (
-            <Link key={index} className='item link' to={`/story/${story._id}`}>
+            <Link
+              key={index}
+              className='item link'
+              to={`/stories/${story._id}`}
+            >
               <h1 className='h2'>{story.title}</h1>
               <span className='text small dark-gray'>
                 Written by {story.user && story.user.username} |{' '}

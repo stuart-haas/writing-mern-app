@@ -4,7 +4,7 @@ import { IUser } from 'common/interfaces';
 import { loginUser } from 'redux/user/actions';
 import { useHistory } from 'react-router-dom';
 
-const Login = () => {
+const Login = (props: any) => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const ref = useRef<any>();

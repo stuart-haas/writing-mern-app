@@ -37,7 +37,7 @@ const UserStories = () => {
             <Link
               key={index}
               className='item link'
-              to={`/me/story/edit/${story._id}`}
+              to={`/me/stories/edit/${story._id}`}
             >
               <h1 className='h2'>{story.title}</h1>
               <div className='text small dark-gray'>

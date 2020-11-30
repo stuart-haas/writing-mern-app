@@ -11,25 +11,74 @@ import PrivateRoute from 'components/route/PrivateRoute';
 import ErrorPage from 'components/pages/ErrorPage';
 import ToastContainer from 'components/toast/ToastContainer';
 import UserSettings from 'components/pages/user/UserSettings';
+import Page from 'components/pages/Page';
 
 const App = () => {
   return (
     <Container>
       <Switch>
-        <Route path='/login' exact={true} component={Login} />
-        <Route path='/register' exact={true} component={Register} />
-        <Route path='/stories' exact={true} component={Stories} />
-        <Route path='/story/:id' exact={true} component={Story} />
-        <PrivateRoute path='/me/stories' exact={true} component={UserStories} />
-        <PrivateRoute
-          path='/me/story/edit/:id'
+        <Route
+          path='/login'
           exact={true}
-          component={UserStory}
+          component={() => (
+            <Page>
+              <Login />
+            </Page>
+          )}
+        />
+        <Route
+          path='/register'
+          exact={true}
+          component={() => (
+            <Page>
+              <Register />
+            </Page>
+          )}
+        />
+        <Route
+          path='/stories'
+          exact={true}
+          component={() => (
+            <Page>
+              <Stories />
+            </Page>
+          )}
+        />
+        <Route
+          path='/stories/:id'
+          exact={true}
+          component={() => (
+            <Page>
+              <Story />
+            </Page>
+          )}
+        />
+        <PrivateRoute
+          path='/me/stories'
+          exact={true}
+          component={() => (
+            <Page title='My Stories'>
+              <UserStories />
+            </Page>
+          )}
+        />
+        <PrivateRoute
+          path='/me/stories/edit/:id'
+          exact={true}
+          component={() => (
+            <Page>
+              <UserStory />
+            </Page>
+          )}
         />
         <PrivateRoute
           path='/me/settings'
           exact={true}
-          component={UserSettings}
+          component={() => (
+            <Page>
+              <UserSettings />
+            </Page>
+          )}
         />
         <Route component={ErrorPage} />
       </Switch>
