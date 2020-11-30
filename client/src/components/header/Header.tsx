@@ -47,11 +47,6 @@ const Dropdown = (props: any) => {
     }
   }
 
-  async function handleLogout() {
-    await dispatch(logoutUser);
-    history.push('/login');
-  }
-
   return (
     <div className={`dropdown ${props.isOpen ? 'is-active' : ''}`}>
       {isAuthenticated && (
@@ -82,7 +77,7 @@ const Dropdown = (props: any) => {
           </span>
           <hr className='dropdown-divider' />
           <span className='dropdown-item'>
-            <button className='button' onClick={() => handleLogout()}>
+            <button className='button' onClick={() => dispatch(logoutUser)}>
               Logout
             </button>
           </span>

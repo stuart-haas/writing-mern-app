@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import ActionTypes from 'redux/actionTypes';
+import { push } from 'connected-react-router';
 import { IUser } from 'common/interfaces';
 import api from 'services/api';
 import { generateId } from 'utils/functions';
@@ -41,6 +42,7 @@ export const loginUser = (data: IUser) => {
 export const logoutUser = async (dispatch: Dispatch) => {
   await api.post('/auth/logout');
   localStorage.removeItem('user');
+  dispatch(push('/login'));
   dispatch({
     type: ActionTypes.USER_UPDATE,
     payload: { user: {}, authenticated: false },
@@ -57,8 +59,9 @@ export const logoutUser = async (dispatch: Dispatch) => {
 };
 
 export const registerUser = (data: IUser) => {
-  return async () => {
-    return await api.post('/auth/register', data);
+  return async (dispatch: Dispatch) => {
+    await api.post('/auth/register', data);
+    dispatch(push('/me/stories'));
   };
 };
 
@@ -68,6 +71,7 @@ export const updateUser = (data: IUser) => {
     const { _id, username } = response.data;
     const user = { _id, username };
     localStorage.setItem('user', JSON.stringify(user));
+    dispatch(push('/me/stories'));
     dispatch({
       type: ActionTypes.MESSAGE_ADD,
       payload: {

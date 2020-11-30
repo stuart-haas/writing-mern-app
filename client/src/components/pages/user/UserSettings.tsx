@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
 import { updateUser } from 'redux/user/actions';
 
@@ -8,7 +7,6 @@ const UserSettings = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const ref = useRef<any>();
-  const history = useHistory();
 
   const [data, setData] = useState<IUser>({
     username: '',
@@ -24,10 +22,9 @@ const UserSettings = () => {
     });
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await dispatch(updateUser(data));
-    history.push('/me/stories');
+    dispatch(updateUser(data));
   }
 
   useEffect(() => {

@@ -87,7 +87,6 @@ const UserStory = () => {
     if (!window.confirm('Are you sure?')) return;
     await dispatch(deleteStory(params.id));
     handleResponse();
-    history.push('/me/stories');
   }, [dispatch, params, history]);
 
   function handleResponse(response: any = null) {

@@ -1,17 +1,26 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 import thunk from 'redux-thunk';
 import { apiInterceptor } from 'services/api';
 import user from 'redux/user/reducers';
 import story from 'redux/story/reducers';
 import message from 'redux/message/reducers';
 
-const rootReducer = combineReducers({
-  user,
-  story,
-  message,
-});
+export const history = createBrowserHistory();
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const rootReducer = (history: any) =>
+  combineReducers({
+    router: connectRouter(history),
+    user,
+    story,
+    message,
+  });
+
+const store = createStore(
+  rootReducer(history),
+  compose(applyMiddleware(thunk, routerMiddleware(history)))
+);
 
 apiInterceptor(store);
 

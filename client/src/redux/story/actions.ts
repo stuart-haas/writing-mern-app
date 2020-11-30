@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import ActionTypes from 'redux/actionTypes';
+import { push } from 'connected-react-router';
 import { IStory } from 'common/interfaces';
 import api from 'services/api';
 import { generateId } from 'utils/functions';
@@ -37,6 +38,7 @@ export const deleteStory = (
 ) => {
   return async (dispatch: Dispatch) => {
     await api.delete(`/story/user/${id}`);
+    dispatch(push('/me/stories'));
     dispatch({
       type: ActionTypes.MESSAGE_ADD,
       payload: {

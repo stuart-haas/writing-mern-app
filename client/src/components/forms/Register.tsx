@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
 import { registerUser } from 'redux/user/actions';
 
 const Register = () => {
   const dispatch = useDispatch();
   const ref = useRef<any>();
-  const history = useHistory();
 
   const [data, setData] = useState<IUser>({
     username: '',
@@ -23,10 +21,9 @@ const Register = () => {
     });
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await dispatch(registerUser(data));
-    history.push('/login');
+    dispatch(registerUser(data));
   }
 
   useEffect(() => {
