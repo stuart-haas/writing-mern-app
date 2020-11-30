@@ -22,34 +22,38 @@ const Header = () => {
   }, [theme]);
 
   return (
-    <header className='flex justify-between align-center'>
-      <Link to='/' className='link'>
-        <h1 className='h1'>Fable</h1>
-      </Link>
-      <nav className='nav'>
-        <span className='nav-link'>
-          <Toggle
-            enabled={enabled}
-            offLabel={<FaMoon />}
-            onLabel={<FaSun />}
-            toggle={() => dispatch(toggleTheme)}
-          />
-        </span>
-        <span
-          className='nav-link dropdown-trigger'
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span className='button round outline'>
-            <i className='icon'>
-              <FaUserAlt />
-            </i>
+    <header className='header'>
+      <div className='nav-group flex justify-between align-center'>
+        <nav className='nav'>
+          <Link to='/' className='link'>
+            <h1 className='h1'>Fable</h1>
+          </Link>
+        </nav>
+        <nav className='nav'>
+          <span className='nav-link'>
+            <Toggle
+              enabled={enabled}
+              offLabel={<FaMoon />}
+              onLabel={<FaSun />}
+              toggle={() => dispatch(toggleTheme)}
+            />
           </span>
-          <Dropdown
-            isOpen={isOpen}
-            toggle={(open: boolean) => setIsOpen(open)}
-          />
-        </span>
-      </nav>
+          <span
+            className='nav-link dropdown-trigger'
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span className='button round outline'>
+              <i className='icon'>
+                <FaUserAlt />
+              </i>
+            </span>
+            <Dropdown
+              isOpen={isOpen}
+              toggle={(open: boolean) => setIsOpen(open)}
+            />
+          </span>
+        </nav>
+      </div>
     </header>
   );
 };
