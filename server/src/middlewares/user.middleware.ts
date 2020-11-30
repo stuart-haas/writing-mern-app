@@ -54,7 +54,7 @@ export const updateRules = [
     .trim()
     .escape()
     .custom((value: string, { req }) => {
-      return User.findOne({ username: req.body.username }).then((user: any) => {
+      return User.findById(req.user._id).then((user: any) => {
         return bcrypt.compare(value, user.password).then((error: boolean) => {
           if (!error) {
             return Promise.reject('Password does not match');
