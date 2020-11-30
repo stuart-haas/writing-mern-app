@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IUser, UserState } from 'common/interfaces';
 import { updateUser } from 'redux/user/actions';
-import Form, { FormField, FormData, mapData } from 'components/forms/Form';
+import Form, { FormField, FormData } from 'components/forms/Form';
 
 const Settings = () => {
   const dispatch = useDispatch();
@@ -38,10 +38,6 @@ const Settings = () => {
       },
     },
   ];
-
-  useEffect(() => {
-    setData(mapData(fields));
-  }, []);
 
   useEffect(() => {
     const { username } = user.user;
