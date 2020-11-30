@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import { FaUserAlt } from 'react-icons/fa';
+import { FaUserAlt, FaMoon, FaSun } from 'react-icons/fa';
 import Dropdown from 'components/dropdown/Dropdown';
 import { toggleTheme } from 'redux/theme/actions';
+import Toggle from 'components/toggle/Toggle';
+import { ThemeState } from 'common/interfaces';
 
 const Header = () => {
   const dispatch = useDispatch();
+  const theme = useSelector((state: ThemeState) => state.theme);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [enabled, setEnabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (theme.theme == 'light') {
+      setEnabled(false);
+    } else {
+      setEnabled(true);
+    }
+  }, [theme]);
 
   return (
     <header className='flex justify-between align-center'>
@@ -16,12 +28,12 @@ const Header = () => {
       </Link>
       <nav className='nav'>
         <span className='nav-link'>
-          <button
-            className='button success'
-            onClick={() => dispatch(toggleTheme)}
-          >
-            Toggle Theme
-          </button>
+          <Toggle
+            enabled={enabled}
+            offLabel={<FaSun />}
+            onLabel={<FaMoon />}
+            toggle={() => dispatch(toggleTheme)}
+          />
         </span>
         <NavLink className='nav-link' activeClassName='is-active' to='/stories'>
           Stories
