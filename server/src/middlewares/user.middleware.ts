@@ -48,6 +48,22 @@ export const loginRules = [
     }),
 ];
 
+export const updateRules = [
+  check('currentPassword')
+    .exists()
+    .trim()
+    .escape()
+    .custom((value: string, { req }) => {
+      return User.findOne({ username: req.body.username }).then((user: any) => {
+        return bcrypt.compare(value, user.password).then((error: boolean) => {
+          if (!error) {
+            return Promise.reject('Password does not match');
+          }
+        });
+      });
+    }),
+];
+
 export const hashPassword = (
   req: Request,
   res: Response,

@@ -1,15 +1,26 @@
 .form {
   @include depth-shadow(2);
+  min-width: 400px;
   max-width: 400px;
   padding: 1rem;
   margin: 0 auto;
   border-radius: 3px;
+}
 
-  &.center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 400px;
-    transform: translate(-50%, -50%);
+.field-group {
+  padding: 1rem 0;
+}
+
+.field-group-heading {
+  display: block;
+  margin-bottom: 1rem;
+  color: darken($color-dark-gray, 8%);
+}
+
+.input {
+  transition: all 0.2s ease;
+  
+  &:focus {
+    border-color: $color-green;
   }
 }

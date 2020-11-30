@@ -71,7 +71,6 @@ export const updateUser = (data: IUser) => {
     const { _id, username } = response.data;
     const user = { _id, username };
     localStorage.setItem('user', JSON.stringify(user));
-    dispatch(push('/me/stories'));
     dispatch({
       type: ActionTypes.MESSAGE_ADD,
       payload: {

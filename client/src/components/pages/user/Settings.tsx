@@ -10,6 +10,7 @@ const Settings = () => {
 
   const [data, setData] = useState<IUser>({
     username: '',
+    currentPassword: '',
     password: '',
     passwordConfirm: '',
   });
@@ -25,6 +26,12 @@ const Settings = () => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(updateUser(data));
+    setData({
+      ...data,
+      currentPassword: '',
+      password: '',
+      passwordConfirm: '',
+    });
   }
 
   useEffect(() => {
@@ -37,7 +44,7 @@ const Settings = () => {
   }, [user]);
 
   return (
-    <form className='form center' onSubmit={handleSubmit}>
+    <form className='form position-center' onSubmit={handleSubmit}>
       <h2 className='h2'>Settings</h2>
       <div className='field'>
         <input
@@ -50,27 +57,40 @@ const Settings = () => {
           onChange={handleChange}
         />
       </div>
-      <div className='field'>
-        <input
-          className='input'
-          type='password'
-          name='password'
-          placeholder='Password'
-          value={data.password}
-          onChange={handleChange}
-        />
+      <div className='field-group'>
+        <span className='field-group-heading'>Change your Password</span>
+        <div className='field'>
+          <input
+            className='input'
+            type='password'
+            name='currentPassword'
+            placeholder='Current Password'
+            value={data.currentPassword}
+            onChange={handleChange}
+          />
+        </div>
+        <div className='field'>
+          <input
+            className='input'
+            type='password'
+            name='password'
+            placeholder='Password'
+            value={data.password}
+            onChange={handleChange}
+          />
+        </div>
+        <div className='field'>
+          <input
+            className='input'
+            type='password'
+            name='passwordConfirm'
+            placeholder='Confirm Password'
+            value={data.passwordConfirm}
+            onChange={handleChange}
+          />
+        </div>
       </div>
-      <div className='field'>
-        <input
-          className='input'
-          type='password'
-          name='passwordConfirm'
-          placeholder='Confirm Password'
-          value={data.passwordConfirm}
-          onChange={handleChange}
-        />
-      </div>
-      <button className='button success'>Register</button>
+      <button className='button success'>Update</button>
     </form>
   );
 };

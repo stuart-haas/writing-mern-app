@@ -17,7 +17,6 @@ const PublishedStories = () => {
         getStory(params.username, 'published/user')
       );
       const { data } = response;
-      console.log(data);
       setData(data);
       setLoading(false);
     };
