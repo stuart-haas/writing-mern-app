@@ -14,7 +14,7 @@ const Header = () => {
   const [enabled, setEnabled] = useState<boolean>(false);
 
   useEffect(() => {
-    if (theme.theme == 'dark') {
+    if (theme.theme === 'dark') {
       setEnabled(true);
     } else {
       setEnabled(false);
