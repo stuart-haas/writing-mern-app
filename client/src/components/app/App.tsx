@@ -74,7 +74,7 @@ const App = () => {
     ],
   };
 
-  const currentTheme = useSelector((state: ThemeState) => state.theme);
+  const theme = useSelector((state: ThemeState) => state.theme);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -82,12 +82,12 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    themeColours[currentTheme.theme].forEach((e: IThemeColor) => {
+    themeColours[theme.theme].forEach((e: IThemeColor) => {
       document.body.style.setProperty(
         `--color-${e.name}`, e.color,
       );
     });
-  }, [currentTheme]);
+  }, [theme]);
 
   return (
     <Container>
