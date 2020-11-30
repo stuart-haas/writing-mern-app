@@ -7,23 +7,29 @@ import { generateId } from 'utils/functions';
 
 export const loginUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
-    const response = await api.post('/auth/login', data);
-    const { _id, username } = response.data;
-    const user = { _id, username };
-    localStorage.setItem('user', JSON.stringify(user));
-    dispatch({
-      type: ActionTypes.USER_UPDATE,
-      payload: { user, authenticated: true },
-    });
-    dispatch({
-      type: ActionTypes.MESSAGE_ADD,
-      payload: {
-        id: generateId('toast'),
-        type: 'toast',
-        message: 'Login Successful',
-        status: 'success',
-      },
-    });
+    try {
+      const response = await api.post('/auth/login', data);
+      const { _id, username } = response.data;
+      const user = { _id, username };
+      localStorage.setItem('user', JSON.stringify(user));
+      dispatch({
+        type: ActionTypes.USER_UPDATE,
+        payload: { user, authenticated: true },
+      });
+      dispatch({
+        type: ActionTypes.MESSAGE_ADD,
+        payload: {
+          id: generateId('toast'),
+          type: 'toast',
+          message: 'Login Successful',
+          status: 'success',
+        },
+      });
+      return { response };
+    } catch (error) {
+      const errors = error.response;
+      return { errors };
+    }
   };
 };
 
@@ -32,7 +38,7 @@ export const logoutUser = (
   status = 'success'
 ) => {
   return async (dispatch: Dispatch) => {
-    await api.post('/auth/logout');
+    const response = await api.post('/auth/logout');
     localStorage.removeItem('user');
     dispatch(push('/login'));
     dispatch({
@@ -48,22 +54,29 @@ export const logoutUser = (
         status: status,
       },
     });
+    return response;
   };
 };
 
 export const registerUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
-    await api.post('/auth/register', data);
-    dispatch(push('/me/stories'));
-    dispatch({
-      type: ActionTypes.MESSAGE_ADD,
-      payload: {
-        id: generateId('toast'),
-        type: 'toast',
-        message: 'Account Created',
-        status: 'success',
-      },
-    });
+    try {
+      const response = await api.post('/auth/register', data);
+      dispatch(push('/me/stories'));
+      dispatch({
+        type: ActionTypes.MESSAGE_ADD,
+        payload: {
+          id: generateId('toast'),
+          type: 'toast',
+          message: 'Account Created',
+          status: 'success',
+        },
+      });
+      return { response };
+    } catch (error) {
+      const errors = error.response;
+      return { errors };
+    }
   };
 };
 
@@ -82,6 +95,7 @@ export const updateUser = (data: IUser) => {
         status: 'success',
       },
     });
+    return response;
   };
 };
 

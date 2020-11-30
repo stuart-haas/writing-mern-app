@@ -9,17 +9,20 @@ export interface FormField {
   type?: string;
   placeholder?: string;
   class?: string;
-  fieldGroup?: any;
+  required?: boolean;
+  match?: string;
+  matchError?: string;
 }
-
-export interface FormFieldGroup {
-  label: string;
-  fields: FormField[];
-}
-
 interface FormButton {
   label?: string;
   class?: string;
+}
+
+interface FormError {
+  value?: string;
+  msg?: string;
+  param?: string;
+  location?: string;
 }
 
 interface Props {
@@ -38,21 +41,14 @@ export function mapData(fields: FormField[]) {
     if (field.name) {
       data[field.name] = '';
     }
-    if (field.fieldGroup) {
-      field.fieldGroup.fields.forEach((field: FormField) => {
-        if (field.name) {
-          data[field.name] = '';
-        }
-      });
-    }
   });
   return data;
 }
 
 const Form = (props: Props) => {
-  const [data, setData] = useState<FormData>(
-    props.data || mapData(props.fields)
-  );
+  const [data, setData] = useState<FormData>(mapData(props.fields));
+  const [errors, setErrors] = useState<FormError[]>([]);
+  const [disabled, setDisabled] = useState<boolean>(false);
   const ref = useRef<any>();
 
   useEffect(() => {
@@ -67,6 +63,34 @@ const Form = (props: Props) => {
     }
   }, [props.autoFocus]);
 
+  useEffect(() => {
+    props.fields.forEach((field: FormField) => {
+      if (field.name) {
+        if (field.required) {
+          if (data[field.name] === '') {
+            setDisabled(true);
+          } else {
+            setDisabled(false);
+          }
+        }
+        if (field.match) {
+          if (data[field.name] !== data[field.match]) {
+            setErrors([
+              ...errors,
+              { msg: field.matchError, param: field.name },
+            ]);
+          } else {
+            setErrors(
+              errors.filter((e: FormError) => {
+                return e.param !== field.name;
+              })
+            );
+          }
+        }
+      }
+    });
+  }, [data]);
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
     setData({
@@ -75,9 +99,14 @@ const Form = (props: Props) => {
     });
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    props.submit(data!);
+    const { errors }: any = await props.submit(data!);
+    if (errors) {
+      setErrors(errors.data);
+    } else {
+      setErrors([]);
+    }
   }
 
   function applyRef(index: number) {
@@ -86,11 +115,25 @@ const Form = (props: Props) => {
     }
   }
 
+  function hasError(param: string) {
+    const error: FormError[] = errors.filter((error: FormError) => {
+      return error.param == param;
+    });
+    return error.length == 0 ? false : true;
+  }
+
+  function findError(param: string) {
+    const error: FormError[] = errors.filter((error: FormError) => {
+      return error.param == param;
+    });
+    return error[0].msg;
+  }
+
   return (
     <form className={`form ${props.class}`} onSubmit={handleSubmit}>
       {props.title && <h2 className='h2'>{props.title}</h2>}
-      {props.fields.map((field: FormField, index: number) =>
-        !field.fieldGroup ? (
+      <div className='fields'>
+        {props.fields.map((field: FormField, index: number) => (
           <div key={index} className='field'>
             <input
               ref={applyRef(index)}
@@ -101,26 +144,14 @@ const Form = (props: Props) => {
               value={(data && data[field.name!]) || ''}
               onChange={(e) => handleChange(e)}
             />
+            {hasError(field.name!) && (
+              <label className='field-error'>{findError(field.name!)}</label>
+            )}
           </div>
-        ) : (
-          <div key={index} className='field-group'>
-            <div className='field-group-label'>{field.fieldGroup.label}</div>
-            {field.fieldGroup.fields.map((field: FormField, index: number) => (
-              <div key={index} className='field'>
-                <input
-                  className={field.class ? field.class : 'input'}
-                  type={field.type}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  value={data[field.name!] || ''}
-                  onChange={(e) => handleChange(e)}
-                />
-              </div>
-            ))}
-          </div>
-        )
-      )}
+        ))}
+      </div>
       <button
+        disabled={disabled}
         className={`button ${
           props.button && props.button.class ? props.button.class : 'success'
         }`}

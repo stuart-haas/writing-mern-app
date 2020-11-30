@@ -15,11 +15,13 @@ const Login = () => {
       name: 'username',
       type: 'text',
       placeholder: 'Username',
+      required: true,
     },
     {
       name: 'password',
       type: 'password',
       placeholder: 'Password',
+      required: true,
     },
   ];
 

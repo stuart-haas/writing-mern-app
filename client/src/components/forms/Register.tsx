@@ -12,16 +12,21 @@ const Register = () => {
       name: 'username',
       type: 'text',
       placeholder: 'Username',
+      required: true,
     },
     {
       name: 'password',
       type: 'password',
       placeholder: 'Password',
+      required: true,
     },
     {
       name: 'passwordConfirm',
       type: 'password',
       placeholder: 'Confirm Password',
+      required: true,
+      match: 'password',
+      matchError: 'Passwords do not match',
     },
   ];
 

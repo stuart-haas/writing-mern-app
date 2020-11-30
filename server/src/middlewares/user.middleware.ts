@@ -27,24 +27,40 @@ export const loginRules = [
     .trim()
     .escape()
     .custom((value: string) => {
-      return User.findOne({ username: value }).then((user: any) => {
-        if (!user) {
-          return Promise.reject('Username not found');
-        }
-      });
+      if (!value) {
+        return Promise.reject('Username required');
+      } else {
+        return User.findOne({ username: value }).then((user: any) => {
+          if (!user) {
+            return Promise.reject('User not found');
+          }
+        });
+      }
     }),
   check('password')
     .exists()
     .trim()
     .escape()
     .custom((value: string, { req }) => {
-      return User.findOne({ username: req.body.username }).then((user: any) => {
-        return bcrypt.compare(value, user.password).then((error: boolean) => {
-          if (!error) {
-            return Promise.reject('Password does not match');
+      if (!value) {
+        return Promise.reject('Password required');
+      } else {
+        return User.findOne({ username: req.body.username }).then(
+          (user: any) => {
+            if (!user) {
+              return Promise.reject('User not found');
+            } else {
+              return bcrypt
+                .compare(value, user.password)
+                .then((error: boolean) => {
+                  if (!error) {
+                    return Promise.reject('Wrong password');
+                  }
+                });
+            }
           }
-        });
-      });
+        );
+      }
     }),
 ];
 

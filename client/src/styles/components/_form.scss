@@ -8,8 +8,13 @@
   border-radius: 3px;
 }
 
+.fields {
+  padding: 0.5rem 0 1.5rem; 
+}
+
 .field {
-  margin-bottom: 1rem;
+  min-height: 51px;
+  margin-bottom: 0.5rem;
 }
 
 .field-error {
@@ -32,10 +37,6 @@
   border-bottom: solid 1px var(--color-text-dark-gray);
   background-color: transparent;
   transition: all 0.2s ease;
-
-  &.center {
-    margin: 0 auto;
-  }
   
   &:focus {
     border-color: var(--color-green);

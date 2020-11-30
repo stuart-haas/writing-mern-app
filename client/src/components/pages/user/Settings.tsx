@@ -2,42 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IUser, UserState } from 'common/interfaces';
 import { updateUser } from 'redux/user/actions';
-import Form, { FormField, FormData } from 'components/forms/Form';
+import Form, { FormField, FormData, mapData } from 'components/forms/Form';
 
 const Settings = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state: UserState) => state.user);
-  const [data, setData] = useState<FormData>({});
-
   const fields: FormField[] = [
     {
       name: 'username',
       type: 'text',
       placeholder: 'Username',
+      required: true,
     },
     {
-      fieldGroup: {
-        label: 'Change Your Password',
-        fields: [
-          {
-            name: 'currentPassword',
-            type: 'password',
-            placeholder: 'Current Password',
-          },
-          {
-            name: 'password',
-            type: 'password',
-            placeholder: 'Password',
-          },
-          {
-            name: 'passwordConfirm',
-            type: 'password',
-            placeholder: 'Confirm Password',
-          },
-        ],
-      },
+      name: 'currentPassword',
+      type: 'password',
+      placeholder: 'Current Password',
+      required: false,
+    },
+    {
+      name: 'password',
+      type: 'password',
+      placeholder: 'Password',
+      required: false,
+    },
+    {
+      name: 'passwordConfirm',
+      type: 'password',
+      placeholder: 'Confirm Password',
+      required: false,
     },
   ];
+  const dispatch = useDispatch();
+  const user = useSelector((state: UserState) => state.user);
+  const [data, setData] = useState<FormData>(mapData(fields));
 
   useEffect(() => {
     const { username } = user.user;
