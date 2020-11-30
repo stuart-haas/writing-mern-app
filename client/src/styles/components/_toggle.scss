@@ -1,4 +1,6 @@
 .toggle {
+  position: relative;
+  top: 2px;
   width: 110px;
 
   &.is-enabled {
