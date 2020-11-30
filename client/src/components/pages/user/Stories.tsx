@@ -34,12 +34,13 @@ const Stories = () => {
       <div className='items'>
         {data && data.length > 0 ? (
           data.map((story: IStory, index: number) => (
-            <Link
-              key={index}
-              className='item link'
-              to={`/me/stories/edit/${story._id}`}
-            >
-              <h1 className='h2'>{story.title}</h1>
+            <div key={index} className='item'>
+              <Link
+                className='h2 tall link'
+                to={`/me/stories/edit/${story._id}`}
+              >
+                {story.title}
+              </Link>
               <div className='text small dark-gray'>
                 <span>{story.status}</span>
                 <Fragment>
@@ -59,7 +60,7 @@ const Stories = () => {
                     </Fragment>
                   )}
               </div>
-            </Link>
+            </div>
           ))
         ) : (
           <div className='text center'>
