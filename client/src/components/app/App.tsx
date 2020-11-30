@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import Container from 'components/container/Container';
 import PublishedStories from 'components/pages/PublishedStories';
@@ -13,6 +14,7 @@ import ToastContainer from 'components/toast/ToastContainer';
 import Settings from 'components/pages/user/Settings';
 import UserStories from 'components/pages/UserStories';
 import Page from 'components/pages/Page';
+import { setTheme } from 'redux/theme/actions';
 
 const App = () => {
   /* eslint-disable */
@@ -71,27 +73,23 @@ const App = () => {
     ],
   };
 
-  const [theme, setTheme] = useState<string>('light');
+  const currentTheme = useSelector((state: any) => state.theme);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    themeColours[theme].forEach((el: any) => {
+    dispatch(setTheme);
+  }, []);
+
+  useEffect(() => {
+    themeColours[currentTheme.theme].forEach((el: any) => {
       document.body.style.setProperty(
         `--color-${el.name}`, el.color,
       );
     });
-  }, [theme]);
-
-  function toggleTheme() {
-    if(theme == 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  }
+  }, [currentTheme]);
 
   return (
     <Container>
-      <button className='button success' onClick={() => toggleTheme()}>Change Theme</button>
       <Switch>
         <Route path='/login' exact={true} component={() => <Page><Login /></Page>} />
         <Route path='/register' exact={true} component={() => <Page><Register /></Page>} />

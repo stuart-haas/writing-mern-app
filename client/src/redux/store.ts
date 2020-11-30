@@ -6,6 +6,7 @@ import { apiInterceptor } from 'services/api';
 import user from 'redux/user/reducers';
 import story from 'redux/story/reducers';
 import message from 'redux/message/reducers';
+import theme from 'redux/theme/reducers';
 
 export const history = createBrowserHistory();
 
@@ -15,6 +16,7 @@ const rootReducer = (history: any) =>
     user,
     story,
     message,
+    theme,
   });
 
 const store = createStore(

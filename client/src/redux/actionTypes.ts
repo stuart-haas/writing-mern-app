@@ -3,6 +3,7 @@ enum ActionTypes {
   MESSAGE_REMOVE = 'MESSAGE_REMOVE',
   USER_UPDATE = 'USER_UPDATE',
   STORY_SAVE = 'STORY_SAVE',
+  THEME_UPDATE = 'THEME_UPDATE',
 }
 
 export default ActionTypes;
