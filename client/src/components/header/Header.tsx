@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { logoutUser } from 'redux/user/actions';
 import { useAuth } from 'utils/hooks';
 import { FaUserAlt } from 'react-icons/fa';
-import api from 'services/api';
+import { newStory } from 'redux/story/actions';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -36,23 +36,14 @@ const Header = () => {
 
 const Dropdown = (props: any) => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const isAuthenticated = useAuth();
-
-  async function handleNewStory() {
-    const response = await api.post('/story/user/new');
-    if (response) {
-      const { data } = response;
-      history.push(`/me/story/edit/${data._id}`);
-    }
-  }
 
   return (
     <div className={`dropdown ${props.isOpen ? 'is-active' : ''}`}>
       {isAuthenticated && (
         <Fragment>
           <span className='dropdown-item'>
-            <span className='link' onClick={() => handleNewStory()}>
+            <span className='link' onClick={() => dispatch(newStory)}>
               New Story
             </span>
           </span>

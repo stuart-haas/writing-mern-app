@@ -51,6 +51,12 @@ export const deleteStory = (
   };
 };
 
+export const newStory = async (dispatch: Dispatch) => {
+  const response = await api.post('/story/user/new');
+  const { data } = response;
+  dispatch(push(`/me/story/edit/${data._id}`));
+};
+
 export const getStory = (id = '', path = 'user') => {
   return async () => {
     return await api.get(`/story/${path}/${id}`);

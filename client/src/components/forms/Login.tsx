@@ -2,11 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IUser } from 'common/interfaces';
 import { loginUser } from 'redux/user/actions';
-import { useAuth } from 'utils/hooks';
 import { useHistory } from 'react-router-dom';
 
 const Login = () => {
-  useAuth();
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
   const ref = useRef<any>();

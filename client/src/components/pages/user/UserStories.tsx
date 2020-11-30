@@ -1,14 +1,12 @@
 import { IStory } from 'common/interfaces';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import { getStory } from 'redux/story/actions';
+import { Link } from 'react-router-dom';
+import { getStory, newStory } from 'redux/story/actions';
 import { getTimeAgo } from 'utils/functions';
-import api from 'services/api';
 
 const UserStories = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -22,14 +20,6 @@ const UserStories = () => {
     fetchData();
   }, [dispatch]);
 
-  async function handleNewStory() {
-    const response = await api.post('/story/user/new');
-    if (response) {
-      const { data } = response;
-      history.push(`/me/story/edit/${data._id}`);
-    }
-  }
-
   if (loading) {
     return <h1>Loading</h1>;
   }
@@ -37,7 +27,7 @@ const UserStories = () => {
   return (
     <Fragment>
       {stories.length ? (
-        <button className='button success' onClick={() => handleNewStory()}>
+        <button className='button success' onClick={() => dispatch(newStory)}>
           New Story
         </button>
       ) : null}
@@ -74,7 +64,10 @@ const UserStories = () => {
         ) : (
           <div className='text center'>
             <h2 className='h2'>{`Looks like you don't have any stories`}</h2>
-            <button className='button success' onClick={() => handleNewStory()}>
+            <button
+              className='button success'
+              onClick={() => dispatch(newStory)}
+            >
               Start writing
             </button>
           </div>
