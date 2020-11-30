@@ -34,7 +34,7 @@ const PublishedStories = () => {
         {data && data.stories.length > 0 ? (
           data.stories.map((story: IStory, index: number) => (
             <div key={index} className='item'>
-              <Link className='h2 link block' to={`/${story._id}`}>
+              <Link className='h2 link block' to={`/stories/${story._id}`}>
                 {story.title}
               </Link>
               <span className='text small dark-gray'>
