@@ -12,7 +12,7 @@ export const loginUser = (data: IUser) => {
       const user = { _id, username };
       localStorage.setItem('user', JSON.stringify(user));
       dispatch({
-        type: ActionTypes.USER_LOGIN,
+        type: ActionTypes.USER_UPDATE,
         payload: { user, authenticated: true },
       });
       dispatch({
@@ -42,7 +42,7 @@ export const logoutUser = async (dispatch: Dispatch) => {
   await api.post('/auth/logout');
   localStorage.removeItem('user');
   dispatch({
-    type: ActionTypes.USER_LOGOUT,
+    type: ActionTypes.USER_UPDATE,
     payload: { user: {}, authenticated: false },
   });
   dispatch({
@@ -68,10 +68,6 @@ export const updateUser = (data: IUser) => {
     const { _id, username } = response.data;
     const user = { _id, username };
     localStorage.setItem('user', JSON.stringify(user));
-    /*dispatch({
-      type: ActionTypes.USER_UPDATE,
-      payload: { user, authenticated: true },
-    });*/
     dispatch({
       type: ActionTypes.MESSAGE_ADD,
       payload: {
@@ -84,17 +80,21 @@ export const updateUser = (data: IUser) => {
   };
 };
 
-export const getCurrentUser = async (dispatch: Dispatch) => {
-  const user = localStorage.getItem('user');
+export const getCurrentUser = (dispatch: Dispatch) => {
+  const user = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')!)
+    : null;
   if (user) {
     dispatch({
-      type: ActionTypes.USER_LOGIN,
+      type: ActionTypes.USER_UPDATE,
       payload: { user, authenticated: true },
     });
+    return true;
   } else {
     dispatch({
-      type: ActionTypes.USER_LOGOUT,
+      type: ActionTypes.USER_UPDATE,
       payload: { user: {}, authenticated: false },
     });
+    return false;
   }
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
-import { Prompt, Redirect, useParams } from 'react-router-dom';
+import { Prompt, useHistory, useParams } from 'react-router-dom';
 import SimpleMDE from 'react-simplemde-editor';
 import { getStory, saveStory, deleteStory } from 'redux/story/actions';
 import { IParams, IStory } from 'common/interfaces';
@@ -14,9 +14,9 @@ const UserStory = () => {
   const [initialData, setInitialData] = useState(data);
   const [dirty, setDirty] = useState<boolean>(false);
   const [saved, setSaved] = useState<boolean>(false);
-  const [deleted, setDeleted] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
+  const history = useHistory();
 
   useEffect(() => {
     setDirty(JSON.stringify(initialData) !== JSON.stringify(data));
@@ -87,7 +87,8 @@ const UserStory = () => {
     if (!window.confirm('Are you sure?')) return;
     await dispatch(deleteStory(params.id));
     handleResponse();
-  }, [dispatch, params]);
+    history.push('/me/stories');
+  }, [dispatch, params, history]);
 
   function handleResponse(response: any = null) {
     if (response) {
@@ -97,8 +98,6 @@ const UserStory = () => {
       setDirty(false);
       setSaved(true);
       setMessage('');
-    } else {
-      setDeleted(true);
     }
   }
 
@@ -108,7 +107,6 @@ const UserStory = () => {
 
   return (
     <Fragment>
-      {deleted ? <Redirect to='/me/stories' /> : null}
       <Prompt when={dirty} message='Are you sure you want to leave?' />
       <div className='story'>
         <div className='story__toolbar flex align-center justify-between'>

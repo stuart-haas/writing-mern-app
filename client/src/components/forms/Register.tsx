@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
 import { registerUser } from 'redux/user/actions';
 
 const Register = () => {
   const dispatch = useDispatch();
-  const [redirect, setRedirect] = useState<boolean>(false);
   const ref = useRef<any>();
+  const history = useHistory();
 
   const [data, setData] = useState<IUser>({
     username: '',
@@ -26,16 +26,12 @@ const Register = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     await dispatch(registerUser(data));
-    setRedirect(true);
+    history.push('/login');
   }
 
   useEffect(() => {
     ref.current?.focus();
   }, []);
-
-  if (redirect) {
-    return <Redirect to='/login' />;
-  }
 
   return (
     <form className='form center' onSubmit={handleSubmit}>

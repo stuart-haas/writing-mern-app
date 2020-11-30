@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { IUser } from 'common/interfaces';
 import { loginUser } from 'redux/user/actions';
 import { useAuth } from 'utils/hooks';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
+  useAuth();
   const dispatch = useDispatch();
-  const isAuthenticated = useAuth();
+  const user = useSelector((state: any) => state.user);
   const ref = useRef<any>();
+  const history = useHistory();
 
   const [data, setData] = useState<IUser>({
     username: '',
@@ -18,6 +20,12 @@ const Login = () => {
   useEffect(() => {
     ref.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (user.authenticated) {
+      history.push('/me/stories');
+    }
+  }, [user, history]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
@@ -30,10 +38,6 @@ const Login = () => {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(loginUser(data));
-  }
-
-  if (isAuthenticated) {
-    return <Redirect to='/me/stories' />;
   }
 
   return (

@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { IUser } from 'common/interfaces';
 import { updateUser } from 'redux/user/actions';
 
 const UserSettings = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: any) => state.user);
-  const [redirect, setRedirect] = useState<boolean>(false);
   const ref = useRef<any>();
+  const history = useHistory();
 
   const [data, setData] = useState<IUser>({
     username: '',
@@ -27,7 +27,7 @@ const UserSettings = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     await dispatch(updateUser(data));
-    setRedirect(true);
+    history.push('/me/stories');
   }
 
   useEffect(() => {
@@ -35,13 +35,9 @@ const UserSettings = () => {
   }, []);
 
   useEffect(() => {
-    const { username } = JSON.parse(user.user);
+    const { username } = user.user;
     setData((prevState: any) => ({ ...prevState, username }));
   }, [user]);
-
-  if (redirect) {
-    return <Redirect to='/me/stories' />;
-  }
 
   return (
     <form className='form center' onSubmit={handleSubmit}>

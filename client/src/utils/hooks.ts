@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { getCurrentUser } from 'redux/user/actions';
 
 export const usePrevious = <T>(value: T) => {
@@ -12,20 +13,13 @@ export const usePrevious = <T>(value: T) => {
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<any>(null);
+  const location = useLocation();
 
   useEffect(() => {
-    dispatch(getCurrentUser);
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (user.authenticated) {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
-  }, [user]);
+    const auth = dispatch(getCurrentUser);
+    setIsAuthenticated(auth);
+  }, [location, dispatch]);
 
   return isAuthenticated;
 };
