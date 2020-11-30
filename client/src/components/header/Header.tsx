@@ -14,10 +14,10 @@ const Header = () => {
   const [enabled, setEnabled] = useState<boolean>(false);
 
   useEffect(() => {
-    if (theme.theme == 'light') {
-      setEnabled(false);
-    } else {
+    if (theme.theme == 'dark') {
       setEnabled(true);
+    } else {
+      setEnabled(false);
     }
   }, [theme]);
 
@@ -30,8 +30,8 @@ const Header = () => {
         <span className='nav-link'>
           <Toggle
             enabled={enabled}
-            offLabel={<FaSun />}
-            onLabel={<FaMoon />}
+            offLabel={<FaMoon />}
+            onLabel={<FaSun />}
             toggle={() => dispatch(toggleTheme)}
           />
         </span>

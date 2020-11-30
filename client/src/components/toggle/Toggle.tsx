@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface Props {
   enabled: boolean;
@@ -8,22 +8,19 @@ interface Props {
 }
 
 const Toggle = (props: Props) => {
-  const [enabled, setEnabled] = useState<boolean>(props.enabled || false);
-
   return (
     <div
-      className={`toggle ${enabled ? 'is-enabled' : ''}`}
+      className={`toggle ${props.enabled ? 'is-enabled' : ''}`}
       onClick={() => {
-        setEnabled(!enabled);
         props.toggle();
       }}
     >
       <div className='toggle-container'>
-        <div className='toggle-label'>{props.offLabel}</div>
+        <div className='toggle-label'>{props.onLabel}</div>
         <div className='toggle-background'>
           <div className='toggle-button'></div>
         </div>
-        <div className='toggle-label'>{props.onLabel}</div>
+        <div className='toggle-label'>{props.offLabel}</div>
       </div>
     </div>
   );
