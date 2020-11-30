@@ -24,7 +24,10 @@ const Header = () => {
               <FaUserAlt />
             </i>
           </span>
-          <Dropdown isOpen={isOpen} close={() => setIsOpen(false)} />
+          <Dropdown
+            isOpen={isOpen}
+            toggle={(open: boolean) => setIsOpen(open)}
+          />
         </span>
       </nav>
     </header>

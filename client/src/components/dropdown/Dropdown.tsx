@@ -5,11 +5,16 @@ import { logoutUser } from 'redux/user/actions';
 import { useAuth, useOnClickOutside } from 'utils/hooks';
 import { newStory } from 'redux/story/actions';
 
-const Dropdown = (props: any) => {
+interface Props {
+  isOpen: boolean;
+  toggle: (open: boolean) => void;
+}
+
+const Dropdown = (props: Props) => {
   const ref = useRef<any>();
   const dispatch = useDispatch();
   const isAuthenticated = useAuth();
-  useOnClickOutside(ref, () => props.close());
+  useOnClickOutside(ref, () => props.toggle(false));
 
   return (
     <div ref={ref} className={`dropdown ${props.isOpen ? 'is-active' : ''}`}>
