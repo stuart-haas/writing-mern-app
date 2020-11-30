@@ -15,6 +15,15 @@
   border-top: solid 1px var(--color-gray);
   border-bottom: solid 1px var(--color-gray);
   border-radius: 0;
+
+  button {
+    margin: 0 0.5rem;
+    background: var(--color-background);
+
+    &:hover {
+      background: var(--color-background);
+    }
+  }
 }
 
 .EasyMDEContainer {
