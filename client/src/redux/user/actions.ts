@@ -7,35 +7,23 @@ import { generateId } from 'utils/functions';
 
 export const loginUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
-    try {
-      const response = await api.post('/auth/login', data);
-      const { _id, username } = response.data;
-      const user = { _id, username };
-      localStorage.setItem('user', JSON.stringify(user));
-      dispatch({
-        type: ActionTypes.USER_UPDATE,
-        payload: { user, authenticated: true },
-      });
-      dispatch({
-        type: ActionTypes.MESSAGE_ADD,
-        payload: {
-          id: generateId('toast'),
-          type: 'toast',
-          message: 'Login Successful',
-          status: 'success',
-        },
-      });
-    } catch (error) {
-      dispatch({
-        type: ActionTypes.MESSAGE_ADD,
-        payload: {
-          id: generateId('toast'),
-          type: 'toast',
-          message: 'Login Failed',
-          status: 'error',
-        },
-      });
-    }
+    const response = await api.post('/auth/login', data);
+    const { _id, username } = response.data;
+    const user = { _id, username };
+    localStorage.setItem('user', JSON.stringify(user));
+    dispatch({
+      type: ActionTypes.USER_UPDATE,
+      payload: { user, authenticated: true },
+    });
+    dispatch({
+      type: ActionTypes.MESSAGE_ADD,
+      payload: {
+        id: generateId('toast'),
+        type: 'toast',
+        message: 'Login Successful',
+        status: 'success',
+      },
+    });
   };
 };
 
@@ -67,30 +55,33 @@ export const registerUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
     await api.post('/auth/register', data);
     dispatch(push('/me/stories'));
+    dispatch({
+      type: ActionTypes.MESSAGE_ADD,
+      payload: {
+        id: generateId('toast'),
+        type: 'toast',
+        message: 'Account Created',
+        status: 'success',
+      },
+    });
   };
 };
 
 export const updateUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
-    try {
-      const response = await api.patch('/auth', data);
-      const { _id, username } = response.data;
-      const user = { _id, username };
-      localStorage.setItem('user', JSON.stringify(user));
-      dispatch({
-        type: ActionTypes.MESSAGE_ADD,
-        payload: {
-          id: generateId('toast'),
-          type: 'toast',
-          message: 'User Updated',
-          status: 'success',
-        },
-      });
-      return { response };
-    } catch (error) {
-      const errors = error.response.data;
-      return { errors };
-    }
+    const response = await api.patch('/auth', data);
+    const { _id, username } = response.data;
+    const user = { _id, username };
+    localStorage.setItem('user', JSON.stringify(user));
+    dispatch({
+      type: ActionTypes.MESSAGE_ADD,
+      payload: {
+        id: generateId('toast'),
+        type: 'toast',
+        message: 'Account Updated',
+        status: 'success',
+      },
+    });
   };
 };
 

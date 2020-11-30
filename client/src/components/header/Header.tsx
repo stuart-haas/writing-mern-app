@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaUserAlt, FaMoon, FaSun } from 'react-icons/fa';
 import Dropdown from 'components/dropdown/Dropdown';
 import { toggleTheme } from 'redux/theme/actions';
@@ -35,9 +35,6 @@ const Header = () => {
             toggle={() => dispatch(toggleTheme)}
           />
         </span>
-        <NavLink className='nav-link' activeClassName='is-active' to='/stories'>
-          Stories
-        </NavLink>
         <span
           className='nav-link dropdown-trigger'
           onClick={() => setIsOpen(!isOpen)}

@@ -38,7 +38,7 @@ const PublishedStories = () => {
                 {story.user && (
                   <Link
                     className='link underline'
-                    to={`/stories/user/${story.user.username}`}
+                    to={`/authors/${story.user.username}`}
                   >
                     {story.user.username}
                   </Link>

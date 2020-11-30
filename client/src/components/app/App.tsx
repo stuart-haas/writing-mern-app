@@ -92,12 +92,11 @@ const App = () => {
   return (
     <Container>
       <Switch>
-        <Route path='/' exact={true} component={() => <Page><PublishedStories /></Page>} />
         <Route path='/login' exact={true} component={() => <Page><Login /></Page>} />
         <Route path='/register' exact={true} component={() => <Page><Register /></Page>} />
-        <Route path='/stories' exact={true} component={() => <Page><PublishedStories /></Page>} />
+        <Route path='/' exact={true} component={() => <Page><PublishedStories /></Page>} />
         <Route path='/stories/:id' exact={true} component={() => <Page><PublishedStory /></Page>} />
-        <Route path='/stories/user/:username' exact={true} component={() => <Page><UserStories /></Page>} />
+        <Route path='/authors/:username' exact={true} component={() => <Page><UserStories /></Page>} />
         <PrivateRoute path='/me/stories' exact={true} component={() => <Page title='My Stories'><Stories /></Page>} />
         <PrivateRoute
           path='/me/stories/edit/:id'
