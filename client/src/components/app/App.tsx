@@ -30,11 +30,11 @@ const App = () => {
         color: '#fff',
       },
       {
-        name: 'background-contrast',
+        name: 'background-gray',
         color: '#edf2f4',
       },
       {
-        name: 'background-offset',
+        name: 'background-dark-gray',
         color: '#dfe8ec',
       },
       {
@@ -56,11 +56,11 @@ const App = () => {
         color: '#454954',
       },
       {
-        name: 'background-contrast',
+        name: 'background-gray',
         color: '#17191c',
       },
       {
-        name: 'background-offset',
+        name: 'background-dark-gray',
         color: '#252422',
       },
       {

@@ -47,7 +47,7 @@ main {
 header {
   @include depth-shadow;
   padding: 0 8rem;
-  background-color: var(--color-background-offset);
+  background-color: var(--color-background-dark-gray);
 }
 
 section {
