@@ -11,7 +11,7 @@ const Page = (props: Props) => {
       <div className='page-header'>
         <h2 className='h2'>{props.title}</h2>
       </div>
-      {props.children}
+      <div className='page-content'>{props.children}</div>
     </div>
   );
 };
