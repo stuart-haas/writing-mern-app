@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
-import { Prompt, useHistory, useParams } from 'react-router-dom';
+import { Prompt, useParams } from 'react-router-dom';
 import SimpleMDE from 'react-simplemde-editor';
 import { getStory, saveStory, deleteStory } from 'redux/story/actions';
 import { IParams, IStory } from 'common/interfaces';
@@ -16,7 +16,6 @@ const UserStory = () => {
   const [saved, setSaved] = useState<boolean>(false);
   const [message, setMessage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
-  const history = useHistory();
 
   useEffect(() => {
     setDirty(JSON.stringify(initialData) !== JSON.stringify(data));
@@ -87,7 +86,7 @@ const UserStory = () => {
     if (!window.confirm('Are you sure?')) return;
     await dispatch(deleteStory(params.id));
     handleResponse();
-  }, [dispatch, params, history]);
+  }, [dispatch, params]);
 
   function handleResponse(response: any = null) {
     if (response) {
