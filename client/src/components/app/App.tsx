@@ -15,10 +15,11 @@ import Settings from 'components/pages/user/Settings';
 import UserStories from 'components/pages/UserStories';
 import Page from 'components/pages/Page';
 import { setTheme } from 'redux/theme/actions';
+import { IThemeType, ThemeState, IThemeColor } from 'common/interfaces';
 
 const App = () => {
   /* eslint-disable */
-  const themeColours: any = {
+  const themeColours: IThemeType = {
     light: [
       {
         name: 'text',
@@ -73,7 +74,7 @@ const App = () => {
     ],
   };
 
-  const currentTheme = useSelector((state: any) => state.theme);
+  const currentTheme = useSelector((state: ThemeState) => state.theme);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -81,9 +82,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    themeColours[currentTheme.theme].forEach((el: any) => {
+    themeColours[currentTheme.theme].forEach((e: IThemeColor) => {
       document.body.style.setProperty(
-        `--color-${el.name}`, el.color,
+        `--color-${e.name}`, e.color,
       );
     });
   }, [currentTheme]);

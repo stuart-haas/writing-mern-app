@@ -10,6 +10,7 @@ import theme from 'redux/theme/reducers';
 
 export const history = createBrowserHistory();
 
+// TODO: Fix history type
 const rootReducer = (history: any) =>
   combineReducers({
     router: connectRouter(history),

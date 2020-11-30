@@ -1,11 +1,10 @@
-import { IUser } from 'common/interfaces';
 import ActionTypes from 'redux/actionTypes';
 
 const INITIAL_STATE: ThemePayload = {
   theme: 'light',
 };
 
-interface ThemePayload {
+export interface ThemePayload {
   theme: string;
 }
 

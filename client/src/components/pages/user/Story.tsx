@@ -41,7 +41,7 @@ const Story = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response: any = await dispatch(getStory(params.id));
+      const response: any = await dispatch(getStory(params.id!));
       const { data } = response;
       setData({ ...data });
       setInitialData({ ...data });
@@ -61,7 +61,7 @@ const Story = () => {
           title,
           content,
         },
-        params.id
+        params.id!
       )
     );
     handleResponse(response);
@@ -75,7 +75,7 @@ const Story = () => {
         {
           status: newStatus,
         },
-        params.id,
+        params.id!,
         data.status === 'Draft' ? 'Story Published!' : 'Story Unpublished'
       )
     );
@@ -84,7 +84,7 @@ const Story = () => {
 
   const handleDelete = useCallback(async () => {
     if (!window.confirm('Are you sure?')) return;
-    await dispatch(deleteStory(params.id));
+    await dispatch(deleteStory(params.id!));
     handleResponse();
   }, [dispatch, params]);
 

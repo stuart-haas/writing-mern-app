@@ -1,10 +1,22 @@
+import { IMessage } from 'common/interfaces';
 import ActionTypes from 'redux/actionTypes';
 
-const INITIAL_STATE = {
+const INITIAL_STATE: MessagePayload = {
+  id: '',
   data: [],
 };
 
-const Message = (state = INITIAL_STATE, action: any) => {
+export interface MessagePayload {
+  id: string;
+  data: IMessage[];
+}
+
+export interface MessageAction {
+  type: ActionTypes;
+  payload: MessagePayload;
+}
+
+const Message = (state = INITIAL_STATE, action: MessageAction) => {
   switch (action.type) {
     case ActionTypes.MESSAGE_ADD: {
       return {
@@ -16,7 +28,7 @@ const Message = (state = INITIAL_STATE, action: any) => {
       const { id } = action.payload;
       return {
         ...state,
-        data: [...state.data.filter((e: any) => e.id !== id)],
+        data: [...state.data.filter((e: IMessage) => e.id !== id)],
       };
     }
     default:

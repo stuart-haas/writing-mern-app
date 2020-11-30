@@ -6,7 +6,7 @@ const INITIAL_STATE: UserPayload = {
   authenticated: false,
 };
 
-interface UserPayload {
+export interface UserPayload {
   user: IUser;
   authenticated: boolean;
 }

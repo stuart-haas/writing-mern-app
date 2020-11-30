@@ -40,6 +40,7 @@ export const useDebounce = <T>(value: T, delay: number) => {
   return debouncedValue;
 };
 
+// TODO: Fix ref, handler, and event types
 export const useOnClickOutside = (ref: any, handler: any) => {
   useEffect(() => {
     const listener = (event: any) => {

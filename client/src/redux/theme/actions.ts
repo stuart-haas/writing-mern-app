@@ -12,6 +12,7 @@ export const setTheme = (dispatch: Dispatch) => {
   }
 };
 
+// TODO: FIx getState type
 export const toggleTheme = (dispatch: Dispatch, getState: any) => {
   const currentTheme = getState().theme.theme;
   const theme = currentTheme == 'light' ? 'dark' : 'light';

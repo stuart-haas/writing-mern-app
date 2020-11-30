@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IUser } from 'common/interfaces';
+import { IUser, UserState } from 'common/interfaces';
 import { updateUser } from 'redux/user/actions';
 
 const Settings = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
+  const user = useSelector((state: UserState) => state.user);
   const [errors, setErrors] = useState<any>([]);
   const ref = useRef<any>();
 

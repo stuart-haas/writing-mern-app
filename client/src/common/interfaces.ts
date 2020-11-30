@@ -1,5 +1,10 @@
+import { MessagePayload } from 'redux/message/reducers';
+import { ThemePayload } from 'redux/theme/reducers';
+import { UserPayload } from 'redux/user/reducers';
+
 export interface IParams {
-  id: string;
+  id?: string;
+  username?: string;
 }
 
 export interface IStory {
@@ -20,9 +25,30 @@ export interface IUser {
   passwordConfirm?: string;
 }
 
+export interface UserState {
+  user: UserPayload;
+}
+
 export interface IMessage {
   id: string;
   type: string;
   message: string;
   status: string;
+}
+
+export interface MessageState {
+  message: MessagePayload;
+}
+
+export interface ThemeState {
+  theme: ThemePayload;
+}
+
+export interface IThemeColor {
+  name: string;
+  color: string;
+}
+
+export interface IThemeType {
+  [key: string]: IThemeColor[];
 }

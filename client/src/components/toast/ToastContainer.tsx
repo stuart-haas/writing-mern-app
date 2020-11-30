@@ -2,10 +2,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import Toast, { ToastProps } from './Toast';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { IMessage } from 'common/interfaces';
+import { IMessage, MessageState } from 'common/interfaces';
 
 const ToastContainer = (props: ToastProps) => {
-  const message = useSelector((state: any) => state.message);
+  const message = useSelector((state: MessageState) => state.message);
 
   return (
     <TransitionGroup className='toast-container'>

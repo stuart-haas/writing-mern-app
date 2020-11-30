@@ -8,6 +8,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// TODO: Fix store type
 export const apiInterceptor = (store: any) => {
   api.interceptors.request.use(
     (config) => {

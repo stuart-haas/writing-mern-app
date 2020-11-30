@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IUser } from 'common/interfaces';
+import { IUser, UserState } from 'common/interfaces';
 import { loginUser } from 'redux/user/actions';
 import { useHistory } from 'react-router-dom';
 
-const Login = (props: any) => {
+const Login = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.user);
+  const user = useSelector((state: UserState) => state.user);
   const ref = useRef<any>();
   const history = useHistory();
 
@@ -20,7 +20,7 @@ const Login = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (user.authenticated) {
+    if (user && user.authenticated) {
       history.push('/me/stories');
     }
   }, [user, history]);

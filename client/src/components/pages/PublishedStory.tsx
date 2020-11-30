@@ -14,13 +14,13 @@ const PublishedStory = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response: any = await dispatch(getStory(params.id, 'published'));
+      const response: any = await dispatch(getStory(params.id!, 'published'));
       const { data } = response;
       setData(data);
       setLoading(false);
     };
     fetchData();
-  }, [dispatch, params.id]);
+  }, [dispatch, params]);
 
   if (loading) {
     return <h1>Loading</h1>;
