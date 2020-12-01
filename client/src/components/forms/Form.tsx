@@ -116,7 +116,9 @@ const Form = (props: Props) => {
     if (field.lookup && value) {
       handleStatus(field, 'is-loading');
       api.get(`${field.lookup}${value}`).then((response: any) => {
-        handleStatus(field);
+        setTimeout(() => {
+          handleStatus(field);
+        }, 500);
         if (response.data) {
           handleError(field, field.lookupError);
         } else {
