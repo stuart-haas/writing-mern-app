@@ -32,7 +32,8 @@
     margin: 0 0.5rem;
     background: var(--color-background);
 
-    &:hover {
+    &:hover,
+    &.active {
       background: var(--color-background);
     }
   }
