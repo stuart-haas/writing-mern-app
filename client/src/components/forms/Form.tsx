@@ -163,7 +163,6 @@ const Form = (props: Props) => {
   }
 
   function findStatusByParam(param: string) {
-    console.log(status);
     return status.filter((stat: FormStatus) => {
       return stat.name === param;
     });
