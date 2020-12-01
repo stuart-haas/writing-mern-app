@@ -13,7 +13,6 @@
 @import 'components/heading';
 @import 'components/common';
 @import 'components/nav';
-@import 'components/container';
 @import 'components/items';
 @import 'components/toast';
 @import 'components/icon';
@@ -42,10 +41,13 @@ main {
   max-width: 1260px;
   padding: 1rem;
   margin: 0 auto;
+  background-color: var(--color-background);
 }
 
 header {
   @include depth-shadow;
+  position: relative;
+  z-index: 1;
   background-color: var(--color-background-dark-gray);
 }
 

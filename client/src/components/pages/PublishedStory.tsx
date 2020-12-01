@@ -31,7 +31,7 @@ const PublishedStory = () => {
   return (
     <Fragment>
       {data && (
-        <div className='container'>
+        <Fragment>
           <h1 className='h2'>{data.title}</h1>
           <span className='text dark-gray'>
             Written by {data.user && data.user.username} |{' '}
@@ -43,7 +43,7 @@ const PublishedStory = () => {
               <ReactMarkdown source={data.content} />
             </article>
           </section>
-        </div>
+        </Fragment>
       )}
     </Fragment>
   );
