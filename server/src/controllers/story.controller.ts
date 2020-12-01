@@ -141,8 +141,18 @@ export default class StoryController implements Controller {
   private delete = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     try {
-      const story = await Story.findByIdAndDelete(id);
-      res.json(story);
+      const story = await Story.findById(id);
+      if(story) {
+        User.findById(story.user)
+          .populate('stories')
+          .exec((err: any, user: any) => {
+              user.stories = user.stories.filter((story: any) => story.id !== id);
+              user.save();
+              story.deleteOne();
+              res.json(story);
+          });
+      }
+
     } catch (error) {
       next(new StoryNotFoundException(id));
     }
