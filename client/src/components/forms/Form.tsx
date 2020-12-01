@@ -18,21 +18,22 @@ export interface FormField {
   lookup?: string;
   lookupError?: string;
 }
-interface FormButton {
-  label?: string;
-  class?: string;
-}
 
-interface FormError {
+interface FormFieldError {
   value?: string;
   msg?: string;
   param?: string;
   location?: string;
 }
 
-interface FormStatus {
+interface FormFieldStatus {
   name: string;
   message: string;
+}
+
+interface FormButton {
+  label?: string;
+  class?: string;
 }
 
 interface Props {
@@ -57,8 +58,8 @@ export function mapData(fields: FormField[]) {
 
 const Form = (props: Props) => {
   const [data, setData] = useState<FormData>(mapData(props.fields));
-  const [errors, setErrors] = useState<FormError[]>([]);
-  const [status, setStatus] = useState<FormStatus[]>([]);
+  const [errors, setErrors] = useState<FormFieldError[]>([]);
+  const [status, setStatus] = useState<FormFieldStatus[]>([]);
   const ref = useRef<any>();
 
   useEffect(() => {
@@ -134,7 +135,7 @@ const Form = (props: Props) => {
       setStatus([...status, { name: field.name!, message }]);
     } else {
       setStatus(
-        [...status].filter((e: FormStatus) => {
+        [...status].filter((e: FormFieldStatus) => {
           return e.name !== field.name;
         })
       );
@@ -146,7 +147,7 @@ const Form = (props: Props) => {
       setErrors([...errors, { msg: message, param: field.name }]);
     } else {
       setErrors(
-        [...errors].filter((e: FormError) => {
+        [...errors].filter((e: FormFieldError) => {
           return e.param !== field.name;
         })
       );
@@ -160,13 +161,13 @@ const Form = (props: Props) => {
   }
 
   function findErrorsByParam(param: string) {
-    return errors.filter((error: FormError) => {
+    return errors.filter((error: FormFieldError) => {
       return error.param === param;
     });
   }
 
   function findStatusByParam(param: string) {
-    return status.filter((stat: FormStatus) => {
+    return status.filter((stat: FormFieldStatus) => {
       return stat.name === param;
     });
   }
