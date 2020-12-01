@@ -14,7 +14,7 @@ const Register = () => {
       placeholder: 'Username',
       required: true,
       lookup: '/user/',
-      lookupMessage: 'Username already exists',
+      lookupError: 'Username already exists',
     },
     {
       name: 'password',

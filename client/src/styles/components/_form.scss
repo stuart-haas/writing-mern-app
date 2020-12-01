@@ -5,7 +5,7 @@
   padding: 1rem;
   margin: 0 auto;
   background-color: var(--color-background-gray);
-  border-radius: 3px;
+  border-radius: 6px;
 }
 
 .fields {
@@ -15,6 +15,29 @@
 .field {
   min-height: 51px;
   margin-bottom: 0.5rem;
+
+  &.has-error {
+    input {
+      border-color: var(--color-red);
+    }
+  }
+
+  &.is-loading {
+    position: relative;
+
+    &::after {
+      @include spin;
+      position: absolute;
+      top: 8px;
+      right: 0;
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--color-background);
+      border-top: 2px solid var(--color-text);
+      border-radius: 50%;
+      content: '';
+    }
+  }
 }
 
 .field-error {

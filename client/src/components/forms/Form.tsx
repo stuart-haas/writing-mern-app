@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import _, { debounce } from 'lodash';
 import api from 'services/api';
 
 export interface FormData {
@@ -14,7 +15,7 @@ export interface FormField {
   match?: string;
   matchError?: string;
   lookup?: string;
-  lookupMessage?: string;
+  lookupError?: string;
 }
 interface FormButton {
   label?: string;
@@ -26,6 +27,11 @@ interface FormError {
   msg?: string;
   param?: string;
   location?: string;
+}
+
+interface FormStatus {
+  name: string;
+  message: string;
 }
 
 interface Props {
@@ -51,6 +57,7 @@ export function mapData(fields: FormField[]) {
 const Form = (props: Props) => {
   const [data, setData] = useState<FormData>(mapData(props.fields));
   const [errors, setErrors] = useState<FormError[]>([]);
+  const [status, setStatus] = useState<FormStatus[]>([]);
   const ref = useRef<any>();
 
   useEffect(() => {
@@ -65,50 +72,12 @@ const Form = (props: Props) => {
     }
   }, [props.autoFocus]);
 
-  useEffect(() => {
-    props.fields.forEach((field: FormField) => {
-      if (field.name) {
-        if (field.match) {
-          if (data[field.name] !== data[field.match]) {
-            setErrors((prevState: any) => [
-              ...prevState,
-              { msg: field.matchError, param: field.name },
-            ]);
-          } else {
-            setErrors((prevState: any) =>
-              [...prevState].filter((e: FormError) => {
-                return e.param !== field.name;
-              })
-            );
-          }
-        }
-      }
-    });
-  }, [data, props.fields]);
+  const debounceLookup = useCallback(debounce(handleLookup, 500), []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { value, name } = e.target;
+    const { name, value } = e.target;
 
-    const field = props.fields.filter((field: FormField) => {
-      return field.name === name;
-    })[0];
-    if (field.lookup && value) {
-      api.get(`${field.lookup}${value}`).then((response: any) => {
-        console.log(response);
-        if (response.data) {
-          setErrors([
-            ...errors,
-            { msg: field.lookupMessage, param: field.name },
-          ]);
-        } else {
-          setErrors(
-            [...errors].filter((e: FormError) => {
-              return e.param !== field.name;
-            })
-          );
-        }
-      });
-    }
+    handleErrors(name, value);
 
     setData({
       ...data,
@@ -126,32 +95,120 @@ const Form = (props: Props) => {
     }
   }
 
+  function handleErrors(name: string, value: string) {
+    handleMatch(name, value);
+    debounceLookup(name, value);
+  }
+
+  function handleMatch(name: string, value: string) {
+    const field = findFieldByName(name);
+    if (field.match) {
+      if (value !== data[field.match]) {
+        handleError(field, field.matchError);
+      } else {
+        handleError(field);
+      }
+    }
+  }
+
+  function handleLookup(name: string, value: string) {
+    const field = findFieldByName(name);
+    if (field.lookup && value) {
+      handleStatus(field, 'is-loading');
+      api.get(`${field.lookup}${value}`).then((response: any) => {
+        handleStatus(field);
+        if (response.data) {
+          handleError(field, field.lookupError);
+        } else {
+          handleError(field);
+        }
+      });
+    }
+  }
+
+  function handleStatus(field: FormField, message = '') {
+    if (message) {
+      setStatus([...status, { name: field.name!, message }]);
+    } else {
+      setStatus(
+        [...status].filter((e: FormStatus) => {
+          return e.name !== field.name;
+        })
+      );
+    }
+  }
+
+  function handleError(field: FormField, message = '') {
+    if (message) {
+      setErrors([...errors, { msg: message, param: field.name }]);
+    } else {
+      setErrors(
+        [...errors].filter((e: FormError) => {
+          return e.param !== field.name;
+        })
+      );
+    }
+  }
+
+  function findFieldByName(name: string) {
+    return props.fields.filter((field: FormField) => {
+      return field.name === name;
+    })[0];
+  }
+
+  function findErrorsByParam(param: string) {
+    return errors.filter((error: FormError) => {
+      return error.param === param;
+    });
+  }
+
+  function findStatusByParam(param: string) {
+    console.log(status);
+    return status.filter((stat: FormStatus) => {
+      return stat.name === param;
+    });
+  }
+
+  function hasFieldError(param: string) {
+    const errors = findErrorsByParam(param);
+    return errors.length === 0 ? false : true;
+  }
+
+  function fieldError(param: string) {
+    const errors = findErrorsByParam(param);
+    return errors[0].msg;
+  }
+
+  function hasFieldStatus(param: string) {
+    const stat = findStatusByParam(param);
+    return stat.length === 0 ? false : true;
+  }
+
+  function fieldStatus(param: string) {
+    const stat = findStatusByParam(param);
+    return stat[0].message;
+  }
+
   function applyRef(index: number) {
     if (index === 0) {
       return ref;
     }
   }
 
-  function hasError(param: string) {
-    const error: FormError[] = errors.filter((error: FormError) => {
-      return error.param === param;
-    });
-    return error.length === 0 ? false : true;
-  }
-
-  function findError(param: string) {
-    const error: FormError[] = errors.filter((error: FormError) => {
-      return error.param === param;
-    });
-    return error[0].msg;
-  }
-
   return (
-    <form className={`form ${props.class}`} onSubmit={handleSubmit}>
+    <form
+      className={`form ${props.class} ${errors.length > 0 ? 'has-errors' : ''}`}
+      onSubmit={handleSubmit}
+    >
       {props.title && <h2 className='h2'>{props.title}</h2>}
       <div className='fields'>
         {props.fields.map((field: FormField, index: number) => (
-          <div key={index} className='field'>
+          <div
+            key={index}
+            className={`field ${
+              hasFieldError(field.name!) ? 'has-error' : ''
+            } ${hasFieldStatus(field.name!) ? fieldStatus(field.name!) : ''}`}
+          >
             <input
               ref={applyRef(index)}
               className={field.class ? field.class : 'input'}
@@ -161,8 +218,8 @@ const Form = (props: Props) => {
               value={(data && data[field.name!]) || ''}
               onChange={(e) => handleChange(e)}
             />
-            {hasError(field.name!) && (
-              <label className='field-error'>{findError(field.name!)}</label>
+            {hasFieldError(field.name!) && (
+              <label className='field-error'>{fieldError(field.name!)}</label>
             )}
           </div>
         ))}
