@@ -152,7 +152,6 @@ export default class StoryController implements Controller {
               res.json(story);
           });
       }
-
     } catch (error) {
       next(new StoryNotFoundException(id));
     }

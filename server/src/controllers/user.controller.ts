@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import User from '@models/user.model';
+import Story from '@models/story.model';
 import Controller from '@common/interface';
 import {
   registrationRules,
@@ -80,7 +81,11 @@ export default class UserController implements Controller {
 
   private delete = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const story = await User.findByIdAndDelete(id);
-    res.json(story);
+    const user = await User.findById(id);
+    if (user) {
+      await Story.deleteMany({ user: user._id});
+      user.deleteOne();
+      res.json(user); 
+    }
   };
 }
