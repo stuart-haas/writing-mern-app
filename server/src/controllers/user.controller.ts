@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import User from '@models/user.model';
 import Story from '@models/story.model';
 import Controller from '@common/interface';
@@ -11,6 +11,7 @@ import {
   updateRules,
 } from '@middlewares/user.middleware';
 import { validate } from '@common/middleware';
+import UserNotFoundException from '@exceptions/UserNotFoundException';
 
 export default class UserController implements Controller {
   public path = '/user';
@@ -26,11 +27,11 @@ export default class UserController implements Controller {
     this.router.post(`${this.path}/register`, registrationRules, validate, hashPassword, this.register);
     this.router.post(`${this.path}/login`, loginRules, validate, signJWT, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
-    this.router.get(`${this.path}/:username`, this.findByUsername);
     
     // Private
-    this.router.patch(`${this.path}`, verifyJWT, updateRules, validate, hashPassword, this.update);
     this.router.get(`${this.path}`, verifyJWT, this.findAll);
+    this.router.get(`${this.path}/:username`, verifyJWT, this.findByUsername);
+    this.router.patch(`${this.path}`, verifyJWT, updateRules, validate, hashPassword, this.update);
     this.router.delete(`${this.path}/:id`, verifyJWT, this.delete);
     /* eslint-disable */
   }
@@ -63,29 +64,37 @@ export default class UserController implements Controller {
     res.json(user);
   };
 
-  private update = async (req: any, res: Response) => {
+  private update = async (req: any, res: Response, next: NextFunction) => {
     const id = req.user._id;
     const { username, password } = req.body;
+    try {
     const user = await User.findById(id);
-    if (user) {
-      if (username) {
-        user.username = username;
+      if (user) {
+        if (username) {
+          user.username = username;
+        }
+        if (password) {
+          user.password = password;
+        }
+        await user.save();
+        res.json(user);
       }
-      if (password) {
-        user.password = password;
-      }
-      await user.save();
-      res.json(user);
+    } catch (error) {
+      next(new UserNotFoundException(id));
     }
   };
 
-  private delete = async (req: Request, res: Response) => {
+  private delete = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const user = await User.findById(id);
-    if (user) {
-      await Story.deleteMany({ user: user._id});
-      user.deleteOne();
-      res.json(user); 
+    try {
+      const user = await User.findById(id);
+      if (user) {
+        await Story.deleteMany({ user: user._id});
+        user.deleteOne();
+        res.json(user); 
+      }
+    } catch(error) {
+      next(new UserNotFoundException(id));
     }
   };
 }
