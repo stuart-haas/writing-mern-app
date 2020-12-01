@@ -10,11 +10,23 @@
   box-shadow: none;
 }
 
-.editor-toolbar {
+.editor-toolbar,
+ 
+.editor-toolbar.fullscreen {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.5rem 0;
   border: 0;
   border-top: solid 1px var(--color-gray);
   border-bottom: solid 1px var(--color-gray);
+  background-color: var(--color-background);
   border-radius: 0;
+
+  &::before,
+  &::after {
+    display: none;
+  }
 
   button {
     margin: 0 0.5rem;
