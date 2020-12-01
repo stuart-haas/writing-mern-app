@@ -70,13 +70,13 @@ const Form = (props: Props) => {
       if (field.name) {
         if (field.match) {
           if (data[field.name] !== data[field.match]) {
-            setErrors([
-              ...errors,
+            setErrors((prevState: any) => [
+              ...prevState,
               { msg: field.matchError, param: field.name },
             ]);
           } else {
-            setErrors(
-              errors.filter((e: FormError) => {
+            setErrors((prevState: any) =>
+              [...prevState].filter((e: FormError) => {
                 return e.param !== field.name;
               })
             );
@@ -84,29 +84,31 @@ const Form = (props: Props) => {
         }
       }
     });
-  }, [data]);
+  }, [data, props.fields]);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
 
-    props.fields.forEach((field: FormField) => {
-      if (field.lookup && value) {
-        api.get(`${field.lookup}${value}`).then((response: any) => {
-          if (response.data) {
-            setErrors([
-              ...errors,
-              { msg: field.lookupMessage, param: field.name },
-            ]);
-          } else {
-            setErrors(
-              errors.filter((e: FormError) => {
-                return e.param !== field.name;
-              })
-            );
-          }
-        });
-      }
-    });
+    const field = props.fields.filter((field: FormField) => {
+      return field.name === name;
+    })[0];
+    if (field.lookup && value) {
+      api.get(`${field.lookup}${value}`).then((response: any) => {
+        console.log(response);
+        if (response.data) {
+          setErrors([
+            ...errors,
+            { msg: field.lookupMessage, param: field.name },
+          ]);
+        } else {
+          setErrors(
+            [...errors].filter((e: FormError) => {
+              return e.param !== field.name;
+            })
+          );
+        }
+      });
+    }
 
     setData({
       ...data,
@@ -132,14 +134,14 @@ const Form = (props: Props) => {
 
   function hasError(param: string) {
     const error: FormError[] = errors.filter((error: FormError) => {
-      return error.param == param;
+      return error.param === param;
     });
-    return error.length == 0 ? false : true;
+    return error.length === 0 ? false : true;
   }
 
   function findError(param: string) {
     const error: FormError[] = errors.filter((error: FormError) => {
-      return error.param == param;
+      return error.param === param;
     });
     return error[0].msg;
   }
@@ -166,6 +168,7 @@ const Form = (props: Props) => {
         ))}
       </div>
       <button
+        disabled={errors.length > 0}
         className={`button ${
           props.button && props.button.class ? props.button.class : 'success'
         }`}
