@@ -56,6 +56,7 @@ section {
 article {
   p {
     margin: 0.75rem 0;
+    line-height: 1.75;
   }
 
   h1 {
@@ -72,14 +73,14 @@ article {
 
   blockquote {
     padding: 0.25rem 0 0.25rem 1rem;
-    border-left: solid 4px var(--color-dark-gray);
+    border-left: solid 3px var(--color-text-gray);
     margin: 1rem 0;
     font-style: italic;
   }
 
   hr {
-    border-top: solid 1px var(--color-gray);
-    margin: 1rem 0 1.5rem;
+    border-top: solid 1px var(--color-text-gray);
+    margin: 2rem 0;
   }
 }
 
