@@ -30,7 +30,7 @@ const PublishedStories = () => {
         {data && data.length > 0 ? (
           data.map((story: IStory, index: number) => (
             <div key={index} className='item'>
-              <Link className='h2 link block' to={`/stories/${story._id}`}>
+              <Link className='h2 link block' to={`/stories/${story.slug}`}>
                 {story.title}
               </Link>
               <span className='text small dark-gray'>
@@ -51,7 +51,7 @@ const PublishedStories = () => {
           ))
         ) : (
           <div className='text center'>
-            <h1>{`Looks like there aren't any data yet`}</h1>
+            <h1>{`Looks like there aren't any stories yet`}</h1>
           </div>
         )}
       </div>

@@ -14,11 +14,11 @@ export default class StoryController implements Controller {
   }
 
   private useRoutes() {
+    /* eslint-disable */
     // Public
     this.router.get(`${this.path}/published`, this.findAll);
-    // eslint-disable-next-line prettier/prettier
     this.router.get(`${this.path}/published/user/:username`, this.findPublishedByUsername);
-    this.router.get(`${this.path}/published/:id`, this.findPublishedById);
+    this.router.get(`${this.path}/published/:slug`, this.findPublishedBySlug);
 
     // Private
     this.router.get(`${this.path}/user`, verifyJWT, this.findAllByUserId);
@@ -27,6 +27,7 @@ export default class StoryController implements Controller {
     this.router.post(`${this.path}/user`, verifyJWT, this.create);
     this.router.patch(`${this.path}/user/:id`, verifyJWT, this.update);
     this.router.delete(`${this.path}/user/:id`, verifyJWT, this.delete);
+    /* eslint-disable */
   }
 
   private findAll = async (req: Request, res: Response) => {
@@ -36,8 +37,8 @@ export default class StoryController implements Controller {
     res.json(story);
   };
 
-  private findPublishedById = async (req: any, res: Response) => {
-    const story = await Story.findOne({ _id: req.params.id }).populate(
+  private findPublishedBySlug = async (req: any, res: Response) => {
+    const story = await Story.findOne({ slug: req.params.slug }).populate(
       'user',
       'username'
     );

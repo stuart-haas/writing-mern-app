@@ -9,6 +9,7 @@ export interface IParams {
 
 export interface IStory {
   _id?: string;
+  slug?: string;
   title?: string;
   content?: any;
   status?: string;

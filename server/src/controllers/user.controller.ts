@@ -20,15 +20,18 @@ export default class UserController implements Controller {
   }
 
   private useRoutes() {
-    // eslint-disable-next-line prettier/prettier
+    /* eslint-disable */
+    // Public
     this.router.post(`${this.path}/register`, registrationRules, validate, hashPassword, this.register);
-    // eslint-disable-next-line prettier/prettier
-    this.router.patch(`${this.path}`, verifyJWT, updateRules, validate, hashPassword, this.update);
-    // eslint-disable-next-line prettier/prettier
     this.router.post(`${this.path}/login`, loginRules, validate, signJWT, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
-
     this.router.get(`${this.path}/:username`, this.findByUsername);
+    
+    // Private
+    this.router.patch(`${this.path}`, verifyJWT, updateRules, validate, hashPassword, this.update);
+    this.router.get(`${this.path}`, verifyJWT, this.findAll);
+    this.router.delete(`${this.path}/:id`, verifyJWT, this.delete);
+    /* eslint-disable */
   }
 
   private register = async (req: Request, res: Response) => {
@@ -47,6 +50,11 @@ export default class UserController implements Controller {
 
   private logout = async (req: Request, res: Response) => {
     res.clearCookie('token').sendStatus(200);
+  };
+
+  private findAll = async (req: Request, res: Response) => {
+    const user = await User.find();
+    res.json(user);
   };
 
   private findByUsername = async (req: any, res: Response) => {
@@ -68,5 +76,11 @@ export default class UserController implements Controller {
       await user.save();
       res.json(user);
     }
+  };
+
+  private delete = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const story = await User.findByIdAndDelete(id);
+    res.json(story);
   };
 }
