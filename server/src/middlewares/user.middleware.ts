@@ -91,33 +91,38 @@ export const hashPassword = (
   });
 };
 
-export const verifyJWT = (req: any, res: Response, next: NextFunction) => {
+export const verifyToken = (req: any, res: Response, next: NextFunction) => {
   const { token } = req.cookies;
   if (!token) {
-    res.status(401).json({ error: 'Unauthorized: No token provided' });
-  } else {
-    jwt.verify(token, process.env.JWT_SECRET!, (error: any, decoded: any) => {
-      if (error) {
-        res.status(401).json({ error: 'Unauthorized: Invalid token' });
-      } else {
-        const { _id, username } = decoded;
-        req.user = { _id, username };
-        return next();
-      }
-    });
+    return res.status(403).json({ error: 'Unauthorized: No token provided' });
+  }
+
+  try {
+    const payload: any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!);
+    const { _id, username } = payload;
+    req.user = { _id, username };
+    return next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Unauthorized: Invalid token' });
   }
 };
 
-export const signJWT = async (req: any, res: Response, next: NextFunction) => {
+export const generateToken = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
   const user = await User.findOne({ username: req.body.username });
   if (user) {
     const { _id, username } = user;
     const payload = { _id, username };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: process.env.JWT_EXPIRATION,
+    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, {
+      algorithm: 'HS256',
+      expiresIn: process.env.REFRESH_TOKEN_LIFE,
     });
-    res.cookie('token', token, { httpOnly: true });
+
+    res.cookie('token', accessToken, { httpOnly: true, secure: false });
     req.user = { _id, username };
     return next();
   }

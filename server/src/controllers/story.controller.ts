@@ -3,7 +3,7 @@ import Story from '@models/story.model';
 import User from '@models/user.model';
 import Controller from '@common/interface';
 import StoryNotFoundException from '@exceptions/StoryNotFoundException';
-import { verifyJWT } from '@middlewares/user.middleware';
+import { verifyToken } from '@middlewares/user.middleware';
 
 export default class StoryController implements Controller {
   public path = '/story';
@@ -21,12 +21,12 @@ export default class StoryController implements Controller {
     this.router.get(`${this.path}/published/:slug`, this.findPublishedBySlug);
 
     // Private
-    this.router.get(`${this.path}/user`, verifyJWT, this.findAllByUserId);
-    this.router.get(`${this.path}/user/:id`, verifyJWT, this.findByUserId);
-    this.router.post(`${this.path}/user/new`, verifyJWT, this.new);
-    this.router.post(`${this.path}/user`, verifyJWT, this.create);
-    this.router.patch(`${this.path}/user/:id`, verifyJWT, this.update);
-    this.router.delete(`${this.path}/user/:id`, verifyJWT, this.delete);
+    this.router.get(`${this.path}/user`, verifyToken, this.findAllByUserId);
+    this.router.get(`${this.path}/user/:id`, verifyToken, this.findByUserId);
+    this.router.post(`${this.path}/user/new`, verifyToken, this.new);
+    this.router.post(`${this.path}/user`, verifyToken, this.create);
+    this.router.patch(`${this.path}/user/:id`, verifyToken, this.update);
+    this.router.delete(`${this.path}/user/:id`, verifyToken, this.delete);
     /* eslint-disable */
   }
 

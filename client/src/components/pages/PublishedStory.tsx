@@ -36,7 +36,7 @@ const PublishedStory = () => {
           <span className='text dark-gray'>
             Written by {data.user && data.user.username} |{' '}
             {data.createdAt &&
-              format(Date.parse(data.createdAt), 'MMMM dd, yyyy')}
+              format(Date.parse(data.createdAt), 'MMMM d, yyyy')}
           </span>
           <section>
             <article>

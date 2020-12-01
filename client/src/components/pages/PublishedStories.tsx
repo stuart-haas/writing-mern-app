@@ -45,7 +45,7 @@ const PublishedStories = () => {
                 )}{' '}
                 |{' '}
                 {story.createdAt &&
-                  format(Date.parse(story.createdAt), 'MMMM dd, yyyy')}
+                  format(Date.parse(story.createdAt), 'MMMM d, yyyy')}
               </span>
             </div>
           ))

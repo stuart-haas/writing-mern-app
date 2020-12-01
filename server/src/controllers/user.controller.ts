@@ -6,8 +6,8 @@ import {
   registrationRules,
   hashPassword,
   loginRules,
-  signJWT,
-  verifyJWT,
+  generateToken,
+  verifyToken,
   updateRules,
 } from '@middlewares/user.middleware';
 import { validate } from '@common/middleware';
@@ -25,14 +25,14 @@ export default class UserController implements Controller {
     /* eslint-disable */
     // Public
     this.router.post(`${this.path}/register`, registrationRules, validate, hashPassword, this.register);
-    this.router.post(`${this.path}/login`, loginRules, validate, signJWT, this.login);
+    this.router.post(`${this.path}/login`, loginRules, validate, generateToken, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
     
     // Private
-    this.router.get(`${this.path}`, verifyJWT, this.findAll);
-    this.router.get(`${this.path}/:username`, verifyJWT, this.findByUsername);
-    this.router.patch(`${this.path}`, verifyJWT, updateRules, validate, hashPassword, this.update);
-    this.router.delete(`${this.path}/:id`, verifyJWT, this.delete);
+    this.router.get(`${this.path}`, verifyToken, this.findAll);
+    this.router.get(`${this.path}/:username`, verifyToken, this.findByUsername);
+    this.router.patch(`${this.path}`, verifyToken, updateRules, validate, hashPassword, this.update);
+    this.router.delete(`${this.path}/:id`, verifyToken, this.delete);
     /* eslint-disable */
   }
 
@@ -47,6 +47,7 @@ export default class UserController implements Controller {
   };
 
   private login = async (req: any, res: Response) => {
+    console.log(req.user);
     res.json(req.user);
   };
 
