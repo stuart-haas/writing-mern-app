@@ -20,10 +20,8 @@ export interface FormField {
 }
 
 interface FormFieldError {
-  value?: string;
-  msg?: string;
   param?: string;
-  location?: string;
+  msg?: string;
 }
 
 interface FormFieldStatus {
@@ -144,7 +142,7 @@ const Form = (props: Props) => {
 
   function handleError(field: FormField, message = '') {
     if (message) {
-      setErrors([...errors, { msg: message, param: field.name }]);
+      setErrors([...errors, { param: field.name, msg: message }]);
     } else {
       setErrors(
         [...errors].filter((e: FormFieldError) => {
@@ -160,36 +158,36 @@ const Form = (props: Props) => {
     })[0];
   }
 
-  function findErrorsByParam(param: string) {
+  function findErrorsByName(name: string) {
     return errors.filter((error: FormFieldError) => {
-      return error.param === param;
+      return error.param === name;
     });
   }
 
-  function findStatusByParam(param: string) {
-    return status.filter((stat: FormFieldStatus) => {
-      return stat.name === param;
+  function findStatusByName(name: string) {
+    return status.filter((status: FormFieldStatus) => {
+      return status.name === name;
     });
   }
 
-  function hasFieldError(param: string) {
-    const errors = findErrorsByParam(param);
+  function hasFieldError(name: string) {
+    const errors = findErrorsByName(name);
     return errors.length === 0 ? false : true;
   }
 
-  function fieldError(param: string) {
-    const errors = findErrorsByParam(param);
+  function fieldError(name: string) {
+    const errors = findErrorsByName(name);
     return errors[0].msg;
   }
 
-  function hasFieldStatus(param: string) {
-    const stat = findStatusByParam(param);
-    return stat.length === 0 ? false : true;
+  function hasFieldStatus(name: string) {
+    const status = findStatusByName(name);
+    return status.length === 0 ? false : true;
   }
 
-  function fieldStatus(param: string) {
-    const stat = findStatusByParam(param);
-    return stat[0].message;
+  function fieldStatus(name: string) {
+    const status = findStatusByName(name);
+    return status[0].message;
   }
 
   function applyRef(index: number) {
