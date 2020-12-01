@@ -128,18 +128,6 @@ const Form = (props: Props) => {
     }
   }
 
-  function handleStatus(field: FormField, message = '') {
-    if (message) {
-      setStatus([...status, { name: field.name!, message }]);
-    } else {
-      setStatus(
-        [...status].filter((e: FormFieldStatus) => {
-          return e.name !== field.name;
-        })
-      );
-    }
-  }
-
   function handleError(field: FormField, message = '') {
     if (message) {
       setErrors([...errors, { param: field.name, msg: message }]);
@@ -147,6 +135,18 @@ const Form = (props: Props) => {
       setErrors(
         [...errors].filter((e: FormFieldError) => {
           return e.param !== field.name;
+        })
+      );
+    }
+  }
+
+  function handleStatus(field: FormField, message = '') {
+    if (message) {
+      setStatus([...status, { name: field.name!, message }]);
+    } else {
+      setStatus(
+        [...status].filter((e: FormFieldStatus) => {
+          return e.name !== field.name;
         })
       );
     }
