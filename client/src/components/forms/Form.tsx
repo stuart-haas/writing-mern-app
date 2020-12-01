@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import _, { debounce } from 'lodash';
 import api from 'services/api';
+import { AxiosResponse } from 'axios';
 
 export interface FormData {
   [key: string]: string;
@@ -115,7 +116,7 @@ const Form = (props: Props) => {
     const field = findFieldByName(name);
     if (field.lookup && value) {
       handleStatus(field, 'is-loading');
-      api.get(`${field.lookup}${value}`).then((response: any) => {
+      api.get(`${field.lookup}${value}`).then((response: AxiosResponse) => {
         setTimeout(() => {
           handleStatus(field);
         }, 500);
