@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import _, { debounce } from 'lodash';
+import { debounce } from 'lodash';
 import api from 'services/api';
 import { AxiosResponse } from 'axios';
 
