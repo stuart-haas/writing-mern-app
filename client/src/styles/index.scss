@@ -48,7 +48,7 @@ header {
   @include depth-shadow;
   position: relative;
   z-index: 1;
-  background-color: var(--color-background-dark-gray);
+  background-color: var(--color-background-light);
 }
 
 section {
@@ -75,13 +75,13 @@ article {
 
   blockquote {
     padding: 0.25rem 0 0.25rem 1rem;
-    border-left: solid 3px var(--color-text-gray);
+    border-left: solid 3px var(--color-text-base);
     margin: 1rem 0;
     font-style: italic;
   }
 
   hr {
-    border-top: solid 1px var(--color-text-gray);
+    border-top: solid 1px var(--color-text-base);
     margin: 2rem 0;
   }
 }

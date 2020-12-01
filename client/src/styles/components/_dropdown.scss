@@ -10,7 +10,7 @@
   min-width: 200px;
   padding: 0.25rem 1rem;
   margin-top: 0.5rem;
-  background-color: var(--color-background-gray);
+  background-color: var(--color-background-dark);
   border-radius: 3px;
   transform: translateX(-50%);
 
@@ -25,7 +25,7 @@
     width: 0;
     height: 0;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid var(--color-background-gray);
+    border-bottom: 8px solid var(--color-background-dark);
     border-left: 8px solid transparent;
     content: '';
     transform: translateX(-50%);

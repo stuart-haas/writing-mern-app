@@ -26,11 +26,11 @@ const App = () => {
         color: '#fff',
       },
       {
-        name: 'background-gray',
+        name: 'background-dark',
         color: '#edf2f4',
       },
       {
-        name: 'background-dark-gray',
+        name: 'background-light',
         color: '#dfe8ec',
       },
       {
@@ -38,15 +38,15 @@ const App = () => {
         color: '#252422',
       },
       {
-        name: 'text-gray',
+        name: 'text-base',
         color: '#8d99ae',
       },
       {
-        name: 'text-medium-gray',
+        name: 'text-light',
         color: '#d0dde2',
       },
       {
-        name: 'text-dark-gray',
+        name: 'text-dark',
         color: '#5e6472',
       }
     ],
@@ -56,11 +56,11 @@ const App = () => {
         color: '#454954',
       },
       {
-        name: 'background-gray',
+        name: 'background-dark',
         color: '#17191c',
       },
       {
-        name: 'background-dark-gray',
+        name: 'background-light',
         color: '#252422',
       },
       {
@@ -68,15 +68,15 @@ const App = () => {
         color: '#edf2f4',
       },
       {
-        name: 'text-gray',
+        name: 'text-base',
         color: '#edf2f4',
       },
       {
-        name: 'text-medium-gray',
+        name: 'text-light',
         color: '#0d0d0c',
       },
       {
-        name: 'text-dark-gray',
+        name: 'text-dark',
         color: '#edf2f4',
       }
     ],

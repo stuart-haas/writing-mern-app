@@ -4,7 +4,7 @@
   max-width: 400px;
   padding: 1rem;
   margin: 0 auto;
-  background-color: var(--color-background-gray);
+  background-color: var(--color-background-dark);
   border-radius: 6px;
 }
 
@@ -57,7 +57,7 @@
 .input {
   width: 100%;
   padding: 0.5rem;
-  border-bottom: solid 1px var(--color-text-dark-gray);
+  border-bottom: solid 1px var(--color-text-dark);
   background-color: transparent;
   transition: all 0.2s ease;
   
