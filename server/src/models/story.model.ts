@@ -44,8 +44,4 @@ StorySchema.pre<IStory>('save', function (next: any) {
   next();
 });
 
-StorySchema.pre<IStory>('deleteOne', function (next: any) {
-  this.model('User').remove({ stories: '5fc5cd6921d8c9047d9e2211' }, next());
-});
-
 export default mongoose.model<IStory>('Story', StorySchema, 'stories');
