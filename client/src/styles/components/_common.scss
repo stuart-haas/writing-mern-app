@@ -45,6 +45,10 @@
     border: 0;
     background-color: var(--color-background);
   }
+
+  .CodeMirror-selectedtext {
+    background-color: var(--color-text-medium-gray);
+  }
   
   .CodeMirror-cursor {
     border-color: var(--color-text);

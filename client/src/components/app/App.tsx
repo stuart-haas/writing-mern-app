@@ -22,10 +22,6 @@ const App = () => {
   const themeColours: IThemeType = {
     light: [
       {
-        name: 'text',
-        color: '#252422',
-      },
-      {
         name: 'background',
         color: '#fff',
       },
@@ -38,8 +34,16 @@ const App = () => {
         color: '#dfe8ec',
       },
       {
+        name: 'text',
+        color: '#252422',
+      },
+      {
         name: 'text-gray',
         color: '#8d99ae',
+      },
+      {
+        name: 'text-medium-gray',
+        color: '#d0dde2',
       },
       {
         name: 'text-dark-gray',
@@ -47,10 +51,6 @@ const App = () => {
       }
     ],
     dark: [
-      {
-        name: 'text',
-        color: '#edf2f4',
-      },
       {
         name: 'background',
         color: '#454954',
@@ -64,8 +64,16 @@ const App = () => {
         color: '#252422',
       },
       {
+        name: 'text',
+        color: '#edf2f4',
+      },
+      {
         name: 'text-gray',
         color: '#edf2f4',
+      },
+      {
+        name: 'text-medium-gray',
+        color: '#0d0d0c',
       },
       {
         name: 'text-dark-gray',
