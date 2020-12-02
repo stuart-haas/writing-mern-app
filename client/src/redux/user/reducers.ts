@@ -18,7 +18,7 @@ export interface UserAction {
 
 const User = (state = INITIAL_STATE, action: UserAction) => {
   switch (action.type) {
-    case ActionTypes.USER_UPDATE: {
+    case ActionTypes.UPDATE_USER: {
       const { user, authenticated } = action.payload;
       return {
         ...state,

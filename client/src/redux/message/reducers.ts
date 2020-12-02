@@ -18,13 +18,13 @@ export interface MessageAction {
 
 const Message = (state = INITIAL_STATE, action: MessageAction) => {
   switch (action.type) {
-    case ActionTypes.MESSAGE_ADD: {
+    case ActionTypes.ADD_MESSAGE: {
       return {
         ...state,
         data: [...state.data, action.payload],
       };
     }
-    case ActionTypes.MESSAGE_REMOVE: {
+    case ActionTypes.REMOVE_MESSAGE: {
       const { id } = action.payload;
       return {
         ...state,

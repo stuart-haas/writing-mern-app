@@ -92,7 +92,8 @@ export const hashPassword = (
 };
 
 export const verifyToken = (req: any, res: Response, next: NextFunction) => {
-  const { token } = req.cookies;
+  const token = getTokenFromHeader(req);
+
   if (!token) {
     return res.status(403).json({ error: 'Unauthorized: No token provided' });
   }
@@ -119,11 +120,19 @@ export const generateToken = async (
 
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, {
       algorithm: 'HS256',
-      expiresIn: process.env.REFRESH_TOKEN_LIFE,
+      expiresIn: process.env.ACCESS_TOKEN_LIFE,
     });
 
-    res.cookie('token', accessToken, { httpOnly: true, secure: false });
-    req.user = { _id, username };
+    req.user = { _id, username, accessToken };
     return next();
+  }
+};
+
+const getTokenFromHeader = (req: Request) => {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.split(' ')[0] === 'Bearer'
+  ) {
+    return req.headers.authorization.split(' ')[1];
   }
 };

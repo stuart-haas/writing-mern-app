@@ -6,7 +6,7 @@ export const setTheme = (dispatch: Dispatch) => {
   const theme = localStorage.getItem('theme');
   if (theme) {
     dispatch({
-      type: ActionTypes.THEME_UPDATE,
+      type: ActionTypes.UPDATE_THEME,
       payload: { theme },
     });
   }
@@ -18,11 +18,11 @@ export const toggleTheme = (dispatch: Dispatch, getState: any) => {
   const theme = currentTheme === 'light' ? 'dark' : 'light';
   localStorage.setItem('theme', theme);
   dispatch({
-    type: ActionTypes.THEME_UPDATE,
+    type: ActionTypes.UPDATE_THEME,
     payload: { theme },
   });
   dispatch({
-    type: ActionTypes.MESSAGE_ADD,
+    type: ActionTypes.ADD_MESSAGE,
     payload: {
       id: generateId('toast'),
       type: 'toast',

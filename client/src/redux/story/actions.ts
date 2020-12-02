@@ -19,7 +19,7 @@ export const saveStory = (
       data,
     });
     dispatch({
-      type: ActionTypes.MESSAGE_ADD,
+      type: ActionTypes.ADD_MESSAGE,
       payload: {
         id: generateId('toast'),
         type: 'toast',
@@ -40,7 +40,7 @@ export const deleteStory = (
     await api.delete(`/story/user/${id}`);
     dispatch(push('/me/stories'));
     dispatch({
-      type: ActionTypes.MESSAGE_ADD,
+      type: ActionTypes.ADD_MESSAGE,
       payload: {
         id: generateId('toast'),
         type: 'toast',

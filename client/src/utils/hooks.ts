@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { getCurrentUser } from 'redux/user/actions';
 
 export const usePrevious = <T>(value: T) => {
   const ref = useRef<T>();
@@ -17,8 +16,8 @@ export const useAuth = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const auth = dispatch(getCurrentUser);
-    setIsAuthenticated(auth);
+    const hasToken = localStorage.getItem('token') ? true : false;
+    setIsAuthenticated(hasToken);
   }, [location, dispatch]);
 
   return isAuthenticated;

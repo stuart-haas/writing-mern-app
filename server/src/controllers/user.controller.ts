@@ -26,10 +26,10 @@ export default class UserController implements Controller {
     // Public
     this.router.post(`${this.path}/register`, registrationRules, validate, hashPassword, this.register);
     this.router.post(`${this.path}/login`, loginRules, validate, generateToken, this.login);
-    this.router.post(`${this.path}/logout`, this.logout);
     
     // Private
     this.router.get(`${this.path}`, verifyToken, this.findAll);
+    this.router.get(`${this.path}/current`, verifyToken, this.findCurrentUser);
     this.router.get(`${this.path}/:username`, verifyToken, this.findByUsername);
     this.router.patch(`${this.path}`, verifyToken, updateRules, validate, hashPassword, this.update);
     this.router.delete(`${this.path}/:id`, verifyToken, this.delete);
@@ -47,12 +47,7 @@ export default class UserController implements Controller {
   };
 
   private login = async (req: any, res: Response) => {
-    console.log(req.user);
     res.json(req.user);
-  };
-
-  private logout = async (req: Request, res: Response) => {
-    res.clearCookie('token').sendStatus(200);
   };
 
   private findAll = async (req: Request, res: Response) => {
@@ -63,6 +58,15 @@ export default class UserController implements Controller {
   private findByUsername = async (req: any, res: Response) => {
     const user = await User.findOne({ username: req.params.username });
     res.json(user);
+  };
+
+  private findCurrentUser = async (req: any, res: Response) => {
+    const id = req.user._id;
+    const user = await User.findById(id);
+    if (user) {
+      user.password = '';
+      res.json(user);
+    }
   };
 
   private update = async (req: any, res: Response, next: NextFunction) => {

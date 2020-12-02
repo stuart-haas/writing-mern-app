@@ -15,7 +15,7 @@ export interface ThemeAction {
 
 const User = (state = INITIAL_STATE, action: ThemeAction) => {
   switch (action.type) {
-    case ActionTypes.THEME_UPDATE: {
+    case ActionTypes.UPDATE_THEME: {
       const { theme } = action.payload;
       return {
         ...state,

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { IUser, UserState } from 'common/interfaces';
-import { updateUser } from 'redux/user/actions';
+import { useDispatch } from 'react-redux';
+import { IUser } from 'common/interfaces';
+import { getCurrentUser, updateUser } from 'redux/user/actions';
 import Form, { FormField, FormData, mapData } from 'components/forms/Form';
 
 const Settings = () => {
@@ -32,13 +32,16 @@ const Settings = () => {
     },
   ];
   const dispatch = useDispatch();
-  const user = useSelector((state: UserState) => state.user);
   const [data, setData] = useState<FormData>(mapData(fields));
 
   useEffect(() => {
-    const { username } = user.user;
-    setData((prevState: any) => ({ ...prevState, username }));
-  }, [user]);
+    const fetchData = async () => {
+      const response: any = await dispatch(getCurrentUser);
+      const { data } = response;
+      setData(data);
+    };
+    fetchData();
+  }, [dispatch]);
 
   return (
     <Form

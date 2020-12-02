@@ -16,7 +16,7 @@ export interface StoryAction {
 
 const User = (state = INITIAL_STATE, action: StoryAction) => {
   switch (action.type) {
-    case ActionTypes.STORY_SAVE: {
+    case ActionTypes.SAVE_STORY: {
       return {
         ...state,
         stories: [...state.stories, action.payload],
