@@ -31,6 +31,7 @@ const Settings = () => {
       required: true,
     },
   ];
+
   const dispatch = useDispatch();
   const [data, setData] = useState<FormData>(mapData(fields));
 
