@@ -1,7 +1,7 @@
 import { IParams, IStory } from 'common/interfaces';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getStory } from 'redux/story/actions';
+import { getPublishedStory } from 'redux/story/actions';
 import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
@@ -14,9 +14,7 @@ const PublishedStory = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response: any = await dispatch(
-        getStory(params.username!, 'published')
-      );
+      const response: any = await dispatch(getPublishedStory(params.username!));
       const { data } = response;
       setData(data);
       setLoading(false);

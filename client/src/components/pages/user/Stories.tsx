@@ -2,7 +2,7 @@ import { IStory } from 'common/interfaces';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getStory, newStory } from 'redux/story/actions';
+import { getStory, createStory } from 'redux/story/actions';
 import { getTimeAgo } from 'utils/functions';
 
 const Stories = () => {
@@ -27,7 +27,10 @@ const Stories = () => {
   return (
     <Fragment>
       {data && data.length ? (
-        <button className='button success' onClick={() => dispatch(newStory)}>
+        <button
+          className='button success'
+          onClick={() => dispatch(createStory)}
+        >
           New Story
         </button>
       ) : null}
@@ -67,7 +70,7 @@ const Stories = () => {
             <h2 className='h2'>{`Looks like you don't have any stories`}</h2>
             <button
               className='button success'
-              onClick={() => dispatch(newStory)}
+              onClick={() => dispatch(createStory)}
             >
               Start writing
             </button>

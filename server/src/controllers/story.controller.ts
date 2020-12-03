@@ -15,46 +15,47 @@ export default class StoryController implements Controller {
 
   private useRoutes() {
     /* eslint-disable */
-    // Public
     this.router.get(`${this.path}/published`, this.findAll);
-    this.router.get(`${this.path}/published/user/:username`, this.findPublishedByUsername);
-    this.router.get(`${this.path}/published/:slug`, this.findPublishedBySlug);
+    this.router.get(`${this.path}/published/:slug`, this.findOne);
 
-    // Private
-    this.router.get(`${this.path}/user`, verifyToken, this.findAllByUserId);
-    this.router.get(`${this.path}/user/:id`, verifyToken, this.findByUserId);
-    this.router.post(`${this.path}/user/new`, verifyToken, this.new);
-    this.router.post(`${this.path}/user`, verifyToken, this.create);
-    this.router.patch(`${this.path}/user/:id`, verifyToken, this.update);
-    this.router.delete(`${this.path}/user/:id`, verifyToken, this.delete);
+    this.router
+      .route(this.path)
+      .get(verifyToken, this.findAllByUserId)
+      .post(verifyToken, this.create)
+
+    this.router
+      .route(`${this.path}/:id`)
+      .get(verifyToken, this.findByUserId)
+      .patch(verifyToken, this.update)
+      .delete(verifyToken, this.delete)
     /* eslint-disable */
   }
 
   private findAll = async (req: Request, res: Response) => {
+    if (req.query.username) {
+      const { username }: any = req.query;
+      const story = await User.findOne({
+        username,
+      })
+        .select('username')
+        .populate({ path: 'stories', match: { status: 'Published' } });
+      if (story) {
+        return res.json(story);
+      }
+    }
     const story = await Story.find({ status: 'Published' })
       .sort('-createdAt')
       .populate('user', 'username');
     res.json(story);
   };
 
-  private findPublishedBySlug = async (req: any, res: Response) => {
+  private findOne = async (req: Request, res: Response) => {
     const story = await Story.findOne({ slug: req.params.slug }).populate(
       'user',
       'username'
     );
     res.json(story);
-  };
-
-  private findPublishedByUsername = async (req: Request, res: Response) => {
-    const story = await User.findOne({
-      username: req.params.username,
-    })
-      .select('username')
-      .populate({ path: 'stories', match: { status: 'Published' } });
-    if (story) {
-      res.json(story);
-    }
-  };
+  }
 
   private findAllByUserId = async (req: any, res: Response) => {
     const story = await User.findById(req.user._id).populate({
@@ -76,34 +77,12 @@ export default class StoryController implements Controller {
     }
   };
 
-  private new = async (req: any, res: Response) => {
-    const user = req.user._id;
-    const story = new Story({
-      title: 'New Story',
-      content: '',
-      status: 'Draft',
-      user,
-    });
-    const newStory = await story.save();
-    if (newStory) {
-      const user = await User.findById(req.user._id);
-      if (user) {
-        user.stories.push(story);
-        user.save();
-        res.json(newStory);
-      }
-    }
-  };
-
   private create = async (req: any, res: Response) => {
+    const mode = req.query.mode;
     const user = req.user._id;
     const { title, content, status } = req.body;
-    const story = new Story({
-      title,
-      content,
-      status,
-      user,
-    });
+    const data = mode === 'new' ? { title: 'New Story', content: '', status: 'Draft', user, } : { title, content, status, user };
+    const story = new Story(data);
     const newStory = await story.save();
     if (newStory) {
       const user = await User.findById(req.user._id);

@@ -2,7 +2,7 @@ import { IStory } from 'common/interfaces';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { getStory } from 'redux/story/actions';
+import { getPublishedStory } from 'redux/story/actions';
 import { format } from 'date-fns';
 
 const PublishedStories = () => {
@@ -14,7 +14,7 @@ const PublishedStories = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response: any = await dispatch(
-        getStory(params.username, 'published/user')
+        getPublishedStory(`?username=${params.username}`)
       );
       const { data } = response;
       setData(data);
@@ -39,7 +39,7 @@ const PublishedStories = () => {
               </Link>
               <span className='text small dark-gray'>
                 {story.createdAt &&
-                  format(Date.parse(story.createdAt), 'MMMM dd, yyyy')}
+                  format(Date.parse(story.createdAt), 'MMMM d, yyyy')}
               </span>
             </div>
           ))

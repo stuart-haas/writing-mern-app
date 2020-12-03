@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logoutUser } from 'redux/user/actions';
 import { useAuth, useOnClickOutside } from 'utils/hooks';
-import { newStory } from 'redux/story/actions';
+import { createStory } from 'redux/story/actions';
 
 interface Props {
   isOpen: boolean;
@@ -21,7 +21,7 @@ const Dropdown = (props: Props) => {
       {isAuthenticated && (
         <Fragment>
           <span className='dropdown-item'>
-            <span className='link' onClick={() => dispatch(newStory)}>
+            <span className='link' onClick={() => dispatch(createStory)}>
               New Story
             </span>
           </span>

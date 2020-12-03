@@ -24,16 +24,16 @@ export default class UserController implements Controller {
 
   private useRoutes() {
     /* eslint-disable */
-    // Public
+    this.router
+      .route(this.path)
+      .get(verifyToken, this.findCurrentUser)
+      .patch(verifyToken, updateRules, validate, hashPassword, this.update);
+      
     this.router.post(`${this.path}/register`, registrationRules, validate, hashPassword, this.register);
     this.router.post(`${this.path}/login`, loginRules, validate, generateToken, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
     
-    // Private
-    this.router.get(`${this.path}`, verifyToken, this.findAll);
-    this.router.get(`${this.path}/current`, verifyToken, this.findCurrentUser);
     this.router.get(`${this.path}/:username`, verifyToken, this.findByUsername);
-    this.router.patch(`${this.path}`, verifyToken, updateRules, validate, hashPassword, this.update);
     this.router.delete(`${this.path}/:id`, verifyToken, this.delete);
     /* eslint-disable */
   }

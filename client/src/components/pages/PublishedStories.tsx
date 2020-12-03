@@ -2,7 +2,7 @@ import { IStory } from 'common/interfaces';
 import React, { Fragment, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getStory } from 'redux/story/actions';
+import { getPublishedStory } from 'redux/story/actions';
 import { format } from 'date-fns';
 
 const PublishedStories = () => {
@@ -12,7 +12,7 @@ const PublishedStories = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response: any = await dispatch(getStory('', 'published'));
+      const response: any = await dispatch(getPublishedStory());
       const { data } = response;
       setData(data);
       setLoading(false);
