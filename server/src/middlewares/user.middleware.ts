@@ -98,7 +98,7 @@ export const verifyToken = (req: any, res: Response, next: NextFunction) => {
   const { refreshToken } = req.cookies;
 
   if (!token && !refreshToken) {
-    return res.sendStatus(403);
+    return res.sendStatus(401);
   }
 
   try {
@@ -107,15 +107,6 @@ export const verifyToken = (req: any, res: Response, next: NextFunction) => {
     req.user = { _id, username };
     return next();
   } catch (error) {
-    res.sendStatus(401);
-  }
-};
-
-export const refreshToken = (req: any, res: Response, next: NextFunction) => {
-  const { token } = req.cookies;
-  const { refreshToken } = req.cookies;
-
-  if (token && refreshToken) {
     const { _id } = req.cookies.refreshToken.payload;
     redisClient.get(_id, (error: any, value: any) => {
       const redisToken = value ? JSON.parse(value) : null;
@@ -147,8 +138,6 @@ export const refreshToken = (req: any, res: Response, next: NextFunction) => {
         return res.sendStatus(401);
       }
     });
-  } else {
-    res.sendStatus(401);
   }
 };
 
