@@ -33,6 +33,13 @@ export const loginUser = (data: IUser) => {
   };
 };
 
+export const refreshToken = () => {
+  return async () => {
+    const session = JSON.parse(localStorage.getItem('session')!);
+    await api.post('/user/token', { id: session._id });
+  };
+};
+
 export const logoutUser = (
   message = 'Logout Succesful',
   status = 'success'

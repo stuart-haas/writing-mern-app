@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { addMessage } from 'redux/message/actions';
-import { logoutUser } from 'redux/user/actions';
+import { logoutUser, refreshToken } from 'redux/user/actions';
 import { generateId } from 'utils/functions';
 
 const api = axios.create({
@@ -23,9 +23,12 @@ export const apiInterceptor = (store: any) => {
       return Promise.resolve(next);
     },
     (error) => {
+      const orginalRequest = error.config;
       if (error.response) {
         if (error.response.status === 401) {
-          store.dispatch(logoutUser('Your session expired', 'error'));
+          orginalRequest._retry = true;
+          store.dispatch(refreshToken());
+          return api(orginalRequest);
         } else {
           store.dispatch(
             addMessage({

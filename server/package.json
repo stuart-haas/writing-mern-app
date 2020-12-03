@@ -25,6 +25,7 @@
     "helmet": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.13",
+    "rand-token": "^1.0.1",
     "redis": "^3.0.2",
     "slugify": "^1.4.6"
   },

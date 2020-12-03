@@ -1,6 +1,4 @@
-import dotenv from 'dotenv';
 import express from 'express';
-import redis, { RedisClient } from 'redis';
 import helmet from 'helmet';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -10,14 +8,10 @@ import Controller from '@common/interface';
 
 export default class App {
   private app: express.Application;
-  private redisClient: RedisClient;
   private controllers: Controller[];
 
   constructor(controllers: Controller[]) {
-    this.useEnv();
-
     this.app = express();
-    this.redisClient = redis.createClient(process.env.REDIS_URL!);
     this.controllers = controllers;
 
     this.useMiddlewares();
@@ -43,14 +37,6 @@ export default class App {
       .catch((error) => {
         console.log(error);
       });
-
-    this.redisClient.on('connect', () => {
-      console.log(`Redis is connected to ${process.env.REDIS_URL}`);
-    });
-  }
-
-  private useEnv() {
-    dotenv.config();
   }
 
   private useMiddlewares() {

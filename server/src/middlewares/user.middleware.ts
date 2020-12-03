@@ -1,8 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
+import randtoken from 'rand-token';
 import { check } from 'express-validator';
 import User from '@models/user.model';
+import { redisClient } from '../index';
 
 export const registrationRules = [
   check('username', 'Your username must have more than 5 characters')
@@ -93,9 +95,10 @@ export const hashPassword = (
 
 export const verifyToken = (req: any, res: Response, next: NextFunction) => {
   const { token } = req.cookies;
+  const { refreshToken } = req.cookies;
 
-  if (!token) {
-    return res.status(403).json({ error: 'Unauthorized: No token provided' });
+  if (!token && !refreshToken) {
+    return res.status(403).json({ error: 'Unauthorized: No tokens provided' });
   }
 
   try {
@@ -118,18 +121,61 @@ export const generateToken = async (
     const { _id, username } = user;
     const payload = { _id, username };
 
-    const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, {
+    const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!, {
       algorithm: 'HS256',
       expiresIn: process.env.ACCESS_TOKEN_LIFE,
     });
 
-    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET!, {
-      algorithm: 'HS256',
-      expiresIn: process.env.REFRESH_TOKEN_LIFE,
-    });
+    const refreshToken = generateRefreshToken(payload);
 
     req.user = { _id, username };
-    res.cookie('token', accessToken, { httpOnly: true, secure: false });
+    res.cookie('token', token, { httpOnly: true, secure: false });
+    res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false });
     return next();
   }
+};
+
+export const refreshToken = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.body;
+
+  redisClient.get(id, (error: any, value: any) => {
+    const redisToken = value ? JSON.parse(value) : null;
+    if (redisToken) {
+      if (redisToken.expiresIn > new Date().getDate()) {
+        const refreshToken = generateRefreshToken(redisToken.payload._id);
+
+        res.cookie('refreshToken', refreshToken, {
+          httpOnly: true,
+          secure: false,
+        });
+      }
+
+      const token = jwt.sign(
+        redisToken.payload,
+        process.env.ACCESS_TOKEN_SECRET!,
+        {
+          algorithm: 'HS256',
+          expiresIn: process.env.ACCESS_TOKEN_LIFE,
+        }
+      );
+
+      req.user = redisToken.payload;
+      res.cookie('token', token, { httpOnly: true, secure: false });
+      return next();
+    } else {
+      return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+    }
+  });
+};
+
+const generateRefreshToken = (payload: any) => {
+  const uid = randtoken.uid(256);
+  const expiresIn = new Date().getDate() + process.env.REFRESH_TOKEN_LIFE!;
+  const refreshToken = { payload, uid, expiresIn };
+  redisClient.set(String(payload._id), JSON.stringify(refreshToken));
+  return refreshToken;
 };
