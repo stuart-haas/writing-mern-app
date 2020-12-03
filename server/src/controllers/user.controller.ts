@@ -9,6 +9,7 @@ import {
   generateToken,
   verifyToken,
   updateRules,
+  refreshToken,
 } from '@middlewares/user.middleware';
 import { validate } from '@common/middleware';
 import UserNotFoundException from '@exceptions/UserNotFoundException';
@@ -28,6 +29,7 @@ export default class UserController implements Controller {
     this.router.post(`${this.path}/register`, registrationRules, validate, hashPassword, this.register);
     this.router.post(`${this.path}/login`, loginRules, validate, generateToken, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
+    this.router.post(`${this.path}/token`, refreshToken, this.token);
     
     // Private
     this.router.get(`${this.path}`, verifyToken, this.findAll);
@@ -59,6 +61,10 @@ export default class UserController implements Controller {
     res.clearCookie('refreshToken')
     res.sendStatus(200);
   }
+
+  private token = async (req: any, res: Response) => {
+    res.json(req.user);
+  };
 
   private findAll = async (req: Request, res: Response) => {
     const user = await User.find();

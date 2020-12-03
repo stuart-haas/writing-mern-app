@@ -107,6 +107,15 @@ export const verifyToken = (req: any, res: Response, next: NextFunction) => {
     req.user = { _id, username };
     return next();
   } catch (error) {
+    res.sendStatus(401);
+  }
+};
+
+export const refreshToken = (req: any, res: Response, next: NextFunction) => {
+  const { token } = req.cookies;
+  const { refreshToken } = req.cookies;
+
+  if (token && refreshToken) {
     const { _id } = req.cookies.refreshToken.payload;
     redisClient.get(_id, (error: any, value: any) => {
       const redisToken = value ? JSON.parse(value) : null;
@@ -129,13 +138,17 @@ export const verifyToken = (req: any, res: Response, next: NextFunction) => {
           }
         );
 
+        const expiration = getExpiration(process.env.ACCESS_TOKEN_LIFE!);
         req.user = redisToken.payload;
+        req.user.expiration = expiration;
         res.cookie('token', token, { httpOnly: true, secure: false });
         return next();
       } else {
         return res.sendStatus(401);
       }
     });
+  } else {
+    res.sendStatus(401);
   }
 };
 
@@ -146,6 +159,7 @@ export const generateToken = async (
 ) => {
   const user = await User.findOne({ username: req.body.username });
   if (user) {
+    const expiration = getExpiration(process.env.ACCESS_TOKEN_LIFE!);
     const { _id, username } = user;
     const payload = { _id, username };
 
@@ -156,7 +170,7 @@ export const generateToken = async (
 
     const refreshToken = generateRefreshToken(payload);
 
-    req.user = { _id, username };
+    req.user = { _id, username, expiration };
     res.cookie('token', token, { httpOnly: true, secure: false });
     res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false });
     return next();
@@ -165,8 +179,13 @@ export const generateToken = async (
 
 const generateRefreshToken = (payload: any) => {
   const uid = randtoken.uid(256);
-  const expiresIn = new Date().getDate() + process.env.REFRESH_TOKEN_LIFE!;
+  const expiresIn = getExpiration(process.env.REFRESH_TOKEN_LIFE!);
   const refreshToken = { payload, uid, expiresIn };
   redisClient.set(String(payload._id), JSON.stringify(refreshToken));
   return refreshToken;
+};
+
+const getExpiration = (time: any) => {
+  const date = new Date(Date.now() + parseInt(time));
+  return date;
 };

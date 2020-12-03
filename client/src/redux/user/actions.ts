@@ -9,8 +9,8 @@ export const loginUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await api.post('/user/login', data);
-      const { _id, username } = response.data;
-      const user = { _id, username };
+      const { _id, username, expiration } = response.data;
+      const user = { _id, username, expiration };
       localStorage.setItem('session', JSON.stringify(user));
       dispatch({
         type: ActionTypes.UPDATE_USER,
@@ -92,6 +92,17 @@ export const updateUser = (data: IUser) => {
       },
     });
   };
+};
+
+export const refreshToken = async (dispatch: Dispatch) => {
+  const response = await api.post('/user/token');
+  const { _id, username, expiration } = response.data;
+  const user = { _id, username, expiration };
+  localStorage.setItem('session', JSON.stringify(user));
+  dispatch({
+    type: ActionTypes.UPDATE_USER,
+    payload: { user, authenticated: true },
+  });
 };
 
 export const getCurrentUser = async () => {

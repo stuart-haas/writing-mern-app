@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { addMessage } from 'redux/message/actions';
-import { logoutUser } from 'redux/user/actions';
-import { generateId } from 'utils/functions';
+import { logoutUser, refreshToken } from 'redux/user/actions';
 
 const api = axios.create({
   baseURL: new URL('/api', process.env.REACT_APP_SERVER_URL).toString(),
@@ -11,7 +9,7 @@ const api = axios.create({
 // TODO: Fix store type
 export const apiInterceptor = (store: any) => {
   api.interceptors.request.use(
-    (config) => {
+    async (config) => {
       return config;
     },
     (error) => {
@@ -23,18 +21,14 @@ export const apiInterceptor = (store: any) => {
       return Promise.resolve(next);
     },
     (error) => {
+      const originalRequest = error.config;
       if (error.response) {
         if (error.response.status === 401) {
-          store.dispatch(logoutUser('Your session expired', 'error'));
+          originalRequest._retry = true;
+          store.dispatch(refreshToken);
+          return api(originalRequest);
         } else {
-          store.dispatch(
-            addMessage({
-              id: generateId('toast'),
-              type: 'toast',
-              message: 'Something went wrong :(',
-              status: 'error',
-            })
-          );
+          store.dispatch(logoutUser);
         }
       }
       return Promise.reject(error);
