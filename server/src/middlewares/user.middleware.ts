@@ -92,7 +92,7 @@ export const hashPassword = (
 };
 
 export const verifyToken = (req: any, res: Response, next: NextFunction) => {
-  const token = getTokenFromHeader(req);
+  const { token } = req.cookies;
 
   if (!token) {
     return res.status(403).json({ error: 'Unauthorized: No token provided' });
@@ -123,16 +123,13 @@ export const generateToken = async (
       expiresIn: process.env.ACCESS_TOKEN_LIFE,
     });
 
-    req.user = { _id, username, accessToken };
-    return next();
-  }
-};
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET!, {
+      algorithm: 'HS256',
+      expiresIn: process.env.REFRESH_TOKEN_LIFE,
+    });
 
-const getTokenFromHeader = (req: Request) => {
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.split(' ')[0] === 'Bearer'
-  ) {
-    return req.headers.authorization.split(' ')[1];
+    req.user = { _id, username };
+    res.cookie('token', accessToken, { httpOnly: true, secure: false });
+    return next();
   }
 };

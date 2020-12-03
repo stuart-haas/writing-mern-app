@@ -4,7 +4,7 @@ services:
 
   nginx:
     container_name: fable_nginx
-    build: ./config/nginx
+    build: ./nginx
     depends_on:
       - client
       - server

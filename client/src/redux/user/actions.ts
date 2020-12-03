@@ -9,9 +9,9 @@ export const loginUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await api.post('/user/login', data);
-      const { _id, username, accessToken } = response.data;
+      const { _id, username } = response.data;
       const user = { _id, username };
-      localStorage.setItem('token', accessToken);
+      localStorage.setItem('session', JSON.stringify(user));
       dispatch({
         type: ActionTypes.UPDATE_USER,
         payload: { user, authenticated: true },
@@ -38,7 +38,8 @@ export const logoutUser = (
   status = 'success'
 ) => {
   return async (dispatch: Dispatch) => {
-    localStorage.removeItem('token');
+    await api.post('/user/logout');
+    localStorage.removeItem('session');
     dispatch(push('/login'));
     dispatch({
       type: ActionTypes.UPDATE_USER,

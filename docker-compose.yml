@@ -5,16 +5,16 @@ services:
   client:
     container_name: fable_client
     stdin_open: true
-    depends_on:
-      - server
     build: 
       context: ./client
       target: dev
+    depends_on:
+      - server
     volumes:
       - ./client:/usr/src/app/client
       - /usr/src/app/client/node_modules
     ports:
-      - '3000:3000'
+      - 3000:3000
     environment:
       CHOKIDAR_USEPOLLING: 'true'
 
@@ -31,23 +31,28 @@ services:
       - ./server:/usr/src/app/server
       - /usr/src/app/server/node_modules
     ports:
-      - '5000:5000'
+      - 5000:5000
     environment:
       CHOKIDAR_USEPOLLING: 'true'
   
   database:
+    image: mongo:latest
     container_name: fable_database
-    image: mongo
-    environment:
-      - MONGO_INITDB_DATABASE=fable
     volumes:
       - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=fable
 
   redis:
+    image: redis:latest
     container_name: fable_redis
-    build: ./config/redis
+    volumes:
+      - redis-data:/data/redis
+    expose:
+      - '6379'
     ports:
-      - '6379:6379'
+      - 6379:6379
 
 volumes:
   mongo-data:
+  redis-data:

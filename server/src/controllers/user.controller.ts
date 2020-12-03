@@ -26,6 +26,7 @@ export default class UserController implements Controller {
     // Public
     this.router.post(`${this.path}/register`, registrationRules, validate, hashPassword, this.register);
     this.router.post(`${this.path}/login`, loginRules, validate, generateToken, this.login);
+    this.router.post(`${this.path}/logout`, this.logout);
     
     // Private
     this.router.get(`${this.path}`, verifyToken, this.findAll);
@@ -49,6 +50,10 @@ export default class UserController implements Controller {
   private login = async (req: any, res: Response) => {
     res.json(req.user);
   };
+
+  private logout = async (req: any, res: Response) => {
+    res.clearCookie('token').sendStatus(200);
+  }
 
   private findAll = async (req: Request, res: Response) => {
     const user = await User.find();
