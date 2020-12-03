@@ -53,7 +53,7 @@ export default class UserController implements Controller {
   };
 
   private logout = async (req: any, res: Response) => {
-    redisClient.del(String(req.body.id));
+    redisClient.del(req.cookies.refreshToken.payload._id);
 
     res.clearCookie('token');
     res.clearCookie('refreshToken')
