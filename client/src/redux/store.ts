@@ -7,6 +7,11 @@ import user from 'redux/user/reducers';
 import story from 'redux/story/reducers';
 import message from 'redux/message/reducers';
 import theme from 'redux/theme/reducers';
+import { throttle } from 'lodash';
+
+const persistedState = localStorage.getItem('state')
+  ? JSON.parse(localStorage.getItem('state')!)
+  : {};
 
 export const history = createBrowserHistory();
 
@@ -22,7 +27,14 @@ const rootReducer = (history: any) =>
 
 const store = createStore(
   rootReducer(history),
+  persistedState,
   compose(applyMiddleware(thunk, routerMiddleware(history)))
+);
+
+store.subscribe(
+  throttle(() => {
+    localStorage.setItem('state', JSON.stringify(store.getState()));
+  }, 1000)
 );
 
 apiInterceptor(store);

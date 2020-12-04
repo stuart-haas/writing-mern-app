@@ -11,7 +11,6 @@ export const loginUser = (data: IUser) => {
       const response = await api.post('/user/login', data);
       const { _id, username, expiration } = response.data;
       const user = { _id, username, expiration };
-      localStorage.setItem('session', JSON.stringify(user));
       dispatch({
         type: ActionTypes.UPDATE_USER,
         payload: { user, authenticated: true },
@@ -39,7 +38,6 @@ export const logoutUser = (
 ) => {
   return async (dispatch: Dispatch) => {
     await api.post('/user/logout');
-    localStorage.removeItem('session');
     dispatch(push('/login'));
     dispatch({
       type: ActionTypes.UPDATE_USER,

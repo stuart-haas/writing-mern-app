@@ -14,7 +14,6 @@ import ToastContainer from 'components/toast/ToastContainer';
 import Settings from 'components/pages/user/Settings';
 import UserStories from 'components/pages/UserStories';
 import Page from 'components/pages/Page';
-import { setTheme } from 'redux/theme/actions';
 import { IThemeType, ThemeState, IThemeColor } from 'common/interfaces';
 
 const App = () => {
@@ -86,10 +85,6 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setTheme);
-  }, []);
-
-  useEffect(() => {
     themeColours[theme.theme].forEach((e: IThemeColor) => {
       document.body.style.setProperty(
         `--color-${e.name}`, e.color,
@@ -118,7 +113,7 @@ const App = () => {
         />
         <Route component={ErrorPage} />
       </Switch>
-      <ToastContainer autoDismiss autoDismissDelay={3000} />
+      <ToastContainer autoDismiss autoDismissDelay={1500} />
     </Container>
   );
   /* eslint-disable */

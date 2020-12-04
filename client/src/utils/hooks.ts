@@ -16,7 +16,8 @@ export const useAuth = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const session = localStorage.getItem('session') ? true : false;
+    const session = JSON.parse(localStorage.getItem('state')!).user
+      .authenticated;
     setIsAuthenticated(session);
   }, [location, dispatch]);
 
