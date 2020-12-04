@@ -18,9 +18,10 @@ export const registrationRules = [
     .trim()
     .escape(),
   check('passwordConfirm', 'Passwords do not match')
-    .custom((value: string, { req }) => value == req.body.password)
+    .exists()
     .trim()
-    .escape(),
+    .escape()
+    .custom((value: string, { req }) => value == req.body.password),
 ];
 
 export const loginRules = [
@@ -67,7 +68,7 @@ export const loginRules = [
 ];
 
 export const updateRules = [
-  check('currentPassword')
+  check('currentPassword', 'Password required')
     .exists()
     .trim()
     .escape()
@@ -80,6 +81,15 @@ export const updateRules = [
         });
       });
     }),
+  check('password', 'Your password must be at least 5 characters')
+    .exists()
+    .isLength({ min: 5 })
+    .trim()
+    .escape(),
+  check('passwordConfirm', 'Passwords do not match')
+    .custom((value: string, { req }) => value == req.body.password)
+    .trim()
+    .escape(),
 ];
 
 export const hashPassword = (

@@ -79,16 +79,22 @@ export const registerUser = (data: IUser) => {
 
 export const updateUser = (data: IUser) => {
   return async (dispatch: Dispatch) => {
-    await api.patch('/user', data);
-    dispatch({
-      type: ActionTypes.ADD_MESSAGE,
-      payload: {
-        id: generateId('toast'),
-        type: 'toast',
-        message: 'Account Updated',
-        status: 'success',
-      },
-    });
+    try {
+      const response = await api.patch('/user', data);
+      dispatch({
+        type: ActionTypes.ADD_MESSAGE,
+        payload: {
+          id: generateId('toast'),
+          type: 'toast',
+          message: 'Account Updated',
+          status: 'success',
+        },
+      });
+      return { response };
+    } catch (error) {
+      const errors = error.response;
+      return { errors };
+    }
   };
 };
 

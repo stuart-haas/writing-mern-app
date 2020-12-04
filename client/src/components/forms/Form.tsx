@@ -88,7 +88,6 @@ const Form = (props: Props) => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const { errors }: any = await props.submit(data!);
-    setData({});
     if (errors) {
       setErrors(errors.data);
     } else {

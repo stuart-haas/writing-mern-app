@@ -33,7 +33,7 @@ export default class UserController implements Controller {
     this.router.post(`${this.path}/login`, loginRules, validate, generateToken, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
     
-    this.router.get(`${this.path}/:username`, verifyToken, this.findByUsername);
+    this.router.get(`${this.path}/:username`, this.findByUsername);
     this.router.delete(`${this.path}/:id`, verifyToken, this.delete);
     /* eslint-disable */
   }
@@ -59,11 +59,6 @@ export default class UserController implements Controller {
     res.clearCookie('refreshToken')
     res.sendStatus(200);
   }
-
-  private findAll = async (req: Request, res: Response) => {
-    const user = await User.find();
-    res.json(user);
-  };
 
   private findByUsername = async (req: any, res: Response) => {
     const user = await User.findOne({ username: req.params.username });

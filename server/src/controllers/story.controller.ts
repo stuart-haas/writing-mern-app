@@ -81,7 +81,8 @@ export default class StoryController implements Controller {
     const mode = req.query.mode;
     const user = req.user._id;
     const { title, content, status } = req.body;
-    const data = mode === 'new' ? { title: 'New Story', content: '', status: 'Draft', user, } : { title, content, status, user };
+
+    const data = mode === 'new' ? { title: 'New Story', slug: '', content: '', status: 'Draft', user, } : { title, content, status, user };
     const story = new Story(data);
     const newStory = await story.save();
     if (newStory) {
@@ -89,7 +90,7 @@ export default class StoryController implements Controller {
       if (user) {
         user.stories.push(story);
         user.save();
-        res.json(user);
+        res.json(newStory);
       }
     }
   };

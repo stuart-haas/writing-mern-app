@@ -17,11 +17,9 @@ const StorySchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-      unique: true,
     },
     content: {
       type: String,
-      required: false,
     },
     status: {
       type: String,
