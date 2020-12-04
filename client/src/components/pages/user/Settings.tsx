@@ -47,7 +47,6 @@ const Settings = () => {
   return (
     <Form
       title='Settings'
-      class='position-center'
       autoFocus
       button={{
         label: 'Update',

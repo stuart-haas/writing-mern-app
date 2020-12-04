@@ -42,3 +42,15 @@
     100% { transform: rotate(360deg); }
   }
 }
+
+@mixin fade-in-opacity-hidden() {
+  opacity: 0;
+  transition: opacity 0.25s ease, visibility 0s 0.25s ease;
+  visibility: hidden;
+}
+
+@mixin fade-in-opacity-visible() {
+  opacity: 1;
+  transition: opacity 0.25s ease;
+  visibility: visible;
+}

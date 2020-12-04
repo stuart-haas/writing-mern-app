@@ -38,7 +38,6 @@ export const logoutUser = (
 ) => {
   return async (dispatch: Dispatch) => {
     await api.post('/user/logout');
-    dispatch(push('/login'));
     dispatch({
       type: ActionTypes.UPDATE_USER,
       payload: { user: {}, authenticated: false },
@@ -52,6 +51,7 @@ export const logoutUser = (
         status: status,
       },
     });
+    dispatch(push('/login'));
   };
 };
 

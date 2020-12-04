@@ -11,11 +11,12 @@
     margin-left: 0;
 
     .sidebar-open {
-      opacity: 0;
+      @include fade-in-opacity-hidden;
     }
   }
 
   .sidebar-open {
+    @include fade-in-opacity-visible;
     position: absolute;
     top: 1.2rem;
     left: calc(100% + 0.75rem);
@@ -27,7 +28,6 @@
     padding: 2px;
     border-top: solid 2px var(--color-text);
     cursor: pointer;
-    opacity: 1;
     transition: all 0.2s ease;
 
     &:hover {

@@ -34,7 +34,6 @@ const Login = () => {
   return (
     <Form
       title='Login'
-      class='position-center'
       autoFocus
       button={{
         label: 'Login',

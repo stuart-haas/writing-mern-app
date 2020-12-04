@@ -35,7 +35,6 @@ const Register = () => {
   return (
     <Form
       title='Register'
-      class='position-center'
       autoFocus
       button={{
         label: 'Register',

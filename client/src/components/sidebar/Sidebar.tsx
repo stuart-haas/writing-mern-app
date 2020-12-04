@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   isOpen: boolean;
@@ -7,6 +8,11 @@ interface Props {
 
 const Sidebar = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(props.isOpen);
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
 
   return (
     <aside className={`sidebar ${isOpen ? 'is-open' : ''}`}>

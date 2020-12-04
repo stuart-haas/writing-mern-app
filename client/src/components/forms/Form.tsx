@@ -88,6 +88,7 @@ const Form = (props: Props) => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const { errors }: any = await props.submit(data!);
+    setData({});
     if (errors) {
       setErrors(errors.data);
     } else {
@@ -105,6 +106,12 @@ const Form = (props: Props) => {
     if (field.match) {
       if (value !== data[field.match]) {
         handleError(field, field.matchError);
+      } else {
+        handleError(field);
+      }
+    } else {
+      if (value) {
+        handleError(field, '');
       } else {
         handleError(field);
       }
@@ -198,7 +205,9 @@ const Form = (props: Props) => {
 
   return (
     <form
-      className={`form ${props.class} ${errors.length > 0 ? 'has-errors' : ''}`}
+      className={`form ${props.class ? props.class : ''} ${
+        errors.length > 0 ? 'has-errors' : ''
+      }`}
       onSubmit={handleSubmit}
     >
       {props.title && <h2 className='h2'>{props.title}</h2>}
