@@ -12,7 +12,7 @@ export const registrationRules = [
     .isLength({ min: 5 })
     .trim()
     .escape(),
-  check('email', 'Your email is required').exists().isEmail().trim().escape(),
+  check('email', 'Email required').exists().isEmail().trim().escape(),
   check('password', 'Your password must be at least 5 characters')
     .exists()
     .isLength({ min: 5 })

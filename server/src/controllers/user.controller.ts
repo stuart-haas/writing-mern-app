@@ -39,8 +39,9 @@ export default class UserController implements Controller {
   }
 
   private register = async (req: Request, res: Response) => {
-    const { username, password } = req.body;
+    const { email, username, password } = req.body;
     const user = new User({
+      email,
       username,
       password,
     });
