@@ -1,17 +1,13 @@
 .story {
-  &__title {
+  &-title {
     margin: 2rem 0;
 
     input {
       background-color: var(--color-background);
     }
   }
-
-  &__toolbar {
-    margin-bottom: 0.5rem;
-  }
   
-  &__info {
+  &-info {
     margin-left: 1rem;
     font-size: 0.875rem;
   }

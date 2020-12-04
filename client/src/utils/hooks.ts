@@ -12,7 +12,7 @@ export const usePrevious = <T>(value: T) => {
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const [isAuthenticated, setIsAuthenticated] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const location = useLocation();
 
   useEffect(() => {

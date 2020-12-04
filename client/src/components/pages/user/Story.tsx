@@ -107,7 +107,7 @@ const Story = () => {
     <Fragment>
       <Prompt when={dirty} message='Are you sure you want to leave?' />
       <div className='story'>
-        <div className='story__toolbar flex align-center justify-between'>
+        <div className='flex align-center justify-between'>
           <div className='flex align-center'>
             <div className='button-group'>
               <button
@@ -125,7 +125,7 @@ const Story = () => {
                 {data.status === 'Draft' ? 'Publish' : 'Unpublish'}
               </button>
             </div>
-            <div className='story__info'>
+            <div className='story-info'>
               {data.updatedAt && (
                 <span className='text dark-gray'>{`Last updated ${getTimeAgo(
                   data.updatedAt
@@ -150,7 +150,7 @@ const Story = () => {
           </div>
         </div>
 
-        <div className='story__title'>
+        <div className='story-title'>
           <input
             className='h2'
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
