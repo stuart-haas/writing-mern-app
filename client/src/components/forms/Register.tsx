@@ -9,22 +9,34 @@ const Register = () => {
 
   const fields: FormField[] = [
     {
+      name: 'email',
+      type: 'email',
+      label: 'Email',
+      placeholder: 'Email',
+      required: true,
+      lookup: '/user/search?email=',
+      lookupError: 'Email already exists',
+    },
+    {
       name: 'username',
       type: 'text',
+      label: 'Username',
       placeholder: 'Username',
       required: true,
-      lookup: '/user/',
+      lookup: '/user/search?username=',
       lookupError: 'Username already exists',
     },
     {
       name: 'password',
       type: 'password',
+      label: 'Password',
       placeholder: 'Password',
       required: true,
     },
     {
       name: 'passwordConfirm',
       type: 'password',
+      label: 'Confirm Password',
       placeholder: 'Confirm Password',
       required: true,
       match: 'password',

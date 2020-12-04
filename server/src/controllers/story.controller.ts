@@ -78,11 +78,9 @@ export default class StoryController implements Controller {
   };
 
   private create = async (req: any, res: Response) => {
-    const mode = req.query.mode;
+    const type = req.query.type;
     const user = req.user._id;
-    const { title, content, status } = req.body;
-
-    const data = mode === 'new' ? { title: 'New Story', slug: '', content: '', status: 'Draft', user, } : { title, content, status, user };
+    const data = type === 'draft' ? { title: 'New Story', slug: '', content: '', status: 'Draft', user, } : req.body;
     const story = new Story(data);
     const newStory = await story.save();
     if (newStory) {

@@ -10,6 +10,7 @@ export interface FormData {
 export interface FormField {
   name?: string;
   type?: string;
+  label?: string;
   placeholder?: string;
   class?: string;
   required?: boolean;
@@ -24,7 +25,7 @@ interface FormFieldError {
   msg?: string;
 }
 
-interface FormFieldStatus {
+interface FormFieldInfo {
   name: string;
   message: string;
 }
@@ -57,7 +58,7 @@ export function mapData(fields: FormField[]) {
 const Form = (props: Props) => {
   const [data, setData] = useState<FormData>(mapData(props.fields));
   const [errors, setErrors] = useState<FormFieldError[]>([]);
-  const [status, setStatus] = useState<FormFieldStatus[]>([]);
+  const [info, setInfo] = useState<FormFieldInfo[]>([]);
   const ref = useRef<any>();
 
   useEffect(() => {
@@ -120,15 +121,13 @@ const Form = (props: Props) => {
   function handleLookup(name: string, value: string) {
     const field = findFieldByName(name);
     if (field.lookup && value) {
-      handleStatus(field, 'is-loading');
+      handleInfo(field, 'is-loading');
       api.get(`${field.lookup}${value}`).then((response: AxiosResponse) => {
         setTimeout(() => {
-          handleStatus(field);
+          handleInfo(field);
         }, 500);
         if (response.data) {
           handleError(field, field.lookupError);
-        } else {
-          handleError(field);
         }
       });
     }
@@ -136,7 +135,10 @@ const Form = (props: Props) => {
 
   function handleError(field: FormField, message = '') {
     if (message) {
-      setErrors([...errors, { param: field.name, msg: message }]);
+      setErrors((prevState: any) => [
+        ...prevState,
+        { param: field.name, msg: message },
+      ]);
     } else {
       setErrors(
         [...errors].filter((e: FormFieldError) => {
@@ -146,12 +148,15 @@ const Form = (props: Props) => {
     }
   }
 
-  function handleStatus(field: FormField, message = '') {
+  function handleInfo(field: FormField, message = '') {
     if (message) {
-      setStatus([...status, { name: field.name!, message }]);
+      setInfo((prevState: any) => [
+        ...prevState,
+        { name: field.name!, message },
+      ]);
     } else {
-      setStatus(
-        [...status].filter((e: FormFieldStatus) => {
+      setInfo(
+        [...info].filter((e: FormFieldInfo) => {
           return e.name !== field.name;
         })
       );
@@ -170,9 +175,9 @@ const Form = (props: Props) => {
     });
   }
 
-  function findStatusByName(name: string) {
-    return status.filter((status: FormFieldStatus) => {
-      return status.name === name;
+  function findInfoByName(name: string) {
+    return info.filter((info: FormFieldInfo) => {
+      return info.name === name;
     });
   }
 
@@ -186,14 +191,14 @@ const Form = (props: Props) => {
     return errors[0].msg;
   }
 
-  function hasFieldStatus(name: string) {
-    const status = findStatusByName(name);
-    return status.length === 0 ? false : true;
+  function hasFieldInfo(name: string) {
+    const info = findInfoByName(name);
+    return info.length === 0 ? false : true;
   }
 
-  function fieldStatus(name: string) {
-    const status = findStatusByName(name);
-    return status[0].message;
+  function fieldInfo(name: string) {
+    const info = findInfoByName(name);
+    return info[0].message;
   }
 
   function applyRef(index: number) {
@@ -216,10 +221,16 @@ const Form = (props: Props) => {
             key={index}
             className={`field ${
               hasFieldError(field.name!) ? 'has-error' : ''
-            } ${hasFieldStatus(field.name!) ? fieldStatus(field.name!) : ''}`}
+            } ${hasFieldInfo(field.name!) ? fieldInfo(field.name!) : ''}`}
           >
+            {field.label && (
+              <label htmlFor={field.name} className='field-label'>
+                {field.placeholder}
+              </label>
+            )}
             <input
               ref={applyRef(index)}
+              id={field.name}
               className={field.class ? field.class : 'input'}
               type={field.type}
               name={field.name}
@@ -228,7 +239,7 @@ const Form = (props: Props) => {
               onChange={(e) => handleChange(e)}
             />
             {hasFieldError(field.name!) && (
-              <label className='field-error'>{fieldError(field.name!)}</label>
+              <span className='field-error'>{fieldError(field.name!)}</span>
             )}
           </div>
         ))}

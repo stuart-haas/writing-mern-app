@@ -52,7 +52,7 @@ export const deleteStory = (
 };
 
 export const createStory = async (dispatch: Dispatch) => {
-  const response = await api.post('/story?mode=new');
+  const response = await api.post('/story?type=draft');
   const { data } = response;
   dispatch(push(`/me/stories/edit/${data._id}`));
 };

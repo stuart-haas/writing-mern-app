@@ -47,6 +47,14 @@ const App = () => {
       {
         name: 'text-dark',
         color: '#5e6472',
+      },
+      {
+        name: 'text-error',
+        color: '#edf2f4',
+      },
+      {
+        name: 'background-error',
+        color: '#d62828',
       }
     ],
     dark: [
@@ -77,6 +85,14 @@ const App = () => {
       {
         name: 'text-dark',
         color: '#edf2f4',
+      },
+      {
+        name: 'text-error',
+        color: '#df5353',
+      },
+      {
+        name: 'background-error',
+        color: '#410c0c',
       }
     ],
   };

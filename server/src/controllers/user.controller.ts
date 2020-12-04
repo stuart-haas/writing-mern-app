@@ -26,14 +26,14 @@ export default class UserController implements Controller {
     /* eslint-disable */
     this.router
       .route(this.path)
-      .get(verifyToken, this.findCurrentUser)
       .patch(verifyToken, updateRules, validate, hashPassword, this.update);
       
     this.router.post(`${this.path}/register`, registrationRules, validate, hashPassword, this.register);
     this.router.post(`${this.path}/login`, loginRules, validate, generateToken, this.login);
     this.router.post(`${this.path}/logout`, this.logout);
     
-    this.router.get(`${this.path}/:username`, this.findByUsername);
+    this.router.get(`${this.path}/current`, verifyToken, this.findCurrent);
+    this.router.get(`${this.path}/search`, this.search);
     this.router.delete(`${this.path}/:id`, verifyToken, this.delete);
     /* eslint-disable */
   }
@@ -52,7 +52,7 @@ export default class UserController implements Controller {
     res.json(req.user);
   };
 
-  private logout = async (req: any, res: Response) => {
+  private logout = async (req: Request, res: Response) => {
     redisClient.del(req.cookies.refreshToken.payload._id);
 
     res.clearCookie('token');
@@ -60,12 +60,12 @@ export default class UserController implements Controller {
     res.sendStatus(200);
   }
 
-  private findByUsername = async (req: any, res: Response) => {
-    const user = await User.findOne({ username: req.params.username });
+  private search = async (req: Request, res: Response) => {
+    const user = await User.findOne(req.query);
     res.json(user);
   };
 
-  private findCurrentUser = async (req: any, res: Response) => {
+  private findCurrent = async (req: any, res: Response) => {
     const id = req.user._id;
     const user = await User.findById(id);
     if (user) {
@@ -76,12 +76,18 @@ export default class UserController implements Controller {
 
   private update = async (req: any, res: Response, next: NextFunction) => {
     const id = req.user._id;
-    const { username, password } = req.body;
+    const { username, email, name, password } = req.body;
     try {
-    const user = await User.findById(id);
+      const user = await User.findById(id);
       if (user) {
         if (username) {
           user.username = username;
+        }
+        if (email) {
+          user.email = email;
+        }
+        if (name) {
+          user.name = name;
         }
         if (password) {
           user.password = password;

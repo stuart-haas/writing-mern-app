@@ -99,5 +99,5 @@ export const updateUser = (data: IUser) => {
 };
 
 export const getCurrentUser = async () => {
-  return await api.get('/user');
+  return await api.get('/user/current');
 };

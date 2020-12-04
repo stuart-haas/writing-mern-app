@@ -1,6 +1,5 @@
 .form {
   @include depth-shadow(2);
-  min-width: 400px;
   max-width: 400px;
   padding: 1rem;
   margin: 0 auto;
@@ -13,8 +12,8 @@
 }
 
 .field {
-  min-height: 51px;
-  margin-bottom: 0.5rem;
+  position: relative;
+  margin-bottom: 1rem;
 
   &.has-error {
     input {
@@ -28,36 +27,40 @@
     &::after {
       @include spin;
       position: absolute;
-      top: 8px;
-      right: 0;
+      top: 50%;
+      right: 6px;
       width: 12px;
       height: 12px;
       border: 2px solid var(--color-background);
       border-top: 2px solid var(--color-text);
       border-radius: 50%;
       content: '';
+      transform: translateY(-50%);
     }
   }
 }
 
-.field-error {
-  color: var(--color-red);
+.field-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--color-text-base);
   font-size: 0.75rem;
 }
 
-.field-group {
-  padding: 1rem 0;
-}
-
-.field-group-label {
-  display: block;
-  margin-bottom: 1rem;
+.field-error {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 2px;
+  background-color: var(--color-background-error);
+  color: var(--color-text-error);
+  font-size: 0.75rem;
 }
 
 .input {
   width: 100%;
   padding: 0.5rem;
-  border-bottom: solid 1px var(--color-text-dark);
+  border-top: solid 1px var(--color-background);
   background-color: transparent;
   transition: all 0.2s ease;
   

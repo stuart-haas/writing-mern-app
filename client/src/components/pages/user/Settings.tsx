@@ -7,10 +7,21 @@ import Form, { FormField, FormData, mapData } from 'components/forms/Form';
 const Settings = () => {
   const fields: FormField[] = [
     {
+      name: 'email',
+      type: 'text',
+      placeholder: 'Email',
+      required: true,
+    },
+    {
       name: 'username',
       type: 'text',
       placeholder: 'Username',
       required: true,
+    },
+    {
+      name: 'name',
+      type: 'text',
+      placeholder: 'Name',
     },
     {
       name: 'currentPassword',
