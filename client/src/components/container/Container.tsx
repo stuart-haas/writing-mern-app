@@ -10,7 +10,7 @@ const Container = (props: Props) => {
   return (
     <Fragment>
       <div className='container'>
-        <Sidebar isOpen={true}>
+        <Sidebar isOpen={false}>
           <Menu />
         </Sidebar>
         <Main>{props.children}</Main>
