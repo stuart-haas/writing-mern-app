@@ -1,0 +1,15 @@
+.menu {
+  padding: 0.1rem 0;
+}
+
+.menu-item {
+  display: block;
+  padding: 1rem;
+  margin: 1rem 0;
+  white-space: nowrap;
+}
+
+.menu-divider {
+  border-color: var(--color-background);
+  margin: 1rem 0;
+}

@@ -18,6 +18,8 @@
 @import 'components/icon';
 @import 'components/dropdown';
 @import 'components/toggle';
+@import 'components/sidebar';
+@import 'components/menu';
 @import 'modules/story';
 
 * {
@@ -86,6 +88,10 @@ article {
   }
 }
 
+hr {
+  border-style: solid;
+}
+
 a,
 button {
   cursor: pointer;
@@ -104,4 +110,9 @@ input,
 button {
   border: 0;
   outline: none;
+}
+
+.container {
+  display: flex;
+  background-color: var(--color-background);
 }

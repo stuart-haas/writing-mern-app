@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import Header from 'components/header/Header';
 import Main from 'components/main/Main';
+import Sidebar from 'components/sidebar/Sidebar';
+import Menu from 'components/menu/Menu';
 interface Props {
   children: JSX.Element | JSX.Element[];
 }
@@ -8,8 +9,12 @@ interface Props {
 const Container = (props: Props) => {
   return (
     <Fragment>
-      <Header />
-      <Main>{props.children}</Main>
+      <div className='container'>
+        <Sidebar isOpen={true}>
+          <Menu />
+        </Sidebar>
+        <Main>{props.children}</Main>
+      </div>
     </Fragment>
   );
 };
