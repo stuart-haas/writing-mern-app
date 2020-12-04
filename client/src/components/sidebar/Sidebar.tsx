@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useOnClickOutside } from 'utils/hooks';
 
 interface Props {
   isOpen: boolean;
@@ -7,15 +8,17 @@ interface Props {
 }
 
 const Sidebar = (props: Props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(props.isOpen);
   const location = useLocation();
+  const ref = useRef<any>();
+  const [isOpen, setIsOpen] = useState<boolean>(props.isOpen);
+  useOnClickOutside(ref, () => setIsOpen(false));
 
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
 
   return (
-    <aside className={`sidebar ${isOpen ? 'is-open' : ''}`}>
+    <aside ref={ref} className={`sidebar ${isOpen ? 'is-open' : ''}`}>
       <div className='sidebar-open' onClick={() => setIsOpen(true)}></div>
       <div className='sidebar-content'>
         <div className='sidebar-close' onClick={() => setIsOpen(false)}></div>
