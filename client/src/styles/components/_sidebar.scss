@@ -17,8 +17,8 @@
   .sidebar-open {
     @include fade-in-opacity-visible;
     position: absolute;
-    top: 1.2rem;
-    left: calc(100% + 0.75rem);
+    top: 1.5rem;
+    left: calc(100% + 1.5rem);
     display: flex;
     width: 30px;
     height: 24px;
@@ -56,7 +56,7 @@
 
   .sidebar-close {
     position: absolute;
-    top: 1rem;
+    top: 1.25rem;
     right: 1rem;
     display: flex;
     width: 30px;

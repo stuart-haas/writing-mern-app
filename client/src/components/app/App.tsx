@@ -113,7 +113,7 @@ const App = () => {
       <Switch>
         <Route path='/login' exact={true} component={() => <Page><Login /></Page>} />
         <Route path='/register' exact={true} component={() => <Page><Register /></Page>} />
-        <Route path='/' exact={true} component={() => <Page><PublishedStories /></Page>} />
+        <Route path='/' exact={true} component={() => <Page title='Published Stories'><PublishedStories /></Page>} />
         <Route path='/stories/:username' exact={true} component={() => <Page><PublishedStory /></Page>} />
         <Route path='/authors/:username' exact={true} component={() => <Page><UserStories /></Page>} />
         <PrivateRoute path='/me/stories' exact={true} component={() => <Page title='My Stories'><Stories /></Page>} />

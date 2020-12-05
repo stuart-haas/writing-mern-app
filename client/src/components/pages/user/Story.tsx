@@ -42,7 +42,6 @@ const Story = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response: any = await dispatch(getStory(params.id!));
-      console.log(response);
       const { data } = response;
       setData({ ...data });
       setInitialData({ ...data });

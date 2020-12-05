@@ -34,6 +34,17 @@ const Menu = () => {
         />
       </span>
       <hr className='menu-divider' />
+      <span className='menu-item'>
+        <NavLink
+          className='link'
+          activeClassName='is-active'
+          exact={true}
+          to='/'
+        >
+          Published Stories
+        </NavLink>
+      </span>
+      <hr className='menu-divider' />
       {isAuthenticated && (
         <Fragment>
           <span className='menu-item'>
