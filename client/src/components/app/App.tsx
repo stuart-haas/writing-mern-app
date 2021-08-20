@@ -129,7 +129,7 @@ const App = () => {
         />
         <Route component={ErrorPage} />
       </Switch>
-      <ToastContainer autoDismiss autoDismissDelay={1500} />
+      <ToastContainer autoDismiss autoDismissDelay={750} />
     </Container>
   );
   /* eslint-disable */
